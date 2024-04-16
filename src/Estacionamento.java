@@ -17,26 +17,24 @@ public class Estacionamento
         byte opcaoPrincipal;
 
         terminal.menuPrincipal();
-        opcaoPrincipal = terminal.selecionaByte("Digite a opção desejada: ");
+        opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
 
         do
         {
             switch (opcaoPrincipal)
             {
                 case 1:
-
                     terminal.menuGerenciaCliente();
                     menuGerenciaCliente.gerenciaCliente(clientes, veiculos);
-
                     break;
                 case 2:
                     terminal.menuGerenciaVagas();
-                    opcaoPrincipal = terminal.selecionaByte("Digite a opção desejada: ");
+                    opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
                     // menuEstacionaBem.menuGerenciaVagas(opcaoPrincipal);
                     break;
                 case 3:
                     terminal.menuGerenciaEstacionamento();
-                    opcaoPrincipal = terminal.selecionaByte("Digite a opção desejada: ");
+                    opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
                     //menuEstacionaBem.menuGerenciaCliente(opcaoPrincipal, clientes);
                     break;
             }

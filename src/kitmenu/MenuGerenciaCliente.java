@@ -21,63 +21,54 @@ public class MenuGerenciaCliente {
         String documento;
         byte opcao;
 
-        opcao = terminal.selecionaByte("Digite a opção desejada: ");
+        opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
         do
         {
             switch (opcao) {
                 case 1:
-
-                    clientes.add(cadastraCliente());
-
+                    clientes.add(cadastrarCliente());
                     break;
                 case 2:
-
-                    documento = terminal.selecionaString("Digite o documento do cliente que deseja pesquisar: ");
+                    documento = terminal.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
                     cliente = consultaCliente(clientes, documento);
                     if (cliente != null)
-                        terminal.exibe(cliente.toString());
+                        terminal.exibir(cliente.toString());
                     else
-                        terminal.exibe("Cliente não cadastrado");
-
+                        terminal.exibir("Cliente não cadastrado");
                     break;
                 case 3:
-
-                    documento = terminal.selecionaString("Digite o documento do cliente que deseja excluir: ");
-//                    clientes.removeIf(x -> (x.getDocumento().equals(documento)));
-                    /*
-                    TODO ARRUMAR ESSE LAMBDA
-                     */
-
+                    documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
+                    clientes.remove(consultarIndexCliente(clientes,documento));
                     break;
                 case 4:
 
                     String novoNome, novoDocumento;
-                    documento = terminal.selecionaString("\nDigite o documento do cliente que deseja editar: ");
+                    documento = terminal.selecionarString("\nDigite o documento do cliente que deseja editar: ");
                     cliente = consultaCliente(clientes, documento);
                     if (cliente != null) {
 
-                        terminal.exibe("Nome antigo: " + cliente.getNome());
-                        novoNome = terminal.selecionaString("Novo nome: ");
-                        cliente.alteraNome(novoNome);
+                        terminal.exibir("Nome antigo: " + cliente.getNome());
+                        novoNome = terminal.selecionarString("Novo nome: ");
+                        cliente.setNome(novoNome);
 
-                        terminal.exibe("Documento antigo: " + cliente.getDocumento());
-                        novoDocumento = terminal.selecionaString("Novo documento: ");
-                        cliente.alteraDocumento(novoDocumento);
+                        terminal.exibir("Documento antigo: " + cliente.getDocumento());
+                        novoDocumento = terminal.selecionarString("Novo documento: ");
+                        cliente.setDocumento(novoDocumento);
 
                     } else
-                        terminal.exibe("Cliente não cadastrado");
+                        terminal.exibir("Cliente não cadastrado");
 
                     break;
                 case 5:
                     byte opcaoSubmenu;
 
-                    documento = terminal.selecionaString("\nDigite o documento do cliente que deseja ver os veículos: ");
+                    documento = terminal.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
 
                     Cliente clienteAtual = consultaCliente(clientes, documento);
                     if (clienteAtual != null) {
                         terminal.subMenuGerenciaVeiculos();
-                        opcaoSubmenu = terminal.selecionaByte();
+                        opcaoSubmenu = terminal.selecionarByte();
     //                    clienteAtual.addVeiculo(subMenuEstacionaBem(opcaoSubmenu, veiculos)); // oq isso faz ?
                     } else {
                         throw new InvalidParameterException("Documento " + documento + " não existe!");
@@ -90,20 +81,20 @@ public class MenuGerenciaCliente {
 
             }
             terminal.menuGerenciaCliente();
-            opcao = terminal.selecionaByte("Digite a opção desejada: ");
+            opcao = terminal.selecionarByte("Digite a opção desejada: ");
         }while(opcao != 7);
     }
 
-    public Cliente cadastraCliente() {
+    public Cliente cadastrarCliente() {
 
         String nome, documento;
         int qtdCarros;
 
-        nome = terminal.selecionaString("Digite nome do cliente: ");
-        documento = terminal.selecionaString("Digite o documento do cliente: ");
+        nome = terminal.selecionarString("Digite nome do cliente: ");
+        documento = terminal.selecionarString("Digite o documento do cliente: ");
         Cliente cliente = new Cliente(nome, documento);
 
-        qtdCarros = terminal.selecionaByte("O cliente possui quantos veículos: ");
+        qtdCarros = terminal.selecionarByte("O cliente possui quantos veículos: ");
 
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
@@ -123,6 +114,17 @@ public class MenuGerenciaCliente {
 
         return null;
     }
+
+    public int consultarIndexCliente(ArrayList<Cliente> clientes, String documento) {
+
+        for (Cliente clienteAtual : clientes) {
+            if (clienteAtual.getDocumento().equals(documento))
+                return clientes.indexOf(clienteAtual);
+        }
+
+        return -1;
+    }
+
 
 
     public ArrayList<Veiculo> subMenuEstacionaBem(byte opcao, ArrayList<Veiculo> veiculos) {
@@ -146,12 +148,12 @@ public class MenuGerenciaCliente {
 
         String placa, modelo, cor;
 
-        placa = terminal.selecionaString("Digite a placa do carro: ");
+        placa = terminal.selecionarString("Digite a placa do carro: ");
 
-        modelo = terminal.selecionaString("Digite o modelo do carro: ");
+        modelo = terminal.selecionarString("Digite o modelo do carro: ");
         Modelo modeloCarro = new Modelo(modelo);
 
-        cor = terminal.selecionaString("Digite a cor do carro: ");
+        cor = terminal.selecionarString("Digite a cor do carro: ");
         Cor corCarro = new Cor(cor);
 
         return new Veiculo(placa, corCarro, modeloCarro);

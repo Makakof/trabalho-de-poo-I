@@ -31,11 +31,10 @@ public class Cliente {
         return documento;
     }
 
-    public void alteraNome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public void alteraDocumento(String documento){
+    public void setDocumento(String documento){
         this.documento = documento;
     }
 
