@@ -1,0 +1,46 @@
+import automovel.Veiculo;
+import cliente.estacionabem.Cliente;
+import kitmenu.MenuGerenciaCliente;
+import kitmenu.UI;
+
+import java.util.ArrayList;
+
+
+public class Estacionamento
+{
+    public static void main(String[] args)
+    {
+        UI terminal = new UI();
+        ArrayList<Veiculo> veiculos = new ArrayList<>();
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
+        byte opcaoPrincipal;
+
+        terminal.menuPrincipal();
+        opcaoPrincipal = terminal.selecionaByte("Digite a opção desejada: ");
+
+        do
+        {
+            switch (opcaoPrincipal)
+            {
+                case 1:
+
+                    terminal.menuGerenciaCliente();
+                    menuGerenciaCliente.gerenciaCliente(clientes, veiculos);
+
+                    break;
+                case 2:
+                    terminal.menuGerenciaVagas();
+                    opcaoPrincipal = terminal.selecionaByte("Digite a opção desejada: ");
+                    // menuEstacionaBem.menuGerenciaVagas(opcaoPrincipal);
+                    break;
+                case 3:
+                    terminal.menuGerenciaEstacionamento();
+                    opcaoPrincipal = terminal.selecionaByte("Digite a opção desejada: ");
+                    //menuEstacionaBem.menuGerenciaCliente(opcaoPrincipal, clientes);
+                    break;
+            }
+
+        }while(opcaoPrincipal != 6);
+    }
+}
