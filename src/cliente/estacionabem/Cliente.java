@@ -47,10 +47,13 @@ public class Cliente {
     }
 
     public String toString() {
-        return "Nome: " + nome + "\nDocumento: " + documento + "\nVeiculos: " + veiculos.toString();
+        return "Nome: " + nome + "\nDocumento: " + documento + "\nVeiculos: ";
     }
 
-    /*
-    TODO fazer to string dos veiculos separado;
-     */
+    public void mostraVeiculos(){
+        for(Veiculo v : veiculos) {
+            System.out.println(v);
+        }
+    }
+
 }

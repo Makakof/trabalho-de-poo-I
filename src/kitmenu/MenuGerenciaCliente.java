@@ -38,8 +38,10 @@ public class MenuGerenciaCliente {
                         terminal.exibir("Cliente não cadastrado");
                     break;
                 case 3:
+
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
                     clientes.remove(consultarIndexCliente(clientes,documento));
+
                     break;
                 case 4:
 
@@ -76,7 +78,12 @@ public class MenuGerenciaCliente {
 
                     break;
                 case 6:
-                    clientes.forEach(System.out::println);
+
+                    for(Cliente pessoa : clientes){
+                        System.out.println(pessoa);
+                        pessoa.mostraVeiculos();
+                    }
+
                     break;
 
             }
@@ -98,7 +105,7 @@ public class MenuGerenciaCliente {
 
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
-
+                terminal.exibir("Dados do carro " + i);
                 cliente.addVeiculo(cadastraVeiculo());
             }
         }
