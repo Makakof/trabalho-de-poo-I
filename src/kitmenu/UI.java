@@ -1,5 +1,7 @@
 package kitmenu;
 
+import enums.VagaStatus;
+
 import java.util.Scanner;
 
 public class UI {
@@ -78,6 +80,16 @@ public class UI {
 
         System.out.print(msg);
         opcao = scanner.nextByte();
+
+        return opcao;
+    }
+
+    public int selecionarInt(String msg) {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        System.out.print(msg);
+        opcao = scanner.nextInt();
 
         return opcao;
     }

@@ -13,6 +13,8 @@ public class MenuGerenciaCliente {
 
     private UI terminal;
 
+    public MenuGerenciaCliente() {}
+
     public MenuGerenciaCliente(UI terminal) {
         this.terminal = terminal;
     }
@@ -23,10 +25,10 @@ public class MenuGerenciaCliente {
         int index;
         byte opcao;
 
+        terminal.menuGerenciaCliente();
         opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
-        do
-        {
+        do {
             switch (opcao) {
                 case 1:
                     cliente = cadastrarCliente();
@@ -44,9 +46,9 @@ public class MenuGerenciaCliente {
 
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
 
-                    index = consultarIndexCliente(clientes,documento);
+                    index = consultarIndexCliente(clientes, documento);
                     clientes.remove(index);
-                
+
                     break;
                 case 4:
                     String novoNome, novoDocumento;
@@ -75,8 +77,8 @@ public class MenuGerenciaCliente {
 
                     if (clienteAtual != null) {
                         terminal.subMenuGerenciaVeiculos();
-                        opcaoSubmenu = terminal.selecionarByte();
-                        subMenuGerenciaClientes(opcaoSubmenu,clienteAtual.getVeiculos());
+                        opcaoSubmenu = terminal.selecionarByte("Digite a opção desejada: ");
+                        subMenuGerenciaClientes(opcaoSubmenu, clienteAtual.getVeiculos());
                     } else {
                         throw new InvalidParameterException("Documento " + documento + " não existe!");
                     }
@@ -84,7 +86,7 @@ public class MenuGerenciaCliente {
                     break;
                 case 6:
 
-                    for(Cliente pessoa : clientes){
+                    for (Cliente pessoa : clientes) {
                         System.out.println(pessoa);
                         pessoa.mostraVeiculos();
                     }
@@ -94,7 +96,7 @@ public class MenuGerenciaCliente {
             }
             terminal.menuGerenciaCliente();
             opcao = terminal.selecionarByte("Digite a opção desejada: ");
-        }while(opcao != 7);
+        } while (opcao != 7);
     }
 
     public Cliente cadastrarCliente() {
@@ -150,36 +152,46 @@ public class MenuGerenciaCliente {
     }
 
 
-
     public void subMenuGerenciaClientes(byte opcao, ArrayList<Veiculo> veiculos) {
-        Veiculo veiculo = new Veiculo();
+        Veiculo veiculo;
         String cor, placa;
         int index;
 
         switch (opcao) {
 
             case 1:
-                for (Veiculo veiculoAtual : veiculos)
-                    System.out.println(veiculoAtual);
+
+                if (veiculos.size() > 0) {
+                    for (Veiculo veiculoAtual : veiculos)
+                        System.out.println(veiculoAtual);
+                } else
+                    terminal.exibir("O cliente não possui veiculos cadastrados");
+
                 break;
             case 2:
+
                 veiculo = cadastraVeiculo();
                 veiculos.add(veiculo);
+
                 break;
             case 3:
+
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
-                index = consultarIndexVeiculo(veiculos,placa);
-                if(index != -1)
+                index = consultarIndexVeiculo(veiculos, placa);
+
+                if (index != -1)
                     veiculos.remove(index);
                 else
                     throw new InputMismatchException("A placa: " + placa + " não existe");
+
                 break;
             case 4:
-                placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
-                index = consultarIndexVeiculo(veiculos,placa);
-                if(index != -1) {
-                    cor = terminal.selecionarString("Digite a nova cor: ");
 
+                placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
+                index = consultarIndexVeiculo(veiculos, placa);
+
+                if (index != -1) {
+                    cor = terminal.selecionarString("Digite a nova cor: ");
                 }
 
                 break;
