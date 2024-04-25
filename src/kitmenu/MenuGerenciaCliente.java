@@ -12,6 +12,8 @@ public class MenuGerenciaCliente {
 
     private UI terminal;
 
+    public MenuGerenciaCliente() {}
+
     public MenuGerenciaCliente(UI terminal) {
         this.terminal = terminal;
     }
@@ -21,10 +23,10 @@ public class MenuGerenciaCliente {
         String documento;
         byte opcao;
 
+        terminal.menuGerenciaCliente();
         opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
-        do
-        {
+        do {
             switch (opcao) {
                 case 1:
                     cliente = cadastrarCliente();
@@ -39,9 +41,11 @@ public class MenuGerenciaCliente {
                         terminal.exibir("Cliente não cadastrado");
                     break;
                 case 3:
+
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
                     cliente = consultaCliente(clientes,documento);
                     clientes.remove(cliente);
+
                     break;
                 case 4:
                     String novoNome, novoDocumento;
@@ -72,18 +76,24 @@ public class MenuGerenciaCliente {
                         terminal.subMenuGerenciaVeiculos();
                         opcaoSubmenu = terminal.selecionarByte();
                         editarVeiculos(opcaoSubmenu,clienteAtual.getVeiculos());
+
                     } else {
                         throw new InvalidParameterException("Documento " + documento + " não existe!");
                     }
                     break;
                 case 6:
-                    clientes.forEach(System.out::println);
+
+                    for (Cliente pessoa : clientes) {
+                        System.out.println(pessoa);
+                        pessoa.mostraVeiculos();
+                    }
+
                     break;
 
             }
             terminal.menuGerenciaCliente();
             opcao = terminal.selecionarByte("Digite a opção desejada: ");
-        }while(opcao != 7);
+        } while (opcao != 7);
     }
 
     public Cliente cadastrarCliente() {
@@ -99,6 +109,8 @@ public class MenuGerenciaCliente {
 
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
+
+                terminal.exibir("Dados do carro " + i);
                 veiculo = cadastraVeiculo();
                 cliente.addVeiculo(veiculo);
             }
@@ -126,24 +138,32 @@ public class MenuGerenciaCliente {
         return null;
     }
 
+
     public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos) {
         Veiculo veiculo = new Veiculo();
         String nomeCor, placa;
 
-        int index;
-
         switch (opcao) {
 
             case 1:
-                for (Veiculo veiculoAtual : veiculos)
-                    System.out.println(veiculoAtual);
+
+                if (veiculos.size() > 0) {
+                    for (Veiculo veiculoAtual : veiculos)
+                        System.out.println(veiculoAtual);
+                } else
+                    terminal.exibir("O cliente não possui veiculos cadastrados");
+
                 break;
             case 2:
+
                 veiculo = cadastraVeiculo();
                 veiculos.add(veiculo);
+
                 break;
             case 3:
+
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
+
                 placa = Veiculo.formatarString(placa);
                 veiculo = consultarVeiculo(veiculos,placa);
                 if(veiculo != null)
@@ -152,6 +172,7 @@ public class MenuGerenciaCliente {
                     throw new InputMismatchException("A placa: " + placa + " não existe");
                 break;
             case 4:
+
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
                 placa = Veiculo.formatarString(placa);
                 veiculo = consultarVeiculo(veiculos,placa);
