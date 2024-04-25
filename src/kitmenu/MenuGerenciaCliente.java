@@ -4,7 +4,6 @@ import automovel.Cor;
 import automovel.Modelo;
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
-
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -20,7 +19,6 @@ public class MenuGerenciaCliente {
     public void gerenciaCliente(ArrayList<Cliente> clientes, ArrayList<Veiculo> veiculos) {
         Cliente cliente;
         String documento;
-        int index;
         byte opcao;
 
         opcao = terminal.selecionarByte("Digite a opção desejada: ");
@@ -42,8 +40,8 @@ public class MenuGerenciaCliente {
                     break;
                 case 3:
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
-                    index = consultarIndexCliente(clientes,documento);
-                    clientes.remove(index);
+                    cliente = consultaCliente(clientes,documento);
+                    clientes.remove(cliente);
                     break;
                 case 4:
                     String novoNome, novoDocumento;
@@ -73,11 +71,10 @@ public class MenuGerenciaCliente {
                     if (clienteAtual != null) {
                         terminal.subMenuGerenciaVeiculos();
                         opcaoSubmenu = terminal.selecionarByte();
-                        subMenuGerenciaClientes(opcaoSubmenu,clienteAtual.getVeiculos());
+                        editarVeiculos(opcaoSubmenu,clienteAtual.getVeiculos());
                     } else {
                         throw new InvalidParameterException("Documento " + documento + " não existe!");
                     }
-
                     break;
                 case 6:
                     clientes.forEach(System.out::println);
@@ -119,31 +116,20 @@ public class MenuGerenciaCliente {
         return null;
     }
 
-    public int consultarIndexCliente(ArrayList<Cliente> clientes, String documento) {
-
-        for (Cliente clienteAtual : clientes) {
-            if (clienteAtual.getDocumento().equals(documento))
-                return clientes.indexOf(clienteAtual);
-        }
-
-        return -1;
-    }
-
-    public int consultarIndexVeiculo(ArrayList<Veiculo> veiculos, String placa) {
+    public Veiculo consultarVeiculo(ArrayList<Veiculo> veiculos, String placa) {
 
         for (Veiculo veiculoAtual : veiculos) {
             if (veiculoAtual.getPlaca().equals(placa))
-                return veiculos.indexOf(veiculoAtual);
+                return veiculoAtual;
         }
 
-        return -1;
+        return null;
     }
 
-
-
-    public void subMenuGerenciaClientes(byte opcao, ArrayList<Veiculo> veiculos) {
+    public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos) {
         Veiculo veiculo = new Veiculo();
-        String cor, placa;
+        String nomeCor, placa;
+
         int index;
 
         switch (opcao) {
@@ -158,27 +144,31 @@ public class MenuGerenciaCliente {
                 break;
             case 3:
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
-                index = consultarIndexVeiculo(veiculos,placa);
-                if(index != -1)
-                    veiculos.remove(index);
+                placa = Veiculo.formatarString(placa);
+                veiculo = consultarVeiculo(veiculos,placa);
+                if(veiculo != null)
+                    veiculos.remove(veiculo);
                 else
                     throw new InputMismatchException("A placa: " + placa + " não existe");
                 break;
             case 4:
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
-                index = consultarIndexVeiculo(veiculos,placa);
-                if(index != -1) {
-                    cor = terminal.selecionarString("Digite a nova cor: ");
-
+                placa = Veiculo.formatarString(placa);
+                veiculo = consultarVeiculo(veiculos,placa);
+                if(veiculo != null) {
+                    nomeCor = terminal.selecionarString("Digite a nova cor: ");
+                    Cor cor = new Cor(nomeCor);
+                    veiculo.setCor(cor);
+                    System.out.println("Cor alterada com sucesso");
                 }
-
                 break;
-
+            default:
+                System.out.println("Opção inválida"); //throw new InputMismatchException("");
+                break;
         }
     }
 
     public Veiculo cadastraVeiculo() {
-
         String placa, modelo, cor;
 
         placa = terminal.selecionarString("Digite a placa do carro: ");

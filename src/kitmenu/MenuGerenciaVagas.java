@@ -1,10 +1,10 @@
 package kitmenu;
 
-public class MenuFerenciaVagas {
+public class MenuGerenciaVagas {
 
     private UI terminal;
 
-    public MenuFerenciaVagas(UI terminal) {
+    public MenuGerenciaVagas(UI terminal) {
         this.terminal = terminal;
     }
 

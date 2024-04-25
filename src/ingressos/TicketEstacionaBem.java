@@ -29,16 +29,17 @@ public class TicketEstacionaBem
     public Vaga getVaga() {
         return vaga;
     }
-
     public Veiculo getVeiculo() {
         return veiculo;
     }
-
     public TarifaEstacionaBem getTarifa() {
         return tarifaEstacionaBem;
     }
-
     public LocalDateTime getDataInicio() {
         return dataInicio;
     }
+    public LocalDateTime getDataFim() {
+        return dataInicio;
+    }
+
 }

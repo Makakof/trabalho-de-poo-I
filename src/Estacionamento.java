@@ -10,7 +10,7 @@ public class Estacionamento
 {
     public static void main(String[] args)
     {
-        UI terminal = new UI();
+        UI terminal = UI.getInstance();
         ArrayList<Veiculo> veiculos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
@@ -18,6 +18,8 @@ public class Estacionamento
 
         terminal.menuPrincipal();
         opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
+
+        String string;
 
         do
         {

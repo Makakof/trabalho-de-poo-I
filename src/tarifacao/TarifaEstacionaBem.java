@@ -44,4 +44,6 @@ public class TarifaEstacionaBem
     public DiaDaSemana[] getDiaDaSemana() {
         return diaDaSemana;
     }
+
+
 }
