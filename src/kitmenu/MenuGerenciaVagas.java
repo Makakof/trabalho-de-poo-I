@@ -27,16 +27,13 @@ public class MenuGerenciaVagas {
 
             switch (opcao) {
                 case 1:
-
                     vaga = cadastrarVaga(vagas);
                     if(vaga != null)
                         vagas.add(vaga);
                     else
                         terminal.exibir("Esta vaga já existe!");
-
                     break;
                 case 2:
-
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = buscarVaga(vagas, numeroVaga);
                     if (vaga != null)
@@ -44,10 +41,8 @@ public class MenuGerenciaVagas {
 
                     else
                         terminal.exibir("Não existe vaga cadastrada com este numero!");
-
                     break;
                 case 3:
-
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = buscarVaga(vagas, numeroVaga);
                     if (vaga != null) {
@@ -56,10 +51,8 @@ public class MenuGerenciaVagas {
                     }
                     else
                         terminal.exibir("Não existe vaga cadastrada com este numero!");
-
                     break;
                 case 4:
-
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = buscarVaga(vagas, numeroVaga);
 
@@ -85,7 +78,6 @@ public class MenuGerenciaVagas {
 
                     break;
                 case 5:
-
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = buscarVaga(vagas, numeroVaga);
 

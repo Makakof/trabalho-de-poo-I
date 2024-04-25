@@ -11,7 +11,7 @@ public class TarifaEstacionaBem
     private LocalDateTime dataInicio;
     private double valorPrimeiraHora;
     private double valorHoraSubsequente;
-    private DiaDaSemana[] diaDaSemana;
+    private DiaDaSemana diaDaSemana;
 
     /*
     O modificador 'static' foi utilizado para o objeto formatadorData porque, embora seja acessível a todos os objetos da
@@ -22,7 +22,7 @@ public class TarifaEstacionaBem
     public TarifaEstacionaBem() {
     }
 
-    public TarifaEstacionaBem(double valorPrimeiraHora, double valorHoraSubsequente, DiaDaSemana[] diaDaSemana) {
+    public TarifaEstacionaBem(double valorPrimeiraHora, double valorHoraSubsequente, DiaDaSemana diaDaSemana) {
         this.dataInicio = LocalDateTime.now();
         this.valorPrimeiraHora = valorPrimeiraHora;
         this.valorHoraSubsequente = valorHoraSubsequente;
@@ -41,7 +41,7 @@ public class TarifaEstacionaBem
         return valorHoraSubsequente;
     }
 
-    public DiaDaSemana[] getDiaDaSemana() {
+    public DiaDaSemana getDiaDaSemana() {
         return diaDaSemana;
     }
 
