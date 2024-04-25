@@ -2,27 +2,27 @@ package ingressos;
 
 import automovel.Veiculo;
 import modelagem.Vaga;
-import tarifacao.TarifaEstacionaBem;
+import tarifacao.TarifaEstacionamento;
 
 
 import java.time.LocalDateTime;
 
-public class TicketEstacionaBem
+public class TicketEstacionamento
 {
     private Vaga vaga;
     private Veiculo veiculo;
-    private TarifaEstacionaBem tarifaEstacionaBem;
+    private TarifaEstacionamento tarifaEstacionamento;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
 
-    public TicketEstacionaBem() {
+    public TicketEstacionamento() {
     }
 
-    public TicketEstacionaBem(Vaga vaga, Veiculo veiculo, TarifaEstacionaBem tarifaEstacionaBem, LocalDateTime dataInicio)
+    public TicketEstacionamento(Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifaEstacionamento, LocalDateTime dataInicio)
     {
         this.vaga = vaga;
         this.veiculo = veiculo;
-        this.tarifaEstacionaBem = tarifaEstacionaBem;
+        this.tarifaEstacionamento = tarifaEstacionamento;
         this.dataInicio = LocalDateTime.now();
     }
 
@@ -34,8 +34,8 @@ public class TicketEstacionaBem
         return veiculo;
     }
 
-    public TarifaEstacionaBem getTarifa() {
-        return tarifaEstacionaBem;
+    public TarifaEstacionamento getTarifa() {
+        return tarifaEstacionamento;
     }
 
     public LocalDateTime getDataInicio() {

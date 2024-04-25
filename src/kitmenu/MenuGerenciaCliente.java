@@ -11,11 +11,12 @@ import java.util.InputMismatchException;
 
 public class MenuGerenciaCliente {
 
-    private UI terminal;
+    private Ui terminal;
 
-    public MenuGerenciaCliente() {}
+    public MenuGerenciaCliente() {
+    }
 
-    public MenuGerenciaCliente(UI terminal) {
+    public MenuGerenciaCliente(Ui terminal) {
         this.terminal = terminal;
     }
 
@@ -25,10 +26,11 @@ public class MenuGerenciaCliente {
         int index;
         byte opcao;
 
-        terminal.menuGerenciaCliente();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
-
         do {
+
+            terminal.menuGerenciaCliente();
+            opcao = terminal.selecionarByte("Digite a opção desejada: ");
+
             switch (opcao) {
                 case 1:
                     cliente = cadastrarCliente();
@@ -76,12 +78,13 @@ public class MenuGerenciaCliente {
                     Cliente clienteAtual = consultaCliente(clientes, documento);
 
                     if (clienteAtual != null) {
+
                         terminal.subMenuGerenciaVeiculos();
                         opcaoSubmenu = terminal.selecionarByte("Digite a opção desejada: ");
                         subMenuGerenciaClientes(opcaoSubmenu, clienteAtual.getVeiculos());
-                    } else {
+
+                    } else
                         throw new InvalidParameterException("Documento " + documento + " não existe!");
-                    }
 
                     break;
                 case 6:
@@ -94,8 +97,6 @@ public class MenuGerenciaCliente {
                     break;
 
             }
-            terminal.menuGerenciaCliente();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
         } while (opcao != 7);
     }
 
@@ -161,7 +162,7 @@ public class MenuGerenciaCliente {
 
             case 1:
 
-                if (veiculos.size() > 0) {
+                if (!veiculos.isEmpty()) {
                     for (Veiculo veiculoAtual : veiculos)
                         System.out.println(veiculoAtual);
                 } else

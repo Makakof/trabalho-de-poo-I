@@ -4,7 +4,7 @@ import enums.VagaStatus;
 
 import java.util.Scanner;
 
-public class UI {
+public class Ui {
     public void menuPrincipal() {
         exibir("================================================");
         exibir("# 1 - Gerenciar clientes");

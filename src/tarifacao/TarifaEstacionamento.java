@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-public class TarifaEstacionaBem
+public class TarifaEstacionamento
 {
     private LocalDateTime dataInicio;
     private double valorPrimeiraHora;
     private double valorHoraSubsequente;
-    private DiaDaSemana[] diaDaSemana;
+    private DiaDaSemana diaDaSemana;
 
     /*
     O modificador 'static' foi utilizado para o objeto formatadorData porque, embora seja acessível a todos os objetos da
@@ -19,10 +19,10 @@ public class TarifaEstacionaBem
     um único formatador é capaz de realizar o que é necessário.
      */
     public static DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    public TarifaEstacionaBem() {
+    public TarifaEstacionamento() {
     }
 
-    public TarifaEstacionaBem(double valorPrimeiraHora, double valorHoraSubsequente, DiaDaSemana[] diaDaSemana) {
+    public TarifaEstacionamento(double valorPrimeiraHora, double valorHoraSubsequente, DiaDaSemana diaDaSemana) {
         this.dataInicio = LocalDateTime.now();
         this.valorPrimeiraHora = valorPrimeiraHora;
         this.valorHoraSubsequente = valorHoraSubsequente;
@@ -41,7 +41,7 @@ public class TarifaEstacionaBem
         return valorHoraSubsequente;
     }
 
-    public DiaDaSemana[] getDiaDaSemana() {
+    public DiaDaSemana getDiaDaSemana() {
         return diaDaSemana;
     }
 }

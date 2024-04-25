@@ -1,8 +1,9 @@
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import kitmenu.MenuGerenciaCliente;
+import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
-import kitmenu.UI;
+import kitmenu.Ui;
 import modelagem.Vaga;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class Estacionamento {
     public static void main(String[] args) {
-        UI terminal = new UI();
+        Ui terminal = new Ui();
 
         ArrayList<Veiculo> veiculos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
@@ -19,12 +20,15 @@ public class Estacionamento {
         ArrayList<Vaga> vagas = new ArrayList<>();
         MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas(terminal);
 
+        MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento(terminal);
+
         byte opcaoPrincipal;
 
-        terminal.menuPrincipal();
-        opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
-
         do {
+
+            terminal.menuPrincipal();
+            opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
+
             switch (opcaoPrincipal) {
                 case 1:
 
@@ -32,18 +36,14 @@ public class Estacionamento {
                     break;
                 case 2:
 
-                    menuGerenciaVagas.GerenciaVagas(vagas);
+                    menuGerenciaVagas.gerenciaVagas(vagas);
                     break;
                 case 3:
 
-                    terminal.menuGerenciaEstacionamento();
-                    opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
-                    //menuEstacionaBem.menuGerenciaCliente(opcaoPrincipal, clientes);
+                    menuGerenciaEstacionamento.gerenciaEstacionamento(vagas);
                     break;
             }
 
-            terminal.menuPrincipal();
-            opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
         } while (opcaoPrincipal != 6);
     }
 }

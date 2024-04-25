@@ -7,23 +7,23 @@ import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private UI terminal;
+    private Ui terminal;
 
-    public MenuGerenciaVagas(UI terminal) {
+    public MenuGerenciaVagas(Ui terminal) {
         this.terminal = terminal;
     }
 
-    public void GerenciaVagas(ArrayList<Vaga> vagas) {
+    public void gerenciaVagas(ArrayList<Vaga> vagas) {
 
         byte opcao;
         int numeroVaga;
         String rua;
         Vaga vaga;
 
-        terminal.menuGerenciaVagas();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
-
         do {
+
+            terminal.menuGerenciaVagas();
+            opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
                 case 1:
@@ -97,9 +97,6 @@ public class MenuGerenciaVagas {
 
                     break;
             }
-
-            terminal.menuGerenciaVagas();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
         } while (opcao != 6);
     }
 
