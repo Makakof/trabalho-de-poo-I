@@ -5,6 +5,20 @@ import enums.VagaStatus;
 import java.util.Scanner;
 
 public class UI {
+
+    private static UI INSTANCE;
+
+    private UI(){};
+
+    // Singleton
+    public static synchronized UI getInstance()
+    {
+        if(INSTANCE == null)
+            INSTANCE = new UI();
+
+        return INSTANCE;
+    }
+
     public void menuPrincipal() {
         exibir("================================================");
         exibir("# 1 - Gerenciar clientes");
@@ -14,7 +28,6 @@ public class UI {
         exibir("# 5 - Consultar total faturado em um periodo");
         exibir("# 6 - Sair do Programa");
         exibir("================================================");
-
     }
 
     public void menuGerenciaCliente() {
@@ -43,7 +56,7 @@ public class UI {
         exibir("# 1 - Ver veículos do cliente");
         exibir("# 2 - Adicionar veículo");
         exibir("# 3 - Excluir veículo");
-        exibir("# 4 - Atualizar veículo");
+        exibir("# 4 - Atualizar cor do veículo");
         exibir("================================================");
 
     }

@@ -8,10 +8,12 @@ import modelagem.Vaga;
 import java.util.ArrayList;
 
 
-public class Estacionamento {
-    public static void main(String[] args) {
-        UI terminal = new UI();
 
+public class Estacionamento
+{
+    public static void main(String[] args)
+    {
+        UI terminal = UI.getInstance();
         ArrayList<Veiculo> veiculos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
@@ -26,6 +28,7 @@ public class Estacionamento {
 
         do {
             switch (opcaoPrincipal) {
+
                 case 1:
 
                     menuGerenciaCliente.gerenciaCliente(clientes, veiculos);
