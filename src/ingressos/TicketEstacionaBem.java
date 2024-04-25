@@ -6,6 +6,7 @@ import tarifacao.TarifaEstacionaBem;
 
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class TicketEstacionaBem
 {
@@ -14,6 +15,7 @@ public class TicketEstacionaBem
     private TarifaEstacionaBem tarifaEstacionaBem;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
+    private double totalPagar;
 
     public TicketEstacionaBem() {
     }
@@ -41,5 +43,23 @@ public class TicketEstacionaBem
     public LocalDateTime getDataFim() {
         return dataInicio;
     }
+    public double getTotalPagar() {return totalPagar;}
+    public void encerrarTicket()
+    {
+        this.dataFim = LocalDateTime.now();
 
+        double totalPagar;
+        long diferencaHoras;
+
+        diferencaHoras = dataInicio.until(dataFim, ChronoUnit.HOURS);
+        if(diferencaHoras > 1)
+        {
+            totalPagar = tarifaEstacionaBem.getValorPrimeiraHora();
+            totalPagar += tarifaEstacionaBem.getValorHoraSubsequente() * (diferencaHoras - 1);
+        }
+        else
+            totalPagar = tarifaEstacionaBem.getValorPrimeiraHora();
+
+        this.totalPagar = totalPagar;
+    }
 }

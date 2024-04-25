@@ -15,7 +15,7 @@ public class MenuFaturamento
         this.terminal = terminal;
     }
 
-    public double realizaFaturamento(ArrayList<TicketEstacionaBem> tickets)
+    public void realizaFaturamento(ArrayList<TicketEstacionaBem> tickets)
     {
         String dataInicio, dataFim;
         double faturamento;
@@ -24,7 +24,7 @@ public class MenuFaturamento
         dataFim = terminal.selecionarString("Digite a data de fim: ");
 
         faturamento = calculaFaturamento(tickets,dataInicio, dataFim);
-        return faturamento;
+        terminal.exibir("O faturamento no periodo selecionado foi de " + faturamento);
     }
 
     private double calculaFaturamento(ArrayList<TicketEstacionaBem> tickets, String dataInicioString, String dataFimString)
@@ -37,11 +37,10 @@ public class MenuFaturamento
         {
             if(dataInicio.isAfter(ticketAtual.getDataInicio()) && dataFim.isBefore(ticketAtual.getDataFim()))
             {
-                // TODO soma += ticketAtual.getValorTotal();
+                soma += ticketAtual.getTotalPagar();
             }
         }
-
-        return 0.0;
+        return soma;
     }
 
 }

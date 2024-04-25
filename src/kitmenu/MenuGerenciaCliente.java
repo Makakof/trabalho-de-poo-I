@@ -85,7 +85,7 @@ public class MenuGerenciaCliente {
                 case 6:
 
                     for (Cliente pessoa : clientes) {
-                        System.out.println(pessoa);
+                        terminal.exibir(pessoa.toString());
                         pessoa.mostraVeiculos();
                     }
 
@@ -148,9 +148,9 @@ public class MenuGerenciaCliente {
 
             case 1:
 
-                if (veiculos.size() > 0) {
+                if (!veiculos.isEmpty()) {
                     for (Veiculo veiculoAtual : veiculos)
-                        System.out.println(veiculoAtual);
+                        terminal.exibir(veiculoAtual.toString());
                 } else
                     terminal.exibir("O cliente não possui veiculos cadastrados");
 
@@ -181,11 +181,11 @@ public class MenuGerenciaCliente {
                     nomeCor = terminal.selecionarString("Digite a nova cor: ");
                     Cor cor = new Cor(nomeCor);
                     veiculo.setCor(cor);
-                    System.out.println("Cor alterada com sucesso");
+                    terminal.exibir("Cor alterada com sucesso");
                 }
                 break;
             default:
-                System.out.println("Opção inválida"); //throw new InputMismatchException("");
+                terminal.exibir("Opção inválida"); //throw new InputMismatchException("");
                 break;
         }
     }

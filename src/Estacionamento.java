@@ -19,7 +19,7 @@ public class Estacionamento
         ArrayList<Veiculo> veiculos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
-
+        ValorHora[] valorHoras = new ValorHora[7];
         ArrayList<Vaga> vagas = new ArrayList<>();
         MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas(terminal);
 
