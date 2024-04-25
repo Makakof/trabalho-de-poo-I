@@ -3,7 +3,7 @@ import cliente.estacionabem.Cliente;
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
-import kitmenu.Ui;
+import kitmenu.UI;
 import modelagem.Vaga;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Estacionamento {
     public static void main(String[] args) {
-        Ui terminal = new Ui();
+        UI terminal = UI.getInstance();
 
         ArrayList<Veiculo> veiculos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();

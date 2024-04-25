@@ -13,7 +13,7 @@ public class Modelo
     */
     public Modelo(String nomeModelo)
     {
-        this.nomeModelo = nomeModelo.toUpperCase().replaceAll("\\s", "");
+        this.nomeModelo = formatarString(nomeModelo);
     }
 
     public String getNomeModelo() {
@@ -23,5 +23,10 @@ public class Modelo
     public String toString()
     {
         return nomeModelo;
+    }
+
+    public static String formatarString(String string)
+    {
+        return string.toUpperCase().replaceAll("\\s", "");
     }
 }

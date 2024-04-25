@@ -10,14 +10,14 @@ public class Veiculo
     }
 
     public Veiculo(String placa, Cor cor, Modelo modelo) {
-        this.placa = placa.toUpperCase().replaceAll("\\s", "");
+        this.placa = formatarString(placa);
         this.cor = cor;
         this.modelo = modelo;
     }
 
     // Um veículo precisa de pelo menos placa e modelo
     public Veiculo(String placa, Modelo modelo) {
-        this.placa = placa.toUpperCase().replaceAll("\\s", "");
+        this.placa = formatarString(placa);
         this.modelo = modelo;
     }
 
@@ -36,8 +36,17 @@ public class Veiculo
         return modelo;
     }
 
+    public void setCor(Cor cor) {
+        this.cor = cor;
+    }
+
     public String toString()
     {
         return "\nPlaca: " + placa + "\nCor: " + cor + "\nModelo: " + modelo;
+    }
+
+    public static String formatarString(String string)
+    {
+        return string.toUpperCase().replaceAll("\\s", "");
     }
 }

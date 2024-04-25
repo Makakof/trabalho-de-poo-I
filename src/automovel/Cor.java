@@ -13,7 +13,7 @@ public class Cor
     */
     public Cor(String nomeCor)
     {
-        this.nomeCor = nomeCor.toUpperCase().replaceAll("\\s", "");
+        this.nomeCor = formatarString(nomeCor);
     }
 
     public String getNomeCor() {
@@ -27,5 +27,10 @@ public class Cor
     public String toString()
     {
         return nomeCor;
+    }
+
+    public static String formatarString(String string)
+    {
+        return string.toUpperCase().replaceAll("\\s", "");
     }
 }

@@ -1,15 +1,14 @@
 package kitmenu;
 
-import enums.VagaStatus;
 import modelagem.Vaga;
 
 import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private Ui terminal;
+    private UI terminal;
 
-    public MenuGerenciaVagas(Ui terminal) {
+    public MenuGerenciaVagas(UI terminal) {
         this.terminal = terminal;
     }
 

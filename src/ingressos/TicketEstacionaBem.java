@@ -7,7 +7,7 @@ import tarifacao.TarifaEstacionamento;
 
 import java.time.LocalDateTime;
 
-public class TicketEstacionamento
+public class TicketEstacionaBem
 {
     private Vaga vaga;
     private Veiculo veiculo;
@@ -15,10 +15,10 @@ public class TicketEstacionamento
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
 
-    public TicketEstacionamento() {
+    public TicketEstacionaBem() {
     }
 
-    public TicketEstacionamento(Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifaEstacionamento, LocalDateTime dataInicio)
+    public TicketEstacionaBem(Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifaEstacionamento, LocalDateTime dataInicio)
     {
         this.vaga = vaga;
         this.veiculo = veiculo;
@@ -40,5 +40,9 @@ public class TicketEstacionamento
 
     public LocalDateTime getDataInicio() {
         return dataInicio;
+    }
+
+    public LocalDateTime getDataFim() {
+        return dataFim;
     }
 }

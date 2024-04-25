@@ -1,10 +1,22 @@
 package kitmenu;
 
-import enums.VagaStatus;
-
 import java.util.Scanner;
 
-public class Ui {
+public class UI {
+
+    private static UI INSTANCE;
+
+    private UI(){};
+
+    // Singleton
+    public static synchronized UI getInstance()
+    {
+        if(INSTANCE == null)
+            INSTANCE = new UI();
+
+        return INSTANCE;
+    }
+
     public void menuPrincipal() {
         exibir("================================================");
         exibir("# 1 - Gerenciar clientes");

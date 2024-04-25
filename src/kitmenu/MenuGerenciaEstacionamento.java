@@ -1,18 +1,16 @@
 package kitmenu;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import enums.DiaDaSemana;
 import modelagem.Vaga;
 
 public class MenuGerenciaEstacionamento {
 
-    private Ui terminal;
+    private UI terminal;
 
     public MenuGerenciaEstacionamento(){}
 
-    public MenuGerenciaEstacionamento(Ui terminal){
+    public MenuGerenciaEstacionamento(UI terminal){
         this.terminal = terminal;
     }
 
