@@ -18,6 +18,7 @@ public class MenuGerenciaCliente {
         this.terminal = terminal;
     }
 
+
     public void gerenciaCliente(ArrayList<Cliente> clientes, ArrayList<Veiculo> veiculos) {
         Cliente cliente;
         String documento;

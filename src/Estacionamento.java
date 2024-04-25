@@ -4,9 +4,11 @@ import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaVagas;
 import kitmenu.UI;
 import modelagem.Vaga;
+import tarifacao.ValorHora;
 
+import java.sql.Array;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 
 public class Estacionamento
@@ -28,17 +30,13 @@ public class Estacionamento
 
         do {
             switch (opcaoPrincipal) {
-
                 case 1:
-
                     menuGerenciaCliente.gerenciaCliente(clientes, veiculos);
                     break;
                 case 2:
-
                     menuGerenciaVagas.GerenciaVagas(vagas);
                     break;
                 case 3:
-
                     terminal.menuGerenciaEstacionamento();
                     opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
                     //menuEstacionaBem.menuGerenciaCliente(opcaoPrincipal, clientes);
