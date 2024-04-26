@@ -45,6 +45,7 @@ public class MenuGerenciaCliente {
                     break;
                 case 3:
 
+                    //TODO precisa verificar se existem algum ticket cadastrado
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
                     cliente = consultaCliente(clientes,documento);
                     clientes.remove(cliente);
@@ -164,7 +165,7 @@ public class MenuGerenciaCliente {
 
                 break;
             case 3:
-
+                //TODO precisa verificar se existem algum ticket cadastrado
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
 
                 placa = Veiculo.formatarString(placa);
