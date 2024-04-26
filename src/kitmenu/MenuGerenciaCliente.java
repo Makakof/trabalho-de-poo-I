@@ -4,6 +4,8 @@ import automovel.Cor;
 import automovel.Modelo;
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import enums.TipoVeiculo;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -191,16 +193,19 @@ public class MenuGerenciaCliente {
     }
 
     public Veiculo cadastraVeiculo() {
-        String placa, modelo, cor;
+        String placa, modelo, cor, tipo;
 
         placa = terminal.selecionarString("Digite a placa do carro: ");
 
         modelo = terminal.selecionarString("Digite o modelo do carro: ");
         Modelo modeloCarro = new Modelo(modelo);
 
+        tipo = terminal.selecionarString("Digite o tipo do carro: ");
+
         cor = terminal.selecionarString("Digite a cor do carro: ");
         Cor corCarro = new Cor(cor);
 
-        return new Veiculo(placa, corCarro, modeloCarro);
+        return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));
     }
+
 }
