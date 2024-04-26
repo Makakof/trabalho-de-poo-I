@@ -1,5 +1,6 @@
 package kitmenu;
 
+import enums.TipoVeiculo;
 import enums.VagaStatus;
 
 import java.util.Scanner;
@@ -132,4 +133,5 @@ public class UI {
         string = scanner.nextLine();
         return string;
     }
+
 }
