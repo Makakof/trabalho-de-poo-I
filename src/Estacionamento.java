@@ -5,16 +5,14 @@ import kitmenu.MenuGerenciaVagas;
 import kitmenu.UI;
 import modelagem.Vaga;
 import tarifacao.ValorHora;
-
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class Estacionamento
 {
     public static void main(String[] args)
     {
+
         UI terminal = UI.getInstance();
         ArrayList<Veiculo> veiculos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();

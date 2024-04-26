@@ -2,8 +2,12 @@ package tarifacao;
 
 import enums.DiaDaSemana;
 
+import java.lang.reflect.Array;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 
 public class TarifaEstacionaBem
@@ -19,7 +23,16 @@ public class TarifaEstacionaBem
     um único formatador é capaz de realizar o que é necessário.
      */
     public static DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
     public TarifaEstacionaBem() {
+    }
+
+    public TarifaEstacionaBem (ValorHora[] valorHoras)
+    {
+        dataInicio = LocalDateTime.now();
+        valorPrimeiraHora = valorHoras[DiaDaSemana.valueOf(diaDaSemanaString(dataInicio)).getValorOpcao()].getPrimeiraHora();
+        valorHoraSubsequente = valorHoras[DiaDaSemana.valueOf(diaDaSemanaString(dataInicio)).getValorOpcao()].getHoraSubsequente();
+        diaDaSemana = DiaDaSemana.valueOf(diaDaSemanaString(dataInicio));
     }
 
     public TarifaEstacionaBem(double valorPrimeiraHora, double valorHoraSubsequente, DiaDaSemana diaDaSemana) {
@@ -45,5 +58,10 @@ public class TarifaEstacionaBem
         return diaDaSemana;
     }
 
+    public String diaDaSemanaString(LocalDateTime data){
 
+        String dia = data.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase();
+        dia = dia.replace("-FEIRA", "");
+        return dia;
+    }
 }
