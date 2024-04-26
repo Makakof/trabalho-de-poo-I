@@ -13,6 +13,11 @@ public class MenuGerenciaVagas {
         this.terminal = terminal;
     }
 
+    public static String formatarString(String string)
+    {
+        return string.toUpperCase().replaceAll("\\s", "");
+    }
+
     public void GerenciaVagas(ArrayList<Vaga> vagas) {
 
         byte opcao;
@@ -99,6 +104,7 @@ public class MenuGerenciaVagas {
 
         terminal.exibir("1-DISPONIVEL 2-INDISPONIVEL 3-OCUPADA");
         String status = terminal.selecionarString("Alterar disponibilidade para: ");
+        status = formatarString(status);
         vagas.setVagaStatus(status);
     }
 
@@ -125,4 +131,5 @@ public class MenuGerenciaVagas {
 
         return null;
     }
+
 }
