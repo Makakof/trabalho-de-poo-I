@@ -3,6 +3,7 @@ package kitmenu;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import enums.VagaStatus;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
@@ -61,30 +62,26 @@ public class MenuGerenciaEstacionamento {
         documento = terminal.selecionarString("Motorista digite um documento: ");
         cliente = consultaCliente(clientes, documento);
 
-        if(cliente != null)
-        {
+        if (cliente != null) {
             placa = terminal.selecionarString("Digite o numero da placa do carro: ");
             veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
-            if (veiculo != null)
-            {
+            if (veiculo != null) {
                 numeroRua = terminal.selecionarInt("Digite o numero da vaga: ");
                 vaga = buscarVaga(vagas, numeroRua);
 
-                if(vaga != null)
-                {
-                    tarifa = new TarifaEstacionaBem(valorHoras);
-                    TicketEstacionaBem ticket = new TicketEstacionaBem(vaga, veiculo, tarifa, LocalDateTime.now());
-                    tickets.add(ticket);
-                }
-                else
-                    terminal.exibir("Vaga não cadastrada!");
-            }
-            else
-                terminal.exibir("Carro não cadastrado!");
-        }
-        else
-            terminal.exibir("Cliente não cadastrado!");
+                if (vaga != null) {
+                    if (vaga.getStatus() == VagaStatus.DISPONIVEL) {
+                        //TODO verifcar o tipo de veiculo que a vaga aceita
+                        vaga.setVagaStatus("OCUPADA");
+                        tarifa = new TarifaEstacionaBem(valorHoras);
+                        TicketEstacionaBem ticket = new TicketEstacionaBem(vaga, veiculo, tarifa, LocalDateTime.now());
+                        tickets.add(ticket);
+
+                    }
+                } else terminal.exibir("Vaga não cadastrada!");
+            } else terminal.exibir("Carro não cadastrado!");
+        } else terminal.exibir("Cliente não cadastrado!");
 
 
     }
@@ -103,8 +100,7 @@ public class MenuGerenciaEstacionamento {
     public Cliente consultaCliente(ArrayList<Cliente> clientes, String documento) {
 
         for (Cliente clienteAtual : clientes) {
-            if (clienteAtual.getDocumento().equals(documento))
-                return clienteAtual;
+            if (clienteAtual.getDocumento().equals(documento)) return clienteAtual;
         }
 
         return null;
@@ -113,8 +109,7 @@ public class MenuGerenciaEstacionamento {
     public Veiculo consultarVeiculo(ArrayList<Veiculo> veiculos, String placa) {
 
         for (Veiculo veiculoAtual : veiculos) {
-            if (veiculoAtual.getPlaca().equals(placa))
-                return veiculoAtual;
+            if (veiculoAtual.getPlaca().equals(placa)) return veiculoAtual;
         }
 
         return null;
@@ -123,8 +118,7 @@ public class MenuGerenciaEstacionamento {
     public Vaga buscarVaga(ArrayList<Vaga> vagas, int numero) {
 
         for (Vaga vaga : vagas) {
-            if (vaga.getNumeroVaga() == numero)
-                return vaga;
+            if (vaga.getNumeroVaga() == numero) return vaga;
         }
 
         return null;

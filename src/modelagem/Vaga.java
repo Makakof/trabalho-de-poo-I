@@ -7,6 +7,8 @@ public class Vaga
     private int numeroVaga;
     private String rua;
     private VagaStatus status;
+//    TODO adicionar um campo para tipoDeVeiculo
+    //este campo serve para que a vaga saiba qual tipo de veiculo pode ser estacionado nela
 
     public Vaga() {
     }

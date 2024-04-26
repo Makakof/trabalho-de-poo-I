@@ -48,6 +48,7 @@ public class MenuGerenciaVagas {
                         terminal.exibir("Não existe vaga cadastrada com este numero!");
                     break;
                 case 3:
+                    //TODO precisa verificar se existe algum ticket cadastrado
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = buscarVaga(vagas, numeroVaga);
                     if (vaga != null) {
