@@ -1,9 +1,6 @@
 package tarifacao;
 
 import enums.DiaDaSemana;
-
-import java.lang.reflect.Array;
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -27,7 +24,7 @@ public class TarifaEstacionaBem
     public TarifaEstacionaBem() {
     }
 
-    public TarifaEstacionaBem (ValorHora[] valorHoras)
+    public TarifaEstacionaBem (TabelaPrecos[] valorHoras)
     {
         dataInicio = LocalDateTime.now();
         valorPrimeiraHora = valorHoras[DiaDaSemana.valueOf(diaDaSemanaString(dataInicio)).getValorOpcao()].getPrimeiraHora();

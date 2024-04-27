@@ -1,6 +1,7 @@
 package ingressos;
 
 import automovel.Veiculo;
+import cliente.estacionabem.Cliente;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
 
@@ -10,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 
 public class TicketEstacionaBem
 {
+    private Cliente cliente;
     private Vaga vaga;
     private Veiculo veiculo;
     private TarifaEstacionaBem tarifaEstacionaBem;
@@ -20,14 +22,18 @@ public class TicketEstacionaBem
     public TicketEstacionaBem() {
     }
 
-    public TicketEstacionaBem(Vaga vaga, Veiculo veiculo, TarifaEstacionaBem tarifaEstacionaBem)
+    public TicketEstacionaBem(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionaBem tarifaEstacionaBem)
     {
+        this.cliente = cliente;
         this.vaga = vaga;
         this.veiculo = veiculo;
         this.tarifaEstacionaBem = tarifaEstacionaBem;
         this.dataInicio = LocalDateTime.now();
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
     public Vaga getVaga() {
         return vaga;
     }
@@ -53,6 +59,7 @@ public class TicketEstacionaBem
         long diferencaHoras;
 
         diferencaHoras = dataInicio.until(dataFim, ChronoUnit.HOURS);
+        //TODO verificar se a funcao arredonda o valor da hora pra mais ou pra menos
         if(diferencaHoras > 1)
         {
             totalPagar = tarifaEstacionaBem.getValorPrimeiraHora();

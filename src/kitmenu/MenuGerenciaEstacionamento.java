@@ -3,11 +3,12 @@ package kitmenu;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import enums.TipoVeiculo;
 import enums.VagaStatus;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
-import tarifacao.ValorHora;
+import tarifacao.TabelaPrecos;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class MenuGerenciaEstacionamento {
         this.terminal = terminal;
     }
 
-    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
+    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
 
         byte opcao;
 
@@ -31,7 +32,7 @@ public class MenuGerenciaEstacionamento {
             switch (opcao) {
                 case 1:
 
-                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas, valorHoras);
+                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas, valorHorasCarro, valorHorasMoto);
                     if (ticket != null) tickets.add(ticket);
 
                     break;
@@ -53,7 +54,7 @@ public class MenuGerenciaEstacionamento {
         } while (opcao != 5);
     }
 
-    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
+    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
 
         int numeroRua;
         String documento, placa;
@@ -79,8 +80,13 @@ public class MenuGerenciaEstacionamento {
                         if (vaga.getStatus() == VagaStatus.DISPONIVEL) {
 
                             vaga.setVagaStatus("OCUPADA");
-                            tarifa = new TarifaEstacionaBem(valorHoras);
-                            return new TicketEstacionaBem(vaga, veiculo, tarifa);
+
+                            if(vaga.getTipoVeiculo() == TipoVeiculo.CARRO)
+                                tarifa = new TarifaEstacionaBem(valorHorasCarro);
+                            else
+                                tarifa = new TarifaEstacionaBem(valorHorasMoto);
+
+                            return new TicketEstacionaBem(cliente, vaga, veiculo, tarifa);
 
                         }else terminal.exibir("Vaga OCUPADA ou INDISPONIVEL!");
                     }else terminal.exibir("O veiculo não condiz com o tipo de veiculo da vaga!");
