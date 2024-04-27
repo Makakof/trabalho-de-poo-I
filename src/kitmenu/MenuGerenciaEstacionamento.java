@@ -55,7 +55,7 @@ public class MenuGerenciaEstacionamento {
 
     public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
 
-        int numeroRua;
+        int numeroDaVaga;
         String documento, placa;
         Cliente cliente;
         Veiculo veiculo;
@@ -70,8 +70,8 @@ public class MenuGerenciaEstacionamento {
             veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
             if (veiculo != null) {
-                numeroRua = terminal.selecionarInt("Digite o numero da vaga: ");
-                vaga = consultarVaga(vagas, numeroRua);
+                numeroDaVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+                vaga = consultarVaga(vagas, numeroDaVaga);
 
                 if (vaga != null) {
                     if(vaga.getTipoVeiculo() == veiculo.getTipoVeiculo())
