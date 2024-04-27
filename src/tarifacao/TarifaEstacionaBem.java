@@ -64,4 +64,12 @@ public class TarifaEstacionaBem
         dia = dia.replace("-FEIRA", "");
         return dia;
     }
+
+    public String toString()
+    {
+        return "\nData inicio: " + dataInicio.format(formatadorData) +
+                "\nDia: " + diaDaSemana.toString() +
+                "\nValor 1ºhora: " + valorPrimeiraHora +
+                "\nValor após 1ºhora: " + valorHoraSubsequente;
+    }
 }
