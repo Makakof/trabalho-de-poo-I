@@ -39,9 +39,9 @@ public class Estacionamento
                     menuGerenciaVagas.GerenciaVagas(vagas, tickets);
                     break;
                 case 3:
-
                     menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro, valorHorasMoto);
                     break;
+
             }
 
             terminal.menuPrincipal();
