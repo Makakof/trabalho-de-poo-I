@@ -20,7 +20,7 @@ public class TicketEstacionaBem
     public TicketEstacionaBem() {
     }
 
-    public TicketEstacionaBem(Vaga vaga, Veiculo veiculo, TarifaEstacionaBem tarifaEstacionaBem, LocalDateTime dataInicio)
+    public TicketEstacionaBem(Vaga vaga, Veiculo veiculo, TarifaEstacionaBem tarifaEstacionaBem)
     {
         this.vaga = vaga;
         this.veiculo = veiculo;
@@ -44,6 +44,7 @@ public class TicketEstacionaBem
         return dataInicio;
     }
     public double getTotalPagar() {return totalPagar;}
+
     public void encerrarTicket()
     {
         this.dataFim = LocalDateTime.now();

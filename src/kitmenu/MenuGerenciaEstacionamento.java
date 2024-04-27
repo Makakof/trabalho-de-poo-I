@@ -9,7 +9,6 @@ import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
 import tarifacao.ValorHora;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MenuGerenciaEstacionamento {
@@ -20,7 +19,7 @@ public class MenuGerenciaEstacionamento {
         this.terminal = terminal;
     }
 
-    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
+    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
 
         byte opcao;
 
@@ -32,7 +31,9 @@ public class MenuGerenciaEstacionamento {
             switch (opcao) {
                 case 1:
 
-                    estacionar(clientes, tickets, vagas, valorHoras);
+                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas, valorHoras);
+                    if (ticket != null) tickets.add(ticket);
+
                     break;
                 case 2:
 
@@ -44,13 +45,15 @@ public class MenuGerenciaEstacionamento {
                     break;
                 case 4:
 
+                    for(TicketEstacionaBem ticketFor : tickets)
+                        terminal.exibir(ticketFor.toString());
 
                     break;
             }
         } while (opcao != 5);
     }
 
-    public void estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
+    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
 
         int numeroRua;
         String documento, placa;
@@ -68,22 +71,24 @@ public class MenuGerenciaEstacionamento {
 
             if (veiculo != null) {
                 numeroRua = terminal.selecionarInt("Digite o numero da vaga: ");
-                vaga = buscarVaga(vagas, numeroRua);
+                vaga = consultarVaga(vagas, numeroRua);
 
                 if (vaga != null) {
-                    if (vaga.getStatus() == VagaStatus.DISPONIVEL) {
-                        //TODO verifcar o tipo de veiculo que a vaga aceita
-                        vaga.setVagaStatus("OCUPADA");
-                        tarifa = new TarifaEstacionaBem(valorHoras);
-                        TicketEstacionaBem ticket = new TicketEstacionaBem(vaga, veiculo, tarifa, LocalDateTime.now());
-                        tickets.add(ticket);
+                    if(vaga.getTipoVeiculo() == veiculo.getTipoVeiculo())
+                    {
+                        if (vaga.getStatus() == VagaStatus.DISPONIVEL) {
 
-                    }
+                            vaga.setVagaStatus("OCUPADA");
+                            tarifa = new TarifaEstacionaBem(valorHoras);
+                            return new TicketEstacionaBem(vaga, veiculo, tarifa);
+
+                        }else terminal.exibir("Vaga OCUPADA ou INDISPONIVEL!");
+                    }else terminal.exibir("O veiculo não condiz com o tipo de veiculo da vaga!");
                 } else terminal.exibir("Vaga não cadastrada!");
             } else terminal.exibir("Carro não cadastrado!");
         } else terminal.exibir("Cliente não cadastrado!");
 
-
+        return null;
     }
 
     public void retirar() {
@@ -91,7 +96,7 @@ public class MenuGerenciaEstacionamento {
 
     public void listarVagas(ArrayList<Vaga> vagas) {
         for (Vaga vaga : vagas)
-            terminal.exibir(vagas.toString());
+            terminal.exibir(vaga.toString());
     }
 
     public void gerenciarTarifas() {
@@ -115,7 +120,7 @@ public class MenuGerenciaEstacionamento {
         return null;
     }
 
-    public Vaga buscarVaga(ArrayList<Vaga> vagas, int numero) {
+    public Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
 
         for (Vaga vaga : vagas) {
             if (vaga.getNumeroVaga() == numero) return vaga;
