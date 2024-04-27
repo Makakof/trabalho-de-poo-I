@@ -108,7 +108,7 @@ public class MenuGerenciaCliente {
     public byte verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionaBem> tickets)
     {
         for(Veiculo veiculo : veiculos)
-            if(verificaTicketVeiculo(tickets, veiculo) == 1)
+            if(verificaSeOVeiculoTemTicket(tickets, veiculo) == 1)
                 return 1;
 
         return 0;
@@ -128,7 +128,7 @@ public class MenuGerenciaCliente {
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
 
-                terminal.exibir("Dados do carro " + i);
+                terminal.exibir("Dados do carro #" + i+1);
                 veiculo = cadastraVeiculo();
                 cliente.addVeiculo(veiculo);
             }
@@ -219,22 +219,24 @@ public class MenuGerenciaCliente {
 
         Veiculo veiculo = consultarVeiculo(veiculos, placa);
 
-        if (veiculo != null) {
+        if (veiculo == null) {
+            throw new InputMismatchException("A placa: " + placa + " não existe");
+        }
 
-            if (verificaTicketVeiculo(tickets, veiculo) == 0) veiculos.remove(veiculo);
+        if (verificaSeOVeiculoTemTicket(tickets, veiculo) == 1){
+            throw new InputMismatchException("O veiculo possui ticket não pago!");
+        }
 
-            else throw new InputMismatchException("O veiculo possui ticket não pago!");
-
-        } else throw new InputMismatchException("A placa: " + placa + " não existe");
+        veiculos.remove(veiculo);
     }
 
-    public byte verificaTicketVeiculo(ArrayList<TicketEstacionaBem> tikets, Veiculo veiculo) {
+    public byte verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionaBem> tikets, Veiculo veiculo) {
         for (TicketEstacionaBem ticket : tikets) {
 
             String placaVeiculoTicket = ticket.getVeiculo().getPlaca();
 
-            if (veiculo.getPlaca().equals(placaVeiculoTicket)) return 1;
-
+            if (veiculo.getPlaca().equals(placaVeiculoTicket))
+                return 1;
         }
         return 0;
     }
