@@ -1,16 +1,16 @@
 package tarifacao;
 
-public class ValorHora
+public class TabelaPrecos
 {
     private double primeiraHora;
     private double horaSubsequente;
 
-    public ValorHora(double primeiraHora, double horaSubsequente) {
+    public TabelaPrecos(double primeiraHora, double horaSubsequente) {
         this.primeiraHora = primeiraHora;
         this.horaSubsequente = horaSubsequente;
     }
 
-    public ValorHora() {
+    public TabelaPrecos() {
     }
 
     public double getPrimeiraHora() {

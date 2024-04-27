@@ -9,7 +9,6 @@ public class Vaga
     private String rua;
     private VagaStatus status;
     private TipoVeiculo tipoVeiculo;
-    //este campo serve para que a vaga saiba qual tipo de veiculo pode ser estacionado nela
 
     public Vaga() {
     }
