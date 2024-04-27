@@ -1,5 +1,6 @@
 package modelagem;
 
+import enums.TipoVeiculo;
 import enums.VagaStatus;
 
 public class Vaga
@@ -7,15 +8,16 @@ public class Vaga
     private int numeroVaga;
     private String rua;
     private VagaStatus status;
-//    TODO adicionar um campo para tipoDeVeiculo
+    private TipoVeiculo tipoVeiculo;
     //este campo serve para que a vaga saiba qual tipo de veiculo pode ser estacionado nela
 
     public Vaga() {
     }
 
-    public Vaga(int numeroVaga, String rua) {
+    public Vaga(int numeroVaga, String rua, TipoVeiculo tipoVeiculo) {
         this.numeroVaga = numeroVaga;
         this.rua = rua;
+        this.tipoVeiculo = tipoVeiculo;
         this.status = VagaStatus.DISPONIVEL;
     }
 
@@ -29,6 +31,10 @@ public class Vaga
 
     public VagaStatus getStatus(){
         return status;
+    }
+
+    public TipoVeiculo getTipoVeiculo() {
+        return tipoVeiculo;
     }
 
     public void setNumeroVaga(int numeroVaga) {

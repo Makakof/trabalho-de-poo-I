@@ -1,6 +1,7 @@
 package kitmenu;
 
-import enums.VagaStatus;
+import enums.TipoVeiculo;
+import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class MenuGerenciaVagas {
         return string.toUpperCase().replaceAll("\\s", "");
     }
 
-    public void GerenciaVagas(ArrayList<Vaga> vagas) {
+    public void GerenciaVagas(ArrayList<Vaga> vagas, ArrayList<TicketEstacionaBem> tickets) {
 
         byte opcao;
         int numeroVaga;
@@ -40,7 +41,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 2:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
-                    vaga = buscarVaga(vagas, numeroVaga);
+                    vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga != null)
                         terminal.exibir(vaga.toString());
 
@@ -48,19 +49,23 @@ public class MenuGerenciaVagas {
                         terminal.exibir("Não existe vaga cadastrada com este numero!");
                     break;
                 case 3:
-                    //TODO precisa verificar se existe algum ticket cadastrado
+
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
-                    vaga = buscarVaga(vagas, numeroVaga);
+                    vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
-                        vagas.remove(vaga);
-                        terminal.exibir("Vaga excluida com sucesso!");
+                        if(verificaTicketVaga(vaga, tickets) == 0)
+                        {
+                            vagas.remove(vaga);
+                            terminal.exibir("Vaga excluida com sucesso!");
+                        }
+                        else terminal.exibir("A vaga possui um ticket não pago!");
                     }
                     else
                         terminal.exibir("Não existe vaga cadastrada com este numero!");
                     break;
                 case 4:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
-                    vaga = buscarVaga(vagas, numeroVaga);
+                    vaga = consultarVaga(vagas, numeroVaga);
 
                     if (vaga != null){
 
@@ -70,7 +75,7 @@ public class MenuGerenciaVagas {
                         terminal.exibir("Numero atual: " + vaga.getNumeroVaga());
                         int numeroVagaNovo = terminal.selecionarInt("Numero novo: ");
 
-                        Vaga verificaVaga = buscarVaga(vagas, numeroVagaNovo);
+                        Vaga verificaVaga = consultarVaga(vagas, numeroVagaNovo);
 
                         if(verificaVaga == null){
                             vaga.setNumeroVaga(numeroVagaNovo);
@@ -85,7 +90,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 5:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
-                    vaga = buscarVaga(vagas, numeroVaga);
+                    vaga = consultarVaga(vagas, numeroVaga);
 
                     if (vaga != null)
                         alterarDisponibilidade(vaga);
@@ -109,7 +114,7 @@ public class MenuGerenciaVagas {
         vagas.setVagaStatus(status);
     }
 
-    public Vaga buscarVaga(ArrayList<Vaga> vagas, int numero) {
+    public Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
 
         for (Vaga vaga : vagas) {
             if (vaga.getNumeroVaga() == numero)
@@ -124,13 +129,24 @@ public class MenuGerenciaVagas {
         int numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
         String rua = terminal.selecionarString("Digite o nome da rua: ");
 
-        Vaga vaga = buscarVaga(vagas, numeroVaga);
+        String tipo = terminal.selecionarString("Digite se seu veiculo é carro ou moto: ");
+        tipo = formatarString(tipo);
+
+        Vaga vaga = consultarVaga(vagas, numeroVaga);
         if (vaga == null){
-            vaga = new Vaga(numeroVaga, rua);
+            vaga = new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
             return vaga;
         }
 
         return null;
+    }
+
+    public byte verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionaBem> tickets)
+    {
+        for(TicketEstacionaBem ticket : tickets)
+            if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())
+                return 1;
+        return 0;
     }
 
 }
