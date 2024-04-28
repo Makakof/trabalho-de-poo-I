@@ -1,6 +1,7 @@
 package kitmenu;
 
 import enums.TipoVeiculo;
+import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 
@@ -33,71 +34,72 @@ public class MenuGerenciaVagas {
 
             switch (opcao) {
                 case 1:
+
                     vaga = cadastrarVaga(vagas);
-                    if(vaga != null)
-                        vagas.add(vaga);
-                    else
-                        terminal.exibir("Esta vaga já existe!");
+                    Vaga vagaExiste = consultarVaga(vagas, vaga.getNumeroVaga());
+
+                    if(vagaExiste != null)
+                        throw new EstacionamentoException("Esta vaga já existe!");
+
+                    vagas.add(vaga);
+                    terminal.exibir("Vaga cadastrada com sucesso!");
+
                     break;
                 case 2:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
-                    if (vaga != null)
-                        terminal.exibir(vaga.toString());
+                    if (vaga == null)
+                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
 
-                    else
-                        terminal.exibir("Não existe vaga cadastrada com este numero!");
+                    terminal.exibir(vaga.toString());
+
                     break;
                 case 3:
 
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
-                        if(verificaTicketVaga(vaga, tickets) == 0)
-                        {
-                            vagas.remove(vaga);
-                            terminal.exibir("Vaga excluida com sucesso!");
-                        }
-                        else terminal.exibir("A vaga possui um ticket não pago!");
+                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
-                    else
-                        terminal.exibir("Não existe vaga cadastrada com este numero!");
+                    if (verificaTicketVaga(vaga, tickets) != 0) {
+                        throw new EstacionamentoException("Não é possivel exluir uma vaga que possui um carro estacionado");
+                    }
+                    vagas.remove(vaga);
+                    terminal.exibir("Vaga excluida com sucesso!");
+
                     break;
                 case 4:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
-                    if (vaga != null){
-
-                        terminal.exibir("Rua atual: " + vaga.getRua());
-                        rua = terminal.selecionarString("Rua nova: ");
-
-                        terminal.exibir("Numero atual: " + vaga.getNumeroVaga());
-                        int numeroVagaNovo = terminal.selecionarInt("Numero novo: ");
-
-                        Vaga verificaVaga = consultarVaga(vagas, numeroVagaNovo);
-
-                        if(verificaVaga == null){
-                            vaga.setNumeroVaga(numeroVagaNovo);
-                            vaga.setRua(rua);
-                        }
-                        else
-                            terminal.exibir("Já existe uma vaga cadastrada com este numero!");
+                    if (vaga == null) {
+                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
-                    else
-                        terminal.exibir("Não existe vaga cadastrada com este numero!");
+
+                    terminal.exibir("Rua atual: " + vaga.getRua());
+                    rua = terminal.selecionarString("Rua nova: ");
+
+                    terminal.exibir("Numero atual: " + vaga.getNumeroVaga());
+                    int numeroVagaNovo = terminal.selecionarInt("Numero novo: ");
+
+                    Vaga verificaVaga = consultarVaga(vagas, numeroVagaNovo);
+
+                    if (verificaVaga != null) {
+                        throw new EstacionamentoException("Ja existe vaga cadastrada com o numero: " + numeroVaga);
+                    }
+
+                    vaga.setNumeroVaga(numeroVagaNovo);
+                    vaga.setRua(rua);
 
                     break;
                 case 5:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
-                    if (vaga != null)
-                        alterarDisponibilidade(vaga);
+                    if (vaga == null)
+                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
 
-                    else
-                        terminal.exibir("Não existe vaga cadastrada com este numero!");
-
+                    alterarDisponibilidade(vaga);
                     break;
             }
 
