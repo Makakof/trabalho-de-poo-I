@@ -43,18 +43,25 @@ public class MenuGerenciaCliente {
                 case 2:
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
                     cliente = consultaCliente(clientes, documento);
-                    if (cliente != null) terminal.exibir(cliente.toString());
-                    else terminal.exibir("Cliente não cadastrado");
+
+                    if (cliente == null)
+                        throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
+
+                    terminal.exibir(cliente.toString());
+
                     break;
                 case 3:
 
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
                     cliente = consultaCliente(clientes, documento);
-                    if(cliente != null){
-                        if(verificaTicketCliente(cliente.getVeiculos(), tickets) == 0)
-                            clientes.remove(cliente);
-                        else terminal.exibir("O cliente possui ticket não pago!");
-                    }
+
+                    if(cliente == null)
+                        throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
+
+                    if (verificaTicketCliente(cliente.getVeiculos(), tickets) != 0)
+                        throw new EstacionamentoException("Não é possivel excluir clientes que possuem carros estacionados");
+
+                    clientes.remove(cliente);
 
                     break;
                 case 4:
@@ -81,14 +88,14 @@ public class MenuGerenciaCliente {
                     documento = terminal.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
                     Cliente clienteAtual = consultaCliente(clientes, documento);
 
-                    if (clienteAtual != null) {
-                        terminal.subMenuGerenciaVeiculos();
-                        opcaoSubmenu = terminal.selecionarByte();
-                        editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
-
-                    } else {
-                        throw new EstacionamentoException("Documento " + documento + " não existe!");
+                    if (clienteAtual == null) {
+                        throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
                     }
+
+                    terminal.subMenuGerenciaVeiculos();
+                    opcaoSubmenu = terminal.selecionarByte();
+                    editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
+
                     break;
                 case 6:
 
