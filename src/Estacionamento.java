@@ -1,4 +1,3 @@
-import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
@@ -7,9 +6,8 @@ import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
 import kitmenu.UI;
 import modelagem.Vaga;
-import tarifacao.ValorHora;
+import tarifacao.TabelaPrecos;
 import java.util.ArrayList;
-import java.util.Timer;
 
 
 public class Estacionamento
@@ -20,7 +18,8 @@ public class Estacionamento
         UI terminal = UI.getInstance();
         ArrayList<Cliente> clientes = new ArrayList<>();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
-        ValorHora[] valorHoras = new ValorHora[7];
+        TabelaPrecos[] valorHorasCarro = new TabelaPrecos[7];
+        TabelaPrecos[] valorHorasMoto = new TabelaPrecos[7];
         ArrayList<Vaga> vagas = new ArrayList<>();
         MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas(terminal);
         ArrayList<TicketEstacionaBem> tickets = new ArrayList<>();
@@ -32,6 +31,7 @@ public class Estacionamento
         terminal.menuPrincipal();
         opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
 
+<<<<<<< HEAD
         try {
             do {
                 switch (opcaoPrincipal) {
@@ -44,6 +44,19 @@ public class Estacionamento
                     case 3:
                         menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHoras);
                         break;
+=======
+        do {
+            switch (opcaoPrincipal) {
+                case 1:
+                    menuGerenciaCliente.gerenciaCliente(clientes, tickets);
+                    break;
+                case 2:
+                    menuGerenciaVagas.GerenciaVagas(vagas, tickets);
+                    break;
+                case 3:
+                    menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro, valorHorasMoto);
+                    break;
+>>>>>>> b2a5e70c5d487a2714ef7f488ba42bb600697181
 
                 }
                 terminal.menuPrincipal();

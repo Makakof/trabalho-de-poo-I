@@ -3,12 +3,13 @@ package kitmenu;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
-import tarifacao.ValorHora;
+import tarifacao.TabelaPrecos;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -21,7 +22,7 @@ public class MenuGerenciaEstacionamento {
         this.terminal = terminal;
     }
 
-    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
+    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
 
         byte opcao;
 
@@ -33,7 +34,7 @@ public class MenuGerenciaEstacionamento {
             switch (opcao) {
                 case 1:
 
-                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas, valorHoras);
+                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas, valorHorasCarro, valorHorasMoto);
                     if (ticket != null) tickets.add(ticket);
 
                     break;
@@ -55,7 +56,7 @@ public class MenuGerenciaEstacionamento {
         } while (opcao != 5);
     }
 
-    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, ValorHora[] valorHoras) {
+    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
 
         int numeroDaVaga;
         String documento, placa;
@@ -83,9 +84,20 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Vaga de numero: " + numeroDaVaga + " não cadastrada");
         }
 
+<<<<<<< HEAD
         if (vaga.getTipoVeiculo() != veiculo.getTipoVeiculo()) {
             throw new EstacionamentoException("O veiculo não condiz com o tipo de veiculo da vaga");
         }
+=======
+                            vaga.setVagaStatus("OCUPADA");
+
+                            if(vaga.getTipoVeiculo() == TipoVeiculo.CARRO)
+                                tarifa = new TarifaEstacionaBem(valorHorasCarro);
+                            else
+                                tarifa = new TarifaEstacionaBem(valorHorasMoto);
+
+                            return new TicketEstacionaBem(cliente, vaga, veiculo, tarifa);
+>>>>>>> b2a5e70c5d487a2714ef7f488ba42bb600697181
 
         if (vaga.getStatus() != VagaStatus.DISPONIVEL) {
             throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
