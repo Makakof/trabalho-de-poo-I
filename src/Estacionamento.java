@@ -1,4 +1,5 @@
 import cliente.estacionabem.Cliente;
+import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
@@ -32,26 +33,31 @@ public class Estacionamento
         terminal.menuPrincipal();
         opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
 
-        do {
-            switch (opcaoPrincipal) {
-                case 1:
-                    menuGerenciaCliente.gerenciaCliente(clientes, tickets);
-                    break;
-                case 2:
-                    menuGerenciaVagas.GerenciaVagas(vagas, tickets);
-                    break;
-                case 3:
-                    menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro, valorHorasMoto);
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    menuFaturamento.realizaFaturamento(logTickets);
+        try 
+        {
+            do 
+            {
+                switch (opcaoPrincipal) {
+                    case 1:
+                        menuGerenciaCliente.gerenciaCliente(clientes, tickets);
+                        break;
+                    case 2:
+                        menuGerenciaVagas.GerenciaVagas(vagas, tickets);
+                        break;
+                    case 3:
+                        menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHoras);
+                        break;
+                    case 4:
+                      break;
+                    case 5:
+                      menuFaturamento.realizaFaturamento(logTickets);
                     break;
             }
-
             terminal.menuPrincipal();
             opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
-        } while (opcaoPrincipal != 6);
+        }
+        catch (EstacionamentoException msg){
+            System.out.println(msg);
+        }
     }
 }

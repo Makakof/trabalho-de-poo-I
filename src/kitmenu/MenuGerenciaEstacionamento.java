@@ -5,6 +5,7 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
+import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
@@ -13,6 +14,7 @@ import tarifacao.TabelaPrecos;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class MenuGerenciaEstacionamento {
 
@@ -72,34 +74,33 @@ public class MenuGerenciaEstacionamento {
         documento = terminal.selecionarString("Motorista digite um documento: ");
         cliente = consultaCliente(clientes, documento);
 
-        if (cliente != null) {
-            placa = terminal.selecionarString("Digite o numero da placa do carro: ");
-            veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
+        if (cliente == null) {
+            throw new EstacionamentoException("Cliente não cadastrado");
+        }
+        placa = terminal.selecionarString("Digite o numero da placa do carro: ");
+        veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
-            if (veiculo != null) {
-                numeroDaVaga = terminal.selecionarInt("Digite o numero da vaga: ");
-                vaga = consultarVaga(vagas, numeroDaVaga);
+        if (veiculo == null) {
+            throw new EstacionamentoException("Veiculo não cadastrado");
+        }
+        numeroDaVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+        vaga = consultarVaga(vagas, numeroDaVaga);
 
-                if (vaga != null) {
-                    if (vaga.getTipoVeiculo() == veiculo.getTipoVeiculo()) {
-                        if (vaga.getStatus() == VagaStatus.DISPONIVEL) {
+        if (vaga == null) {
+            throw new EstacionamentoException("Vaga de numero: " + numeroDaVaga + " não cadastrada");
+        }
 
-                            vaga.setVagaStatus("OCUPADA");
+        if (vaga.getTipoVeiculo() != veiculo.getTipoVeiculo()) {
+            throw new EstacionamentoException("O veiculo não condiz com o tipo de veiculo da vaga");
+        }
 
-                            if (vaga.getTipoVeiculo() == TipoVeiculo.CARRO)
-                                tarifa = new TarifaEstacionaBem(valorHorasCarro);
-                            else
-                                tarifa = new TarifaEstacionaBem(valorHorasMoto);
+        if (vaga.getStatus() != VagaStatus.DISPONIVEL) {
+            throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
+        }
 
-                            return new TicketEstacionaBem(cliente, vaga, veiculo, tarifa);
-
-                        } else terminal.exibir("Vaga OCUPADA ou INDISPONIVEL!");
-                    } else terminal.exibir("O veiculo não condiz com o tipo de veiculo da vaga!");
-                } else terminal.exibir("Vaga não cadastrada!");
-            } else terminal.exibir("Carro não cadastrado!");
-        } else terminal.exibir("Cliente não cadastrado!");
-
-        return null;
+        vaga.setVagaStatus("OCUPADA");
+        tarifa = new TarifaEstacionaBem(valorHoras);
+        return new TicketEstacionaBem(vaga, veiculo, tarifa);
     }
 
     public void retirar(ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets) {
