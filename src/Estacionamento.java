@@ -3,6 +3,7 @@ import ingressos.TicketEstacionaBem;
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
+import kitmenu.MenuFaturamento;
 import kitmenu.UI;
 import modelagem.Vaga;
 import tarifacao.TabelaPrecos;
@@ -24,6 +25,7 @@ public class Estacionamento
         ArrayList<TicketEstacionaBem> tickets = new ArrayList<>();
         ArrayList<TicketEstacionaBem> logTickets = new ArrayList<>();
         MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento(terminal);
+        MenuFaturamento menuFaturamento = new MenuFaturamento(terminal);
 
         byte opcaoPrincipal;
 
@@ -41,6 +43,11 @@ public class Estacionamento
                 case 3:
 
                     menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro, valorHorasMoto);
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    menuFaturamento.realizaFaturamento(logTickets);
                     break;
             }
 

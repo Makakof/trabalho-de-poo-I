@@ -6,7 +6,7 @@ public enum DiaDaSemana {
     QUARTA (2),
     QUINTA (3),
     SEXTA (4),
-    SABADO (5),
+    SÁBADO(5),
     DOMINGO (6);
 
     private int valorOpcao;
