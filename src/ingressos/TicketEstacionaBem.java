@@ -47,7 +47,7 @@ public class TicketEstacionaBem
         return dataInicio;
     }
     public LocalDateTime getDataFim() {
-        return dataInicio;
+        return dataFim;
     }
     public double getTotalPagar() {return totalPagar;}
 
