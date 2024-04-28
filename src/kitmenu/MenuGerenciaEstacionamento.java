@@ -99,8 +99,13 @@ public class MenuGerenciaEstacionamento {
         }
 
         vaga.setVagaStatus("OCUPADA");
-        tarifa = new TarifaEstacionaBem(valorHoras);
-        return new TicketEstacionaBem(vaga, veiculo, tarifa);
+
+        if(veiculo.getTipoVeiculo() == TipoVeiculo.CARRO)
+            tarifa = new TarifaEstacionaBem(valorHorasCarro);
+        else
+            tarifa = new TarifaEstacionaBem(valorHorasMoto);
+
+        return new TicketEstacionaBem(cliente, vaga, veiculo, tarifa);
     }
 
     public void retirar(ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets) {

@@ -37,7 +37,8 @@ public class Estacionamento
         {
             do 
             {
-                switch (opcaoPrincipal) {
+                switch (opcaoPrincipal)
+                {
                     case 1:
                         menuGerenciaCliente.gerenciaCliente(clientes, tickets);
                         break;
@@ -45,16 +46,17 @@ public class Estacionamento
                         menuGerenciaVagas.GerenciaVagas(vagas, tickets);
                         break;
                     case 3:
-                        menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHoras);
+                        menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro,valorHorasMoto);
                         break;
                     case 4:
-                      break;
+                        break;
                     case 5:
-                      menuFaturamento.realizaFaturamento(logTickets);
-                    break;
-            }
-            terminal.menuPrincipal();
-            opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
+                        menuFaturamento.realizaFaturamento(logTickets);
+                        break;
+                }
+                terminal.menuPrincipal();
+                opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
+            }while(opcaoPrincipal != 6);
         }
         catch (EstacionamentoException msg){
             System.out.println(msg);
