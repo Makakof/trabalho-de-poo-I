@@ -1,6 +1,7 @@
 package kitmenu;
 
 import enums.TipoVeiculo;
+import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 
@@ -33,11 +34,17 @@ public class MenuGerenciaVagas {
 
             switch (opcao) {
                 case 1:
+
                     vaga = cadastrarVaga(vagas);
-                    if(vaga != null)
-                        vagas.add(vaga);
-                    else
-                        terminal.exibir("Esta vaga já existe!");
+
+                    Vaga vagaExiste = consultarVaga(vagas, vaga.getNumeroVaga());
+
+                    if(vagaExiste != null)
+                        throw new EstacionamentoException("Esta vaga já existe!");
+
+                    vagas.add(vaga);
+                    terminal.exibir("Vaga cadastrada com sucesso!");
+
                     break;
                 case 2:
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
@@ -92,9 +99,10 @@ public class MenuGerenciaVagas {
                     numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
-                    if (vaga != null)
+                    if (vaga != null) {
                         alterarDisponibilidade(vaga);
-
+                        terminal.exibir("Disponibilidade alterada!");
+                    }
                     else
                         terminal.exibir("Não existe vaga cadastrada com este numero!");
 
@@ -132,13 +140,7 @@ public class MenuGerenciaVagas {
         String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO ou MOTO): ");
         tipo = formatarString(tipo);
 
-        Vaga vaga = consultarVaga(vagas, numeroVaga);
-        if (vaga == null){
-            vaga = new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
-            return vaga;
-        }
-
-        return null;
+        return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
 
     public byte verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionaBem> tickets)

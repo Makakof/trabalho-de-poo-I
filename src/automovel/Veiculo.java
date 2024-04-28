@@ -58,6 +58,6 @@ public class Veiculo
 
     public String toString()
     {
-        return "\nPlaca: " + placa + "\nCor: " + cor + "\nModelo: " + modelo;
+        return "\nPlaca: " + placa + "\nModelo: " + modelo + "\nCor: " + cor;
     }
 }
