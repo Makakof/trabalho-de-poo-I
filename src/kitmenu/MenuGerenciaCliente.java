@@ -128,7 +128,7 @@ public class MenuGerenciaCliente {
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
 
-                terminal.exibir("Dados do carro #" + i+1);
+                terminal.exibir("Dados do carro #" + (i+1));
                 veiculo = cadastraVeiculo();
                 cliente.addVeiculo(veiculo);
             }
@@ -227,7 +227,6 @@ public class MenuGerenciaCliente {
         if (verificaSeOVeiculoTemTicket(tickets, veiculo) == 1){
             throw new InputMismatchException("O veiculo possui ticket não pago!");
         }
-
         veiculos.remove(veiculo);
     }
 
