@@ -90,6 +90,7 @@ public class MenuGerenciaCliente {
 
                     if (clienteAtual == null) {
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
+
                     }
 
                     terminal.subMenuGerenciaVeiculos();
@@ -135,8 +136,14 @@ public class MenuGerenciaCliente {
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
 
-                terminal.exibir("Dados do carro #" + (i+1));
+                terminal.exibir("\nDados do veiculo #" + (i+1));
                 veiculo = cadastraVeiculo();
+
+                Veiculo veiculoExiste = consultarVeiculo(cliente.getVeiculos(), veiculo.getPlaca());
+
+                if (veiculoExiste != null)
+                    throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
+
                 cliente.addVeiculo(veiculo);
             }
         }
@@ -175,18 +182,26 @@ public class MenuGerenciaCliente {
                 }
                 for (Veiculo veiculoAtual : veiculos)
                     terminal.exibir(veiculoAtual.toString());
-                break;
 
+                break;
             case 2:
 
                 veiculo = cadastraVeiculo();
+
+                Veiculo veiculoExiste = consultarVeiculo(veiculos, veiculo.getPlaca());
+
+                if (veiculoExiste != null)
+                    throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
+
                 veiculos.add(veiculo);
+                terminal.exibir("Veiculo cadastrado com sucesso!");
 
                 break;
             case 3:
 
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
                 excluiVeiculo(veiculos, formatarString(placa), tickets);
+                terminal.exibir("Veiculo excluido com sucesso!");
 
                 break;
             case 4:
@@ -200,6 +215,7 @@ public class MenuGerenciaCliente {
                     veiculo.setCor(cor);
                     terminal.exibir("Cor alterada com sucesso");
                 }
+
                 break;
             default:
                 throw new EstacionamentoException("Opção inválida de menu");

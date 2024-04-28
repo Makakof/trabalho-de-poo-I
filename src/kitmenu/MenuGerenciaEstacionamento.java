@@ -59,12 +59,6 @@ public class MenuGerenciaEstacionamento {
                     gerenciarTarifas(valorHoras);
 
                     break;
-                case 5:
-
-                    for (TicketEstacionaBem ticketFor : tickets)
-                        terminal.exibir(ticketFor.toString());
-
-                    break;
             }
         } while (opcao != 5);
     }
@@ -84,7 +78,7 @@ public class MenuGerenciaEstacionamento {
         if (cliente == null) {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
-        placa = terminal.selecionarString("Digite o numero da placa do carro: ");
+        placa = terminal.selecionarString("Digite o numero da placa do veiculo: ");
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
@@ -135,6 +129,8 @@ public class MenuGerenciaEstacionamento {
             logTickets.add(ticket);
             tickets.remove(ticket);
 
+            ticket.getVaga().setVagaStatus("DISPONIVEL");
+
             terminal.exibir("Ticket encerrado com sucesso!");
 
 
@@ -148,7 +144,8 @@ public class MenuGerenciaEstacionamento {
 
     public void listarVagas(ArrayList<Vaga> vagas) {
         for (Vaga vaga : vagas)
-            terminal.exibir(vaga.toString());
+            if (vaga.getStatus() == VagaStatus.DISPONIVEL)
+                terminal.exibir(vaga.toString());
     }
 
     public void gerenciarTarifas(TabelaPrecos[] valorHoras) {
@@ -171,16 +168,16 @@ public class MenuGerenciaEstacionamento {
 
     public void cadastrarTarifa(TabelaPrecos[] valorHoras){
 
-        double valorPrimeiraHora, valorHoraSubsequente;
+        double primeiraHora, horaSubsequente;
 
         for(DiaDaSemana dia : DiaDaSemana.values()){
 
             terminal.exibir(dia.name());
-            valorPrimeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
-            valorHoraSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
+            primeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
+            horaSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
 
-            valorHoras[dia.getValorOpcao()].setPrimeiraHora(valorPrimeiraHora);
-            valorHoras[dia.getValorOpcao()].setHoraSubsequente(valorHoraSubsequente);
+            TabelaPrecos tabelaPrecos = new TabelaPrecos(primeiraHora, horaSubsequente);
+            valorHoras[dia.getValorOpcao()] = tabelaPrecos;
         }
     }
 

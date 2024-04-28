@@ -36,6 +36,7 @@ public class MenuGerenciaVagas {
                 case 1:
 
                     vaga = cadastrarVaga(vagas);
+
                     Vaga vagaExiste = consultarVaga(vagas, vaga.getNumeroVaga());
 
                     if(vagaExiste != null)
@@ -134,13 +135,7 @@ public class MenuGerenciaVagas {
         String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO ou MOTO): ");
         tipo = formatarString(tipo);
 
-        Vaga vaga = consultarVaga(vagas, numeroVaga);
-        if (vaga == null){
-            vaga = new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
-            return vaga;
-        }
-
-        return null;
+        return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
 
     public byte verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionaBem> tickets)
