@@ -20,8 +20,8 @@ public class MenuFaturamento
         String dataInicio, dataFim;
         double faturamento;
 
-        dataInicio = terminal.selecionarString("Digite a data de inicio: ");
-        dataFim = terminal.selecionarString("Digite a data de fim: ");
+        dataInicio = terminal.selecionarString("Digite a data de inicio (dia/mes/ano): ");
+        dataFim = terminal.selecionarString("Digite a data de fim (dia/mes/ano): ");
 
         faturamento = calculaFaturamento(tickets,dataInicio, dataFim);
         terminal.exibir("O faturamento no periodo selecionado foi de " + faturamento);
