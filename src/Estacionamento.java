@@ -1,5 +1,6 @@
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
@@ -31,22 +32,26 @@ public class Estacionamento
         terminal.menuPrincipal();
         opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
 
-        do {
-            switch (opcaoPrincipal) {
-                case 1:
-                    menuGerenciaCliente.gerenciaCliente(clientes, tickets);
-                    break;
-                case 2:
-                    menuGerenciaVagas.GerenciaVagas(vagas, tickets);
-                    break;
-                case 3:
-                    menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHoras);
-                    break;
+        try {
+            do {
+                switch (opcaoPrincipal) {
+                    case 1:
+                        menuGerenciaCliente.gerenciaCliente(clientes, tickets);
+                        break;
+                    case 2:
+                        menuGerenciaVagas.GerenciaVagas(vagas, tickets);
+                        break;
+                    case 3:
+                        menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHoras);
+                        break;
 
-            }
-
-            terminal.menuPrincipal();
-            opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
-        } while (opcaoPrincipal != 6);
+                }
+                terminal.menuPrincipal();
+                opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
+            } while (opcaoPrincipal != 6);
+        }
+        catch (EstacionamentoException msg){
+            System.out.println(msg);
+        }
     }
 }

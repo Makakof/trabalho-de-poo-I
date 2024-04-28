@@ -5,6 +5,7 @@ import automovel.Modelo;
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import enums.TipoVeiculo;
+import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 
 import java.security.InvalidParameterException;
@@ -87,7 +88,7 @@ public class MenuGerenciaCliente {
                         editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
                     } else {
-                        throw new InvalidParameterException("Documento " + documento + " não existe!");
+                        throw new EstacionamentoException("Documento " + documento + " não existe!");
                     }
                     break;
                 case 6:
@@ -163,12 +164,13 @@ public class MenuGerenciaCliente {
 
             case 1:
 
-                if (!veiculos.isEmpty()) {
-                    for (Veiculo veiculoAtual : veiculos)
-                        terminal.exibir(veiculoAtual.toString());
-                } else terminal.exibir("O cliente não possui veiculos cadastrados");
-
+                if (veiculos.isEmpty()) {
+                    throw new EstacionamentoException("O cliente não possui veiculos cadastrados");
+                }
+                for (Veiculo veiculoAtual : veiculos)
+                    terminal.exibir(veiculoAtual.toString());
                 break;
+
             case 2:
 
                 veiculo = cadastraVeiculo();
@@ -179,6 +181,7 @@ public class MenuGerenciaCliente {
 
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
                 excluiVeiculo(veiculos, formatarString(placa), tickets);
+
                 break;
             case 4:
 
@@ -193,8 +196,7 @@ public class MenuGerenciaCliente {
                 }
                 break;
             default:
-                terminal.exibir("Opção inválida");
-                break;
+                throw new EstacionamentoException("Opção inválida de menu");
         }
     }
 
@@ -220,7 +222,7 @@ public class MenuGerenciaCliente {
         Veiculo veiculo = consultarVeiculo(veiculos, placa);
 
         if (veiculo == null) {
-            throw new InputMismatchException("A placa: " + placa + " não existe");
+            throw new EstacionamentoException("A placa: " + placa + " não existe");
         }
 
         if (verificaSeOVeiculoTemTicket(tickets, veiculo) == 1){
