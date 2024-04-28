@@ -28,4 +28,11 @@ public class TabelaPrecos
     public void setHoraSubsequente(double horaSubsequente) {
         this.horaSubsequente = horaSubsequente;
     }
+
+    public String toString(){
+        return "Valor primeira Hora: "
+                + String.format("%.2f", primeiraHora)
+                + "\nValor hora subsequente: "
+                + String.format("%.2f", horaSubsequente);
+    }
 }

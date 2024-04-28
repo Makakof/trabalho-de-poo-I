@@ -108,6 +108,16 @@ public class UI {
         return opcao;
     }
 
+    public double selecionarDouble(String msg) {
+        Scanner scanner = new Scanner(System.in);
+        double opcao;
+
+        System.out.print(msg);
+        opcao = scanner.nextDouble();
+
+        return opcao;
+    }
+
     public byte selecionarByte() {
         Scanner scanner = new Scanner(System.in);
         byte opcao;

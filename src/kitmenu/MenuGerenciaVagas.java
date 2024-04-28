@@ -19,7 +19,7 @@ public class MenuGerenciaVagas {
         return string.toUpperCase().replaceAll("\\s", "");
     }
 
-    public void GerenciaVagas(ArrayList<Vaga> vagas, ArrayList<TicketEstacionaBem> tickets) {
+    public void GerenciarVagas(ArrayList<Vaga> vagas, ArrayList<TicketEstacionaBem> tickets) {
 
         byte opcao;
         int numeroVaga;
