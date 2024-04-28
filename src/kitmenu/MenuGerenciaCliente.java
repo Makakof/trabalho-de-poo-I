@@ -203,16 +203,17 @@ public class MenuGerenciaCliente {
     public Veiculo cadastraVeiculo() {
         String placa, modelo, cor, tipo;
 
-        placa = terminal.selecionarString("Digite a placa do carro: ");
+        placa = terminal.selecionarString("Digite a placa do veiculo: ");
 
-        modelo = terminal.selecionarString("Digite o modelo do carro: ");
+        modelo = terminal.selecionarString("Digite o modelo do veiculo: ");
         Modelo modeloCarro = new Modelo(modelo);
+
+        cor = terminal.selecionarString("Digite a cor do veiculo: ");
+        Cor corCarro = new Cor(cor);
 
         tipo = terminal.selecionarString("Digite se seu veiculo é carro ou moto: ");
         tipo = formatarString(tipo);
 
-        cor = terminal.selecionarString("Digite a cor do carro: ");
-        Cor corCarro = new Cor(cor);
 
         return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));
     }

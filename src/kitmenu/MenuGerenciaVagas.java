@@ -129,7 +129,7 @@ public class MenuGerenciaVagas {
         int numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
         String rua = terminal.selecionarString("Digite o nome da rua: ");
 
-        String tipo = terminal.selecionarString("Digite se seu veiculo é carro ou moto: ");
+        String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO ou MOTO): ");
         tipo = formatarString(tipo);
 
         Vaga vaga = consultarVaga(vagas, numeroVaga);

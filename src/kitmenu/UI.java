@@ -44,10 +44,10 @@ public class UI {
 
     }
 
-    public void menuUpdate() {
+    public void menuGerenciaTarifas() {
         exibir("================================================");
         exibir("# 1 - Cadastrar");
-        exibir("# 2 - Consultar por documento");
+        exibir("# 2 - Editar");
         exibir("================================================");
 
     }

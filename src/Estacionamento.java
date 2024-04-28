@@ -4,6 +4,7 @@ import ingressos.TicketEstacionaBem;
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
+import kitmenu.MenuFaturamento;
 import kitmenu.UI;
 import modelagem.Vaga;
 import tarifacao.TabelaPrecos;
@@ -25,15 +26,17 @@ public class Estacionamento
         ArrayList<TicketEstacionaBem> tickets = new ArrayList<>();
         ArrayList<TicketEstacionaBem> logTickets = new ArrayList<>();
         MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento(terminal);
+        MenuFaturamento menuFaturamento = new MenuFaturamento(terminal);
 
         byte opcaoPrincipal;
 
         terminal.menuPrincipal();
         opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
 
-<<<<<<< HEAD
-        try {
-            do {
+        try 
+        {
+            do 
+            {
                 switch (opcaoPrincipal) {
                     case 1:
                         menuGerenciaCliente.gerenciaCliente(clientes, tickets);
@@ -44,24 +47,14 @@ public class Estacionamento
                     case 3:
                         menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHoras);
                         break;
-=======
-        do {
-            switch (opcaoPrincipal) {
-                case 1:
-                    menuGerenciaCliente.gerenciaCliente(clientes, tickets);
+                    case 4:
+                      break;
+                    case 5:
+                      menuFaturamento.realizaFaturamento(logTickets);
                     break;
-                case 2:
-                    menuGerenciaVagas.GerenciaVagas(vagas, tickets);
-                    break;
-                case 3:
-                    menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro, valorHorasMoto);
-                    break;
->>>>>>> b2a5e70c5d487a2714ef7f488ba42bb600697181
-
-                }
-                terminal.menuPrincipal();
-                opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
-            } while (opcaoPrincipal != 6);
+            }
+            terminal.menuPrincipal();
+            opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
         }
         catch (EstacionamentoException msg){
             System.out.println(msg);
