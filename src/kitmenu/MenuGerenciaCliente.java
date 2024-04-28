@@ -8,7 +8,6 @@ import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
@@ -27,7 +26,7 @@ public class MenuGerenciaCliente {
         return string.toUpperCase().replaceAll("\\s", "");
     }
 
-    public void gerenciaCliente(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets) {
+    public void gerenciarCliente(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets) {
         Cliente cliente;
         String documento;
         byte opcao;

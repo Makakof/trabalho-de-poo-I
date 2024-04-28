@@ -15,7 +15,7 @@ public class MenuFaturamento
         this.terminal = terminal;
     }
 
-    public void realizaFaturamento(ArrayList<TicketEstacionaBem> tickets)
+    public void realizarFaturamento(ArrayList<TicketEstacionaBem> tickets)
     {
         String dataInicio, dataFim;
         double faturamento;

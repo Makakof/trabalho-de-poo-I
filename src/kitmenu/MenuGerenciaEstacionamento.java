@@ -3,6 +3,7 @@ package kitmenu;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import enums.DiaDaSemana;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
@@ -14,17 +15,21 @@ import tarifacao.TabelaPrecos;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 public class MenuGerenciaEstacionamento {
 
-    UI terminal = UI.getInstance();
+    private UI terminal;
 
     public MenuGerenciaEstacionamento(UI terminal) {
         this.terminal = terminal;
     }
 
-    public void gerenciaEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
+    public static String formatarString(String string)
+    {
+        return string.toUpperCase().replaceAll("\\s", "");
+    }
+
+    public void gerenciarEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
 
         byte opcao;
 
@@ -50,7 +55,9 @@ public class MenuGerenciaEstacionamento {
                     break;
                 case 4:
 
-//                    gerenciarTarifas(valorHorasCarro, valorHorasMoto);
+                    TabelaPrecos[] valorHoras = selecionarArray(valorHorasCarro, valorHorasMoto);
+                    gerenciarTarifas(valorHoras);
+
                     break;
                 case 5:
 
@@ -72,7 +79,7 @@ public class MenuGerenciaEstacionamento {
         TarifaEstacionaBem tarifa;
 
         documento = terminal.selecionarString("Motorista digite um documento: ");
-        cliente = consultaCliente(clientes, documento);
+        cliente = consultarCliente(clientes, documento);
 
         if (cliente == null) {
             throw new EstacionamentoException("Cliente não cadastrado");
@@ -121,15 +128,12 @@ public class MenuGerenciaEstacionamento {
 
             ticket.encerrarTicket();
 
-            ticketCopia = (TicketEstacionaBem) tickets.clone();
-
-            totalHoras = calculaHoras(ticket.getDataInicio(), ticket.getDataFim());
+            totalHoras = calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
             terminal.exibir("Tempo total: " + totalHoras);
             terminal.exibir("Total a pagar: " + ticket.getTotalPagar());
 
+            logTickets.add(ticket);
             tickets.remove(ticket);
-
-            logTickets.add(ticketCopia);
 
             terminal.exibir("Ticket encerrado com sucesso!");
 
@@ -137,7 +141,7 @@ public class MenuGerenciaEstacionamento {
         } else terminal.exibir("Ticket não cadastrado!");
     }
 
-    public long calculaHoras(LocalDateTime dataInicio, LocalDateTime dataFim){
+    public long calcularHoras(LocalDateTime dataInicio, LocalDateTime dataFim){
 
         return dataInicio.until(dataFim, ChronoUnit.HOURS);
     }
@@ -147,7 +151,7 @@ public class MenuGerenciaEstacionamento {
             terminal.exibir(vaga.toString());
     }
 
-    public void gerenciarTarifas() {
+    public void gerenciarTarifas(TabelaPrecos[] valorHoras) {
 
         byte opcao;
 
@@ -157,13 +161,66 @@ public class MenuGerenciaEstacionamento {
         switch (opcao)
         {
             case 1:
+                cadastrarTarifa(valorHoras);
                 break;
             case 2:
+                editarTarifa(valorHoras);
                 break;
         }
     }
 
-    public Cliente consultaCliente(ArrayList<Cliente> clientes, String documento) {
+    public void cadastrarTarifa(TabelaPrecos[] valorHoras){
+
+        double valorPrimeiraHora, valorHoraSubsequente;
+
+        for(DiaDaSemana dia : DiaDaSemana.values()){
+
+            terminal.exibir(dia.name());
+            valorPrimeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
+            valorHoraSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
+
+            valorHoras[dia.getValorOpcao()].setPrimeiraHora(valorPrimeiraHora);
+            valorHoras[dia.getValorOpcao()].setHoraSubsequente(valorHoraSubsequente);
+        }
+    }
+
+    public void editarTarifa(TabelaPrecos[] valorHoras){
+
+        mostraTabelaPrecos(valorHoras);
+        String diaDaSemana = terminal.selecionarString("Digite o dia da semana que deseja alterar: ");
+        double primeiraHora = terminal.selecionarDouble("Valor primeira hora: ");
+        double horaSubsequente = terminal.selecionarDouble("Valor hora subsequente: ");
+
+        diaDaSemana = formatarString(diaDaSemana);
+        DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
+
+        valorHoras[dia.getValorOpcao()].setPrimeiraHora(primeiraHora);
+        valorHoras[dia.getValorOpcao()].setHoraSubsequente(horaSubsequente);
+    }
+
+    public void mostraTabelaPrecos(TabelaPrecos[] valorHoras){
+
+        terminal.exibir("*************************");
+        for(DiaDaSemana dia: DiaDaSemana.values()){
+            terminal.exibir(dia.name());
+            terminal.exibir(valorHoras[dia.getValorOpcao()].toString());
+            terminal.exibir("--------------------------");
+        }
+
+    }
+
+    public TabelaPrecos[] selecionarArray(TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto)
+    {
+        String tipo = terminal.selecionarString("Digite o tipo do veiculo (CARRO ou MOTO): ");
+        tipo = formatarString(tipo);
+
+        if (TipoVeiculo.CARRO == TipoVeiculo.valueOf(tipo))
+            return valorHorasCarro;
+        else
+            return valorHorasMoto;
+    }
+
+    public Cliente consultarCliente(ArrayList<Cliente> clientes, String documento) {
 
         for (Cliente clienteAtual : clientes) {
             if (clienteAtual.getDocumento().equals(documento)) return clienteAtual;

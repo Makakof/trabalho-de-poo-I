@@ -30,32 +30,30 @@ public class Estacionamento
 
         byte opcaoPrincipal;
 
-        terminal.menuPrincipal();
-        opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
-
         try 
         {
             do 
             {
+                terminal.menuPrincipal();
+                opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
+
                 switch (opcaoPrincipal)
                 {
                     case 1:
-                        menuGerenciaCliente.gerenciaCliente(clientes, tickets);
+                        menuGerenciaCliente.gerenciarCliente(clientes, tickets);
                         break;
                     case 2:
-                        menuGerenciaVagas.GerenciaVagas(vagas, tickets);
+                        menuGerenciaVagas.GerenciarVagas(vagas, tickets);
                         break;
                     case 3:
-                        menuGerenciaEstacionamento.gerenciaEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro,valorHorasMoto);
+                        menuGerenciaEstacionamento.gerenciarEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro,valorHorasMoto);
                         break;
                     case 4:
                         break;
                     case 5:
-                        menuFaturamento.realizaFaturamento(logTickets);
+                        menuFaturamento.realizarFaturamento(logTickets);
                         break;
                 }
-                terminal.menuPrincipal();
-                opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
             }while(opcaoPrincipal != 6);
         }
         catch (EstacionamentoException msg){
