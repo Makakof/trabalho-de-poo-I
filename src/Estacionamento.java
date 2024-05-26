@@ -1,4 +1,5 @@
 import cliente.estacionabem.Cliente;
+import enums.DiaDaSemana;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import kitmenu.MenuGerenciaCliente;
@@ -8,6 +9,8 @@ import kitmenu.MenuFaturamento;
 import kitmenu.UI;
 import modelagem.Vaga;
 import tarifacao.TabelaPrecos;
+import tarifacao.TarifaEstacionamento;
+
 import java.util.ArrayList;
 
 
@@ -19,8 +22,7 @@ public class Estacionamento
         UI terminal = UI.getInstance();
         ArrayList<Cliente> clientes = new ArrayList<>();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
-        TabelaPrecos[] valorHorasCarro = new TabelaPrecos[7];
-        TabelaPrecos[] valorHorasMoto = new TabelaPrecos[7];
+        ArrayList<TarifaEstacionamento> listaTarifas = new ArrayList<>();
         ArrayList<Vaga> vagas = new ArrayList<>();
         MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas(terminal);
         ArrayList<TicketEstacionaBem> tickets = new ArrayList<>();
@@ -46,7 +48,7 @@ public class Estacionamento
                         menuGerenciaVagas.GerenciarVagas(vagas, tickets);
                         break;
                     case 3:
-                        menuGerenciaEstacionamento.gerenciarEstacionamento(clientes, tickets, logTickets, vagas, valorHorasCarro,valorHorasMoto);
+                        menuGerenciaEstacionamento.gerenciarEstacionamento(clientes, tickets, logTickets, vagas);
                         break;
                     case 4:
                         break;

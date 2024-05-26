@@ -1,18 +1,17 @@
 package tarifacao;
 
 import enums.DiaDaSemana;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Locale;
+import java.util.ArrayList;
 
+public abstract class TarifaEstacionamento {
 
-public class TarifaEstacionaBem
-{
     private LocalDateTime dataInicio;
     private double valorPrimeiraHora;
     private double valorHoraSubsequente;
-    private DiaDaSemana diaDaSemana;
+    private ArrayList<DiaDaSemana> diaDaSemana;
 
     /*
     O modificador 'static' foi utilizado para o objeto formatadorData porque, embora seja acessível a todos os objetos da
@@ -21,13 +20,15 @@ public class TarifaEstacionaBem
      */
     public static DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    public TarifaEstacionaBem() {
-    }
-
-    public TarifaEstacionaBem(double valorPrimeiraHora, double valorHoraSubsequente, DiaDaSemana diaDaSemana) {
+    public TarifaEstacionamento(double valorPrimeiraHora, double valorHoraSubsequente, ArrayList<DiaDaSemana> diaDaSemana) {
         this.dataInicio = LocalDateTime.now();
         this.valorPrimeiraHora = valorPrimeiraHora;
         this.valorHoraSubsequente = valorHoraSubsequente;
+        this.diaDaSemana = diaDaSemana;
+    }
+
+    public TarifaEstacionamento (ArrayList<DiaDaSemana> diaDaSemana) {
+        this.dataInicio = LocalDateTime.now();
         this.diaDaSemana = diaDaSemana;
     }
 
@@ -43,21 +44,14 @@ public class TarifaEstacionaBem
         return valorHoraSubsequente;
     }
 
-    public DiaDaSemana getDiaDaSemana() {
+    public ArrayList<DiaDaSemana> getDiaDaSemana() {
         return diaDaSemana;
-    }
-
-    public String diaDaSemanaString(LocalDateTime data){
-
-        String dia = data.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase();
-        dia = dia.replace("-FEIRA", "");
-        return dia;
     }
 
     public String toString()
     {
         return "\nData inicio: " + dataInicio.format(formatadorData) +
-                "\nDia: " + diaDaSemana.toString() +
+                "\nDias: " + diaDaSemana +
                 "\nValor 1ºhora: " + valorPrimeiraHora +
                 "\nValor após 1ºhora: " + valorHoraSubsequente;
     }
