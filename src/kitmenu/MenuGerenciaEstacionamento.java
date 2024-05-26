@@ -3,6 +3,7 @@ package kitmenu;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import dados.Repositorio;
 import enums.DiaDaSemana;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
@@ -14,6 +15,7 @@ import tarifacao.TabelaPrecos;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
 import tarifacao.TarifaMensalista;
+import utilitarios.StringUtil;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -23,16 +25,17 @@ public class MenuGerenciaEstacionamento {
 
     private UI terminal;
 
-    public MenuGerenciaEstacionamento(UI terminal) {
-        this.terminal = terminal;
+    public MenuGerenciaEstacionamento() {
+        this.terminal = UI.getInstance();
     }
 
-    public static String formatarString(String string)
-    {
-        return string.toUpperCase().replaceAll("\\s", "");
-    }
 
-    public void gerenciarEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas) {
+    public void gerenciarEstacionamento() {
+        SubMenuGerenciaTarifas subMenuGerenciaTarifas = new SubMenuGerenciaTarifas();
+        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getTickets();
+        ArrayList<TicketEstacionaBem> logTickets = Repositorio.getInstance().getLogTickets();
+        ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
+        ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
 
         byte opcao;
 
@@ -57,9 +60,7 @@ public class MenuGerenciaEstacionamento {
                     listarVagas(vagas);
                     break;
                 case 4:
-
-                    gerenciarTarifas();
-
+                    subMenuGerenciaTarifas.gerenciarTarifas();
                     break;
             }
         } while (opcao != 5);
@@ -150,91 +151,6 @@ public class MenuGerenciaEstacionamento {
                 terminal.exibir(vaga.toString());
     }
 
-    public void gerenciarTarifas() {
-
-        byte opcao;
-
-        terminal.menuGerenciaTarifas();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
-
-        switch (opcao)
-        {
-            case 1:
-                cadastrarTarifa();
-                break;
-            case 2:
-                editarTarifa();
-                break;
-        }
-    }
-
-    public TarifaEstacionamento cadastrarTarifa(){
-
-        TarifaEstacionamento tarifa;
-
-        terminal.exibir("1-mensalista 2-horista");
-        byte tipoTarifa = terminal.selecionarByte("Escolha um tipo de tarifa: ");
-
-        if (tipoTarifa == 1)
-            tarifa = cadastrarTarifaMensalista();
-
-        else
-            tarifa = cadastrarTarifaHorista();
-
-        return tarifa;
-    }
-
-    public TarifaMensalista cadastrarTarifaMensalista () {
-
-        double valorIntegral;
-        ArrayList<DiaDaSemana> dias = new ArrayList<>();
-
-        valorIntegral = terminal.selecionarDouble("Valor integral: ");
-
-        dias = inicializarDiasDaSemana();
-
-        return new TarifaMensalista(valorIntegral, dias);
-    }
-
-    public TarifaHorista cadastrarTarifaHorista () {
-
-        double primeiraHora, horaSubsequente;
-        ArrayList<DiaDaSemana> dias = new ArrayList<>();
-
-        primeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
-        horaSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
-
-        dias = inicializarDiasDaSemana();
-
-        return new TarifaHorista(primeiraHora, horaSubsequente, dias);
-    }
-
-    public ArrayList<DiaDaSemana> inicializarDiasDaSemana() {
-
-        ArrayList<DiaDaSemana> diaDaSemana = new ArrayList<>();
-        terminal.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
-        terminal.exibir("Digite os dias da semana dessa tarifa separados por virgula e sem pontuação:");
-        String string = terminal.selecionarString();
-        string = formatarString(string);
-
-        String[] partes = string.split(",");
-
-        for(int i = 0; i<partes.length; i++){
-            diaDaSemana.add(DiaDaSemana.valueOf(partes[i]));
-        }
-
-        return diaDaSemana;
-    }
-
-    public void editarTarifa(){
-
-        String diaDaSemana = terminal.selecionarString("Digite o dia da semana que deseja alterar: ");
-        double primeiraHora = terminal.selecionarDouble("Valor primeira hora: ");
-        double horaSubsequente = terminal.selecionarDouble("Valor hora subsequente: ");
-
-        diaDaSemana = formatarString(diaDaSemana);
-        DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
-    }
 
     public Cliente consultarCliente(ArrayList<Cliente> clientes, String documento) {
 

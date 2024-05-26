@@ -1,32 +1,27 @@
 package kitmenu;
 
-import automovel.Cor;
-import automovel.Modelo;
+
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
-import enums.TipoVeiculo;
+import dados.Repositorio;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
+
 
 public class MenuGerenciaCliente {
 
     private UI terminal;
 
     public MenuGerenciaCliente() {
+        this.terminal = UI.getInstance();
     }
 
-    public MenuGerenciaCliente(UI terminal) {
-        this.terminal = terminal;
-    }
-
-    public static String formatarString(String string) {
-        return string.toUpperCase().replaceAll("\\s", "");
-    }
-
-    public void gerenciarCliente(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets) {
+    public void gerenciarCliente() {
+        SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
+        ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
+        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getTickets();
         Cliente cliente;
         String documento;
         byte opcao;
@@ -37,6 +32,7 @@ public class MenuGerenciaCliente {
         do {
             switch (opcao) {
                 case 1:
+
                     cliente = cadastrarCliente();
                     clientes.add(cliente);
                     break;
@@ -95,7 +91,7 @@ public class MenuGerenciaCliente {
 
                     terminal.subMenuGerenciaVeiculos();
                     opcaoSubmenu = terminal.selecionarByte();
-                    editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
+                    subMenuEditarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
                     break;
                 case 6:
@@ -115,14 +111,16 @@ public class MenuGerenciaCliente {
 
     public byte verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionaBem> tickets)
     {
+        SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
         for(Veiculo veiculo : veiculos)
-            if(verificaSeOVeiculoTemTicket(tickets, veiculo) == 1)
+            if(subMenuEditarVeiculos.verificaSeOVeiculoTemTicket(tickets, veiculo) == 1)
                 return 1;
 
         return 0;
     }
 
     public Cliente cadastrarCliente() {
+        SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
         Veiculo veiculo;
         String nome, documento;
         int qtdCarros;
@@ -137,9 +135,9 @@ public class MenuGerenciaCliente {
             for (int i = 0; i < qtdCarros; i++) {
 
                 terminal.exibir("\nDados do veiculo #" + (i+1));
-                veiculo = cadastraVeiculo();
+                veiculo = subMenuEditarVeiculos.cadastraVeiculo();
 
-                Veiculo veiculoExiste = consultarVeiculo(cliente.getVeiculos(), veiculo.getPlaca());
+                Veiculo veiculoExiste = subMenuEditarVeiculos.consultarVeiculo(cliente.getVeiculos(), veiculo.getPlaca());
 
                 if (veiculoExiste != null)
                     throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
@@ -158,111 +156,4 @@ public class MenuGerenciaCliente {
 
         return null;
     }
-
-    public Veiculo consultarVeiculo(ArrayList<Veiculo> veiculos, String placa) {
-
-        for (Veiculo veiculoAtual : veiculos) {
-            if (veiculoAtual.getPlaca().equals(placa)) return veiculoAtual;
-        }
-
-        return null;
-    }
-
-
-    public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionaBem> tickets) {
-        Veiculo veiculo = new Veiculo();
-        String nomeCor, placa;
-
-        switch (opcao) {
-
-            case 1:
-
-                if (veiculos.isEmpty()) {
-                    throw new EstacionamentoException("O cliente não possui veiculos cadastrados");
-                }
-                for (Veiculo veiculoAtual : veiculos)
-                    terminal.exibir(veiculoAtual.toString());
-
-                break;
-            case 2:
-
-                veiculo = cadastraVeiculo();
-
-                Veiculo veiculoExiste = consultarVeiculo(veiculos, veiculo.getPlaca());
-
-                if (veiculoExiste != null)
-                    throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
-
-                veiculos.add(veiculo);
-                terminal.exibir("Veiculo cadastrado com sucesso!");
-
-                break;
-            case 3:
-
-                placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
-                excluiVeiculo(veiculos, formatarString(placa), tickets);
-                terminal.exibir("Veiculo excluido com sucesso!");
-
-                break;
-            case 4:
-
-                placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
-                placa = Veiculo.formatarString(placa);
-                veiculo = consultarVeiculo(veiculos, placa);
-                if (veiculo != null) {
-                    nomeCor = terminal.selecionarString("Digite a nova cor: ");
-                    Cor cor = new Cor(nomeCor);
-                    veiculo.setCor(cor);
-                    terminal.exibir("Cor alterada com sucesso");
-                }
-
-                break;
-            default:
-                throw new EstacionamentoException("Opção inválida de menu");
-        }
-    }
-
-    public Veiculo cadastraVeiculo() {
-        String placa, modelo, cor, tipo;
-
-        placa = terminal.selecionarString("Digite a placa do veiculo: ");
-
-        modelo = terminal.selecionarString("Digite o modelo do veiculo: ");
-        Modelo modeloCarro = new Modelo(modelo);
-
-        cor = terminal.selecionarString("Digite a cor do veiculo: ");
-        Cor corCarro = new Cor(cor);
-
-        tipo = terminal.selecionarString("Digite se seu veiculo é carro ou moto: ");
-        tipo = formatarString(tipo);
-
-
-        return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));
-    }
-
-    public void excluiVeiculo(ArrayList<Veiculo> veiculos, String placa, ArrayList<TicketEstacionaBem> tickets) {
-
-        Veiculo veiculo = consultarVeiculo(veiculos, placa);
-
-        if (veiculo == null) {
-            throw new EstacionamentoException("A placa: " + placa + " não existe");
-        }
-
-        if (verificaSeOVeiculoTemTicket(tickets, veiculo) == 1){
-            throw new InputMismatchException("O veiculo possui ticket não pago!");
-        }
-        veiculos.remove(veiculo);
-    }
-
-    public byte verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionaBem> tikets, Veiculo veiculo) {
-        for (TicketEstacionaBem ticket : tikets) {
-
-            String placaVeiculoTicket = ticket.getVeiculo().getPlaca();
-
-            if (veiculo.getPlaca().equals(placaVeiculoTicket))
-                return 1;
-        }
-        return 0;
-    }
-
 }

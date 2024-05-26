@@ -1,17 +1,12 @@
-import cliente.estacionabem.Cliente;
-import enums.DiaDaSemana;
+
 import excecoes.EstacionamentoException;
-import ingressos.TicketEstacionaBem;
+
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
 import kitmenu.MenuFaturamento;
 import kitmenu.UI;
-import modelagem.Vaga;
-import tarifacao.TabelaPrecos;
-import tarifacao.TarifaEstacionamento;
 
-import java.util.ArrayList;
 
 
 public class Estacionamento
@@ -20,16 +15,10 @@ public class Estacionamento
     {
 
         UI terminal = UI.getInstance();
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente(terminal);
-        ArrayList<TarifaEstacionamento> listaTarifas = new ArrayList<>();
-        ArrayList<Vaga> vagas = new ArrayList<>();
-        MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas(terminal);
-        ArrayList<TicketEstacionaBem> tickets = new ArrayList<>();
-        ArrayList<TicketEstacionaBem> logTickets = new ArrayList<>();
-        MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento(terminal);
-        MenuFaturamento menuFaturamento = new MenuFaturamento(terminal);
-
+        MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente();
+        MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas();
+        MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento();
+        MenuFaturamento menuFaturamento = new MenuFaturamento();
         byte opcaoPrincipal;
 
         try 
@@ -42,18 +31,18 @@ public class Estacionamento
                 switch (opcaoPrincipal)
                 {
                     case 1:
-                        menuGerenciaCliente.gerenciarCliente(clientes, tickets);
+                        menuGerenciaCliente.gerenciarCliente();
                         break;
                     case 2:
-                        menuGerenciaVagas.GerenciarVagas(vagas, tickets);
+                        menuGerenciaVagas.GerenciarVagas();
                         break;
                     case 3:
-                        menuGerenciaEstacionamento.gerenciarEstacionamento(clientes, tickets, logTickets, vagas);
+                        menuGerenciaEstacionamento.gerenciarEstacionamento();
                         break;
                     case 4:
                         break;
                     case 5:
-                        menuFaturamento.realizarFaturamento(logTickets);
+                        menuFaturamento.realizarFaturamento();
                         break;
                 }
             }while(opcaoPrincipal != 6);
