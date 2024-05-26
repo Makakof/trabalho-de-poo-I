@@ -11,6 +11,9 @@ import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionaBem;
 import tarifacao.TabelaPrecos;
+import tarifacao.TarifaEstacionamento;
+import tarifacao.TarifaHorista;
+import tarifacao.TarifaMensalista;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -29,7 +32,7 @@ public class MenuGerenciaEstacionamento {
         return string.toUpperCase().replaceAll("\\s", "");
     }
 
-    public void gerenciarEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
+    public void gerenciarEstacionamento(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets, ArrayList<Vaga> vagas) {
 
         byte opcao;
 
@@ -41,7 +44,7 @@ public class MenuGerenciaEstacionamento {
             switch (opcao) {
                 case 1:
 
-                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas, valorHorasCarro, valorHorasMoto);
+                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas);
                     if (ticket != null) tickets.add(ticket);
 
                     break;
@@ -55,15 +58,14 @@ public class MenuGerenciaEstacionamento {
                     break;
                 case 4:
 
-                    TabelaPrecos[] valorHoras = selecionarArray(valorHorasCarro, valorHorasMoto);
-                    gerenciarTarifas(valorHoras);
+                    gerenciarTarifas();
 
                     break;
             }
         } while (opcao != 5);
     }
 
-    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas, TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto) {
+    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas) {
 
         int numeroDaVaga;
         String documento, placa;
@@ -99,12 +101,12 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
         }
 
-        vaga.setVagaStatus("OCUPADA");
+        vaga.setVagaStatus(VagaStatus.OCUPADA);
 
         if(veiculo.getTipoVeiculo() == TipoVeiculo.CARRO)
-            tarifa = new TarifaEstacionaBem(valorHorasCarro);
+            tarifa = new TarifaEstacionaBem();
         else
-            tarifa = new TarifaEstacionaBem(valorHorasMoto);
+            tarifa = new TarifaEstacionaBem();
 
         return new TicketEstacionaBem(cliente, vaga, veiculo, tarifa);
     }
@@ -129,7 +131,7 @@ public class MenuGerenciaEstacionamento {
             logTickets.add(ticket);
             tickets.remove(ticket);
 
-            ticket.getVaga().setVagaStatus("DISPONIVEL");
+            ticket.getVaga().setVagaStatus(VagaStatus.DISPONIVEL);
 
             terminal.exibir("Ticket encerrado com sucesso!");
 
@@ -148,7 +150,7 @@ public class MenuGerenciaEstacionamento {
                 terminal.exibir(vaga.toString());
     }
 
-    public void gerenciarTarifas(TabelaPrecos[] valorHoras) {
+    public void gerenciarTarifas() {
 
         byte opcao;
 
@@ -158,63 +160,80 @@ public class MenuGerenciaEstacionamento {
         switch (opcao)
         {
             case 1:
-                cadastrarTarifa(valorHoras);
+                cadastrarTarifa();
                 break;
             case 2:
-                editarTarifa(valorHoras);
+                editarTarifa();
                 break;
         }
     }
 
-    public void cadastrarTarifa(TabelaPrecos[] valorHoras){
+    public TarifaEstacionamento cadastrarTarifa(){
 
-        double primeiraHora, horaSubsequente;
+        TarifaEstacionamento tarifa;
 
-        for(DiaDaSemana dia : DiaDaSemana.values()){
+        terminal.exibir("1-mensalista 2-horista");
+        byte tipoTarifa = terminal.selecionarByte("Escolha um tipo de tarifa: ");
 
-            terminal.exibir(dia.name());
-            primeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
-            horaSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
+        if (tipoTarifa == 1)
+            tarifa = cadastrarTarifaMensalista();
 
-            TabelaPrecos tabelaPrecos = new TabelaPrecos(primeiraHora, horaSubsequente);
-            valorHoras[dia.getValorOpcao()] = tabelaPrecos;
-        }
+        else
+            tarifa = cadastrarTarifaHorista();
+
+        return tarifa;
     }
 
-    public void editarTarifa(TabelaPrecos[] valorHoras){
+    public TarifaMensalista cadastrarTarifaMensalista () {
 
-        mostraTabelaPrecos(valorHoras);
+        double valorIntegral;
+        ArrayList<DiaDaSemana> dias = new ArrayList<>();
+
+        valorIntegral = terminal.selecionarDouble("Valor integral: ");
+
+        dias = inicializarDiasDaSemana();
+
+        return new TarifaMensalista(valorIntegral, dias);
+    }
+
+    public TarifaHorista cadastrarTarifaHorista () {
+
+        double primeiraHora, horaSubsequente;
+        ArrayList<DiaDaSemana> dias = new ArrayList<>();
+
+        primeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
+        horaSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
+
+        dias = inicializarDiasDaSemana();
+
+        return new TarifaHorista(primeiraHora, horaSubsequente, dias);
+    }
+
+    public ArrayList<DiaDaSemana> inicializarDiasDaSemana() {
+
+        ArrayList<DiaDaSemana> diaDaSemana = new ArrayList<>();
+        terminal.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
+        terminal.exibir("Digite os dias da semana dessa tarifa separados por virgula e sem pontuação:");
+        String string = terminal.selecionarString();
+        string = formatarString(string);
+
+        String[] partes = string.split(",");
+
+        for(int i = 0; i<partes.length; i++){
+            diaDaSemana.add(DiaDaSemana.valueOf(partes[i]));
+        }
+
+        return diaDaSemana;
+    }
+
+    public void editarTarifa(){
+
         String diaDaSemana = terminal.selecionarString("Digite o dia da semana que deseja alterar: ");
         double primeiraHora = terminal.selecionarDouble("Valor primeira hora: ");
         double horaSubsequente = terminal.selecionarDouble("Valor hora subsequente: ");
 
         diaDaSemana = formatarString(diaDaSemana);
         DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
-
-        valorHoras[dia.getValorOpcao()].setPrimeiraHora(primeiraHora);
-        valorHoras[dia.getValorOpcao()].setHoraSubsequente(horaSubsequente);
-    }
-
-    public void mostraTabelaPrecos(TabelaPrecos[] valorHoras){
-
-        terminal.exibir("*************************");
-        for(DiaDaSemana dia: DiaDaSemana.values()){
-            terminal.exibir(dia.name());
-            terminal.exibir(valorHoras[dia.getValorOpcao()].toString());
-            terminal.exibir("--------------------------");
-        }
-
-    }
-
-    public TabelaPrecos[] selecionarArray(TabelaPrecos[] valorHorasCarro, TabelaPrecos[] valorHorasMoto)
-    {
-        String tipo = terminal.selecionarString("Digite o tipo do veiculo (CARRO ou MOTO): ");
-        tipo = formatarString(tipo);
-
-        if (TipoVeiculo.CARRO == TipoVeiculo.valueOf(tipo))
-            return valorHorasCarro;
-        else
-            return valorHorasMoto;
     }
 
     public Cliente consultarCliente(ArrayList<Cliente> clientes, String documento) {

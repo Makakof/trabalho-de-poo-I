@@ -44,8 +44,8 @@ public class Vaga
         this.rua = rua;
     }
 
-    public void setVagaStatus (String status){
-        this.status = VagaStatus.valueOf(status);
+    public void setVagaStatus (VagaStatus status){
+        this.status = status;
     }
 
     public String toString(){

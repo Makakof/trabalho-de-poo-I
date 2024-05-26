@@ -59,7 +59,7 @@ public class TicketEstacionaBem
         long diferencaHoras;
 
         diferencaHoras = dataInicio.until(dataFim, ChronoUnit.HOURS);
-        //TODO verificar se a funcao arredonda o valor da hora pra mais ou pra menos
+
         if(diferencaHoras > 1)
         {
             totalPagar = tarifaEstacionaBem.getValorPrimeiraHora();

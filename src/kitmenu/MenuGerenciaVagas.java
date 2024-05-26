@@ -1,6 +1,8 @@
 package kitmenu;
 
+import enums.DiaDaSemana;
 import enums.TipoVeiculo;
+import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
@@ -112,9 +114,8 @@ public class MenuGerenciaVagas {
     public void alterarDisponibilidade(Vaga vagas) {
 
         terminal.exibir("1-DISPONIVEL 2-INDISPONIVEL 3-OCUPADA");
-        String status = terminal.selecionarString("Alterar disponibilidade para: ");
-        status = formatarString(status);
-        vagas.setVagaStatus(status);
+        int status = terminal.selecionarInt("escolha uma opção para alterar a disponibilidade: ");
+        vagas.setVagaStatus(VagaStatus.values()[status]);
     }
 
     public Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
