@@ -1,6 +1,7 @@
 package automovel;
 
 import enums.TipoVeiculo;
+import utilitarios.StringUtil;
 
 public class Veiculo
 {
@@ -14,7 +15,7 @@ public class Veiculo
     }
 
     public Veiculo(String placa, Cor cor, Modelo modelo, TipoVeiculo tipoVeiculo) {
-        this.placa = formatarString(placa);
+        this.placa = StringUtil.formatarPlaca(placa);
         this.cor = cor;
         this.modelo = modelo;
         this.tipoVeiculo = tipoVeiculo;
@@ -22,7 +23,7 @@ public class Veiculo
 
     // Um veículo precisa de pelo menos placa e modelo
     public Veiculo(String placa, Modelo modelo, TipoVeiculo tipoVeiculo) {
-        this.placa = formatarString(placa);
+        this.placa = StringUtil.formatarPlaca(placa);
         this.modelo = modelo;
         this.tipoVeiculo = tipoVeiculo;
     }
@@ -48,12 +49,6 @@ public class Veiculo
 
     public TipoVeiculo getTipoVeiculo() {
         return tipoVeiculo;
-    }
-
-
-    public static String formatarString(String string)
-    {
-        return string.toUpperCase().replaceAll("\\s", "");
     }
 
     public String toString()

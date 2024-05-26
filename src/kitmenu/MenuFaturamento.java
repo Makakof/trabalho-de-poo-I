@@ -1,5 +1,6 @@
 package kitmenu;
 
+import dados.Repositorio;
 import ingressos.TicketEstacionaBem;
 
 
@@ -10,25 +11,27 @@ public class MenuFaturamento
 {
     private UI terminal;
 
-    public MenuFaturamento(UI terminal)
+    public MenuFaturamento()
     {
-        this.terminal = terminal;
+        this.terminal = UI.getInstance();
     }
 
-    public void realizarFaturamento(ArrayList<TicketEstacionaBem> tickets)
+    public void realizarFaturamento()
     {
+        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getLogTickets();
         String dataInicio, dataFim;
         double faturamento;
 
         dataInicio = terminal.selecionarString("Digite a data de inicio (dia/mes/ano): ");
         dataFim = terminal.selecionarString("Digite a data de fim (dia/mes/ano): ");
 
-        faturamento = calculaFaturamento(tickets,dataInicio, dataFim);
+        faturamento = calculaFaturamento(dataInicio, dataFim);
         terminal.exibir("O faturamento no periodo selecionado foi de " + faturamento);
     }
 
-    private double calculaFaturamento(ArrayList<TicketEstacionaBem> tickets, String dataInicioString, String dataFimString)
+    private double calculaFaturamento(String dataInicioString, String dataFimString)
     {
+        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getLogTickets();
         double soma = 0.0;
         LocalDateTime dataInicio = LocalDateTime.parse(dataInicioString);
         LocalDateTime dataFim = LocalDateTime.parse(dataFimString);

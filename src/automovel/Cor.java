@@ -1,5 +1,7 @@
 package automovel;
 
+import utilitarios.StringUtil;
+
 public class Cor
 {
     private String nomeCor;
@@ -9,7 +11,7 @@ public class Cor
 
     public Cor(String nomeCor)
     {
-        this.nomeCor = formatarString(nomeCor);
+        this.nomeCor = StringUtil.formatarCor(nomeCor);
     }
 
     public String getNomeCor() {
@@ -20,14 +22,6 @@ public class Cor
         this.nomeCor = nomeCor;
     }
 
-    /*
-    Passando tudo em caps lock para evitar do usuario digitar depois em letra minuscula e dar diferença na pesquisa
-    e além disse retira os espaços da string com a mesma finalidade
-    */
-    public static String formatarString(String string)
-    {
-        return string.toUpperCase().replaceAll("\\s", "");
-    }
     public String toString()
     {
         return nomeCor;

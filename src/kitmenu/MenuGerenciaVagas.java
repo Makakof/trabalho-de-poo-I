@@ -1,11 +1,13 @@
 package kitmenu;
 
+import dados.Repositorio;
 import enums.DiaDaSemana;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionaBem;
 import modelagem.Vaga;
+import utilitarios.StringUtil;
 
 import java.util.ArrayList;
 
@@ -13,17 +15,13 @@ public class MenuGerenciaVagas {
 
     private UI terminal;
 
-    public MenuGerenciaVagas(UI terminal) {
-        this.terminal = terminal;
+    public MenuGerenciaVagas() {
+        this.terminal = UI.getInstance();
     }
 
-    public static String formatarString(String string)
-    {
-        return string.toUpperCase().replaceAll("\\s", "");
-    }
-
-    public void GerenciarVagas(ArrayList<Vaga> vagas, ArrayList<TicketEstacionaBem> tickets) {
-
+    public void GerenciarVagas() {
+        ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
+        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getTickets();
         byte opcao;
         int numeroVaga;
         String rua;
@@ -134,7 +132,7 @@ public class MenuGerenciaVagas {
         String rua = terminal.selecionarString("Digite o nome da rua: ");
 
         String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO ou MOTO): ");
-        tipo = formatarString(tipo);
+        tipo = StringUtil.formatarTipo(tipo);
 
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
