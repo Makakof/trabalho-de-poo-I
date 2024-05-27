@@ -5,14 +5,14 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import excecoes.EstacionamentoException;
-import ingressos.TicketEstacionaBem;
+import ingressos.TicketEstacionamento;
 
 import java.util.ArrayList;
 
 
 public class MenuGerenciaCliente {
 
-    private UI terminal;
+    private final UI terminal;
 
     public MenuGerenciaCliente() {
         this.terminal = UI.getInstance();
@@ -21,7 +21,7 @@ public class MenuGerenciaCliente {
     public void gerenciarCliente() {
         SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
         ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
-        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getTickets();
+        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         Cliente cliente;
         String documento;
         byte opcao;
@@ -109,7 +109,7 @@ public class MenuGerenciaCliente {
         } while (opcao != 7);
     }
 
-    public byte verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionaBem> tickets)
+    public byte verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
     {
         SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
         for(Veiculo veiculo : veiculos)

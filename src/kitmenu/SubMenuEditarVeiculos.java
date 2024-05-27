@@ -5,7 +5,7 @@ import automovel.Modelo;
 import automovel.Veiculo;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
-import ingressos.TicketEstacionaBem;
+import ingressos.TicketEstacionamento;
 import utilitarios.StringUtil;
 
 import java.util.ArrayList;
@@ -13,14 +13,14 @@ import java.util.InputMismatchException;
 
 public class SubMenuEditarVeiculos
 {
-    private UI terminal;
+    private final UI terminal;
 
     SubMenuEditarVeiculos()
     {
         this.terminal = UI.getInstance();
     }
 
-    public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionaBem> tickets)
+    public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
     {
         Veiculo veiculo = new Veiculo();
         String nomeCor, placa;
@@ -100,7 +100,7 @@ public class SubMenuEditarVeiculos
         return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));
     }
 
-    public void excluiVeiculo(ArrayList<Veiculo> veiculos, String placa, ArrayList<TicketEstacionaBem> tickets) {
+    public void excluiVeiculo(ArrayList<Veiculo> veiculos, String placa, ArrayList<TicketEstacionamento> tickets) {
 
         Veiculo veiculo = consultarVeiculo(veiculos, placa);
 
@@ -114,8 +114,8 @@ public class SubMenuEditarVeiculos
         veiculos.remove(veiculo);
     }
 
-    public byte verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionaBem> tikets, Veiculo veiculo) {
-        for (TicketEstacionaBem ticket : tikets) {
+    public byte verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionamento> tikets, Veiculo veiculo) {
+        for (TicketEstacionamento ticket : tikets) {
 
             String placaVeiculoTicket = ticket.getVeiculo().getPlaca();
 

@@ -1,7 +1,7 @@
 package kitmenu;
 
 import dados.Repositorio;
-import ingressos.TicketEstacionaBem;
+import ingressos.TicketEstacionamento;
 
 
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MenuFaturamento
 {
-    private UI terminal;
+    private final UI terminal;
 
     public MenuFaturamento()
     {
@@ -18,7 +18,7 @@ public class MenuFaturamento
 
     public void realizarFaturamento()
     {
-        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getLogTickets();
+        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getLogTickets();
         String dataInicio, dataFim;
         double faturamento;
 
@@ -31,12 +31,12 @@ public class MenuFaturamento
 
     private double calculaFaturamento(String dataInicioString, String dataFimString)
     {
-        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getLogTickets();
+        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getLogTickets();
         double soma = 0.0;
         LocalDateTime dataInicio = LocalDateTime.parse(dataInicioString);
         LocalDateTime dataFim = LocalDateTime.parse(dataFimString);
 
-        for(TicketEstacionaBem ticketAtual : tickets)
+        for(TicketEstacionamento ticketAtual : tickets)
         {
             if(dataInicio.isAfter(ticketAtual.getDataInicio()) && dataFim.isBefore(ticketAtual.getDataFim()))
             {

@@ -5,17 +5,13 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import enums.DiaDaSemana;
-import enums.TipoVeiculo;
+import enums.HoristaMensalista;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
-import ingressos.TicketEstacionaBem;
+import ingressos.TicketEstacionamento;
 import modelagem.Vaga;
-import tarifacao.TarifaEstacionaBem;
-import tarifacao.TabelaPrecos;
 import tarifacao.TarifaEstacionamento;
-import tarifacao.TarifaHorista;
-import tarifacao.TarifaMensalista;
-import utilitarios.StringUtil;
+import utilitarios.Util;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -23,7 +19,7 @@ import java.util.ArrayList;
 
 public class MenuGerenciaEstacionamento {
 
-    private UI terminal;
+    private final UI terminal;
 
     public MenuGerenciaEstacionamento() {
         this.terminal = UI.getInstance();
@@ -32,10 +28,11 @@ public class MenuGerenciaEstacionamento {
 
     public void gerenciarEstacionamento() {
         SubMenuGerenciaTarifas subMenuGerenciaTarifas = new SubMenuGerenciaTarifas();
-        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getTickets();
-        ArrayList<TicketEstacionaBem> logTickets = Repositorio.getInstance().getLogTickets();
+        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
+        ArrayList<TicketEstacionamento> logTickets = Repositorio.getInstance().getLogTickets();
         ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
         ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
+        ArrayList<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
 
         byte opcao;
 
@@ -47,7 +44,7 @@ public class MenuGerenciaEstacionamento {
             switch (opcao) {
                 case 1:
 
-                    TicketEstacionaBem ticket = estacionar(clientes, tickets, vagas);
+                    TicketEstacionamento ticket = estacionar(clientes, tarifas, vagas);
                     if (ticket != null) tickets.add(ticket);
 
                     break;
@@ -66,14 +63,15 @@ public class MenuGerenciaEstacionamento {
         } while (opcao != 5);
     }
 
-    public TicketEstacionaBem estacionar(ArrayList<Cliente> clientes, ArrayList<TicketEstacionaBem> tickets, ArrayList<Vaga> vagas) {
+    public TicketEstacionamento estacionar(ArrayList<Cliente> clientes, ArrayList<TarifaEstacionamento> tarifas, ArrayList<Vaga> vagas) {
 
         int numeroDaVaga;
-        String documento, placa;
+        String documento, placa, modoDeEstacionar;
         Cliente cliente;
         Veiculo veiculo;
         Vaga vaga;
-        TarifaEstacionaBem tarifa;
+        TarifaEstacionamento tarifa;
+        HoristaMensalista tipo;
 
         documento = terminal.selecionarString("Motorista digite um documento: ");
         cliente = consultarCliente(clientes, documento);
@@ -102,21 +100,54 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
         }
 
+        modoDeEstacionar = terminal.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
+
         vaga.setVagaStatus(VagaStatus.OCUPADA);
 
-        if(veiculo.getTipoVeiculo() == TipoVeiculo.CARRO)
-            tarifa = new TarifaEstacionaBem();
-        else
-            tarifa = new TarifaEstacionaBem();
+        tipo = HoristaMensalista.valueOf(modoDeEstacionar);
 
-        return new TicketEstacionaBem(cliente, vaga, veiculo, tarifa);
+        tarifa = buscarTarifa(tarifas, tipo);
+
+        return new TicketEstacionamento(cliente, vaga, veiculo, tarifa);
     }
 
-    public void retirar(ArrayList<TicketEstacionaBem> tickets, ArrayList<TicketEstacionaBem> logTickets) {
+    public TarifaEstacionamento buscarTarifa (ArrayList<TarifaEstacionamento> tarifas, HoristaMensalista modoDeEstacionar){
+
+        TarifaEstacionamento tarifa = null;
+        boolean achouDia = false;
+
+        for(TarifaEstacionamento tarifaAtual : tarifas){ //olha pra todas as tarifas
+
+            if(tarifaAtual.getModoDeEstacionar().equals(modoDeEstacionar)){ //procura pelo tipo de tarifa especificado
+
+                for (DiaDaSemana dia : tarifaAtual.getDiaDaSemana()){
+
+                    if(Util.diaDaSemanaString(LocalDateTime.now()).equals(dia.name())){ //verifica se a tarifa é valida pro dia atual
+                        achouDia = true;
+                    }
+                }
+
+                if (achouDia) {
+
+                    if (tarifa == null)
+                        tarifa = tarifaAtual;
+
+                    else {
+
+                        if (tarifa.getDataInicio().isBefore(tarifaAtual.getDataInicio()))
+                            tarifa = tarifaAtual;
+                    }
+                }
+            }
+        }
+        return tarifa;
+    }
+
+    public void retirar(ArrayList<TicketEstacionamento> tickets, ArrayList<TicketEstacionamento> logTickets) {
 
         long totalHoras;
         String placa;
-        TicketEstacionaBem ticket, ticketCopia;
+        TicketEstacionamento ticket, ticketCopia;
 
         placa = terminal.selecionarString("Digite a placa do veiculo: ");
         ticket = consultarTicket(tickets, placa);
@@ -179,8 +210,8 @@ public class MenuGerenciaEstacionamento {
         return null;
     }
 
-    public TicketEstacionaBem consultarTicket(ArrayList<TicketEstacionaBem> tickets, String placa) {
-        for (TicketEstacionaBem ticket : tickets) {
+    public TicketEstacionamento consultarTicket(ArrayList<TicketEstacionamento> tickets, String placa) {
+        for (TicketEstacionamento ticket : tickets) {
             if (placa.equals(ticket.getVeiculo().getPlaca())) return ticket;
 
         }

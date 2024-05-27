@@ -1,11 +1,13 @@
 package tarifacao;
 
 import enums.DiaDaSemana;
+import enums.HoristaMensalista;
 import utilitarios.DataUtil;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public abstract class TarifaEstacionamento {
 
@@ -13,18 +15,21 @@ public abstract class TarifaEstacionamento {
     private double valorPrimeiraHora;
     private double valorHoraSubsequente;
     private ArrayList<DiaDaSemana> diaDaSemana;
+    private HoristaMensalista modoDeEstacionar;
 
 
-    public TarifaEstacionamento(double valorPrimeiraHora, double valorHoraSubsequente, ArrayList<DiaDaSemana> diaDaSemana) {
+    public TarifaEstacionamento(double valorPrimeiraHora, double valorHoraSubsequente, ArrayList<DiaDaSemana> diaDaSemana, HoristaMensalista modoDeEstacionar) {
         this.dataInicio = LocalDateTime.now();
         this.valorPrimeiraHora = valorPrimeiraHora;
         this.valorHoraSubsequente = valorHoraSubsequente;
         this.diaDaSemana = diaDaSemana;
+        this.modoDeEstacionar = modoDeEstacionar;
     }
 
-    public TarifaEstacionamento (ArrayList<DiaDaSemana> diaDaSemana) {
+    public TarifaEstacionamento (ArrayList<DiaDaSemana> diaDaSemana, HoristaMensalista modoDeEstacionar) {
         this.dataInicio = LocalDateTime.now();
         this.diaDaSemana = diaDaSemana;
+        this.modoDeEstacionar = modoDeEstacionar;
     }
 
     public LocalDateTime getDataInicio() {
@@ -41,6 +46,10 @@ public abstract class TarifaEstacionamento {
 
     public ArrayList<DiaDaSemana> getDiaDaSemana() {
         return diaDaSemana;
+    }
+
+    public HoristaMensalista getModoDeEstacionar() {
+        return modoDeEstacionar;
     }
 
     public String toString()

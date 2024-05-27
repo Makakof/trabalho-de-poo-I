@@ -1,4 +1,5 @@
 package ingressos;
 
-public class TicketHorista extends TicketEstacionaBem {
+public class TicketHorista extends TicketEstacionamento {
+
 }

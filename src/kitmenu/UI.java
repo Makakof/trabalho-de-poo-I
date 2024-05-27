@@ -47,7 +47,6 @@ public class UI {
     public void menuGerenciaTarifas() {
         exibir("================================================");
         exibir("# 1 - Cadastrar");
-        exibir("# 2 - Editar");
         exibir("================================================");
 
     }

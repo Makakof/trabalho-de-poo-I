@@ -1,11 +1,10 @@
 package kitmenu;
 
 import dados.Repositorio;
-import enums.DiaDaSemana;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
-import ingressos.TicketEstacionaBem;
+import ingressos.TicketEstacionamento;
 import modelagem.Vaga;
 import utilitarios.StringUtil;
 
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private UI terminal;
+    private final UI terminal;
 
     public MenuGerenciaVagas() {
         this.terminal = UI.getInstance();
@@ -21,7 +20,7 @@ public class MenuGerenciaVagas {
 
     public void GerenciarVagas() {
         ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
-        ArrayList<TicketEstacionaBem> tickets = Repositorio.getInstance().getTickets();
+        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         byte opcao;
         int numeroVaga;
         String rua;
@@ -137,9 +136,9 @@ public class MenuGerenciaVagas {
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
 
-    public byte verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionaBem> tickets)
+    public byte verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
     {
-        for(TicketEstacionaBem ticket : tickets)
+        for(TicketEstacionamento ticket : tickets)
             if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())
                 return 1;
         return 0;

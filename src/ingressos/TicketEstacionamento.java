@@ -3,31 +3,31 @@ package ingressos;
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import modelagem.Vaga;
-import tarifacao.TarifaEstacionaBem;
+import tarifacao.TarifaEstacionamento;
 
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class TicketEstacionaBem
+public class TicketEstacionamento
 {
     private Cliente cliente;
     private Vaga vaga;
     private Veiculo veiculo;
-    private TarifaEstacionaBem tarifaEstacionaBem;
+    private TarifaEstacionamento tarifaEstacionamento;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
     private double totalPagar;
 
-    public TicketEstacionaBem() {
+    public TicketEstacionamento() {
     }
 
-    public TicketEstacionaBem(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionaBem tarifaEstacionaBem)
+    public TicketEstacionamento(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifaEstacionamento)
     {
         this.cliente = cliente;
         this.vaga = vaga;
         this.veiculo = veiculo;
-        this.tarifaEstacionaBem = tarifaEstacionaBem;
+        this.tarifaEstacionamento = tarifaEstacionamento;
         this.dataInicio = LocalDateTime.now();
     }
 
@@ -40,8 +40,8 @@ public class TicketEstacionaBem
     public Veiculo getVeiculo() {
         return veiculo;
     }
-    public TarifaEstacionaBem getTarifa() {
-        return tarifaEstacionaBem;
+    public TarifaEstacionamento getTarifa() {
+        return tarifaEstacionamento;
     }
     public LocalDateTime getDataInicio() {
         return dataInicio;
@@ -62,11 +62,11 @@ public class TicketEstacionaBem
 
         if(diferencaHoras > 1)
         {
-            totalPagar = tarifaEstacionaBem.getValorPrimeiraHora();
-            totalPagar += tarifaEstacionaBem.getValorHoraSubsequente() * (diferencaHoras - 1);
+            totalPagar = tarifaEstacionamento.getValorPrimeiraHora();
+            totalPagar += tarifaEstacionamento.getValorHoraSubsequente() * (diferencaHoras - 1);
         }
         else
-            totalPagar = tarifaEstacionaBem.getValorPrimeiraHora();
+            totalPagar = tarifaEstacionamento.getValorPrimeiraHora();
 
         this.totalPagar = totalPagar;
     }
