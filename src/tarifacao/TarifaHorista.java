@@ -11,4 +11,6 @@ public class TarifaHorista extends TarifaEstacionamento{
         super(valorPrimeiraHora, valorHoraSubsequente, diaDaSemana, modoDeEstacionar);
     }
 
+    public void calcula(){
+    }
 }

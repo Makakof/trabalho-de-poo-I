@@ -19,7 +19,7 @@ public class MenuGerenciaCliente {
     }
 
     public void gerenciarCliente() {
-        SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
+        SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
         ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         Cliente cliente;
@@ -54,7 +54,7 @@ public class MenuGerenciaCliente {
                     if(cliente == null)
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
 
-                    if (verificaTicketCliente(cliente.getVeiculos(), tickets) != 0)
+                    if (verificaTicketCliente(cliente.getVeiculos(), tickets))
                         throw new EstacionamentoException("Não é possivel excluir clientes que possuem carros estacionados");
 
                     clientes.remove(cliente);
@@ -109,18 +109,18 @@ public class MenuGerenciaCliente {
         } while (opcao != 7);
     }
 
-    public byte verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
+    public boolean verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
     {
-        SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
+        SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
         for(Veiculo veiculo : veiculos)
-            if(subMenuEditarVeiculos.verificaSeOVeiculoTemTicket(tickets, veiculo) == 1)
-                return 1;
+            if(subMenuEditarVeiculos.verificaSeOVeiculoTemTicket(tickets, veiculo))
+                return true;
 
-        return 0;
+        return false;
     }
 
     public Cliente cadastrarCliente() {
-        SubMenuEditarVeiculos subMenuEditarVeiculos = new SubMenuEditarVeiculos();
+        SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
         Veiculo veiculo;
         String nome, documento;
         int qtdCarros;

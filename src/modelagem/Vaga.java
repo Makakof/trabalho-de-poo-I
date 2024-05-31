@@ -10,8 +10,6 @@ public class Vaga
     private VagaStatus status;
     private TipoVeiculo tipoVeiculo;
 
-    public Vaga() {
-    }
 
     public Vaga(int numeroVaga, String rua, TipoVeiculo tipoVeiculo) {
         this.numeroVaga = numeroVaga;

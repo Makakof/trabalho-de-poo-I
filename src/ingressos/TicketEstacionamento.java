@@ -4,30 +4,24 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
-
-
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
-public class TicketEstacionamento
+public abstract class TicketEstacionamento
 {
     private Cliente cliente;
     private Vaga vaga;
     private Veiculo veiculo;
-    private TarifaEstacionamento tarifaEstacionamento;
+    private TarifaEstacionamento tarifa;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
     private double totalPagar;
 
-    public TicketEstacionamento() {
-    }
-
-    public TicketEstacionamento(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifaEstacionamento)
+    public TicketEstacionamento(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifa)
     {
         this.cliente = cliente;
         this.vaga = vaga;
         this.veiculo = veiculo;
-        this.tarifaEstacionamento = tarifaEstacionamento;
+        this.tarifa = tarifa;
         this.dataInicio = LocalDateTime.now();
     }
 
@@ -41,7 +35,7 @@ public class TicketEstacionamento
         return veiculo;
     }
     public TarifaEstacionamento getTarifa() {
-        return tarifaEstacionamento;
+        return tarifa;
     }
     public LocalDateTime getDataInicio() {
         return dataInicio;
@@ -51,23 +45,17 @@ public class TicketEstacionamento
     }
     public double getTotalPagar() {return totalPagar;}
 
-    public void encerrarTicket()
-    {
-        this.dataFim = LocalDateTime.now();
+    public void setDataFim(LocalDateTime dataFim) {
+        this.dataFim = dataFim;
+    }
 
-        double totalPagar;
-        long diferencaHoras;
-
-        diferencaHoras = dataInicio.until(dataFim, ChronoUnit.HOURS);
-
-        if(diferencaHoras > 1)
-        {
-            totalPagar = tarifaEstacionamento.getValorPrimeiraHora();
-            totalPagar += tarifaEstacionamento.getValorHoraSubsequente() * (diferencaHoras - 1);
-        }
-        else
-            totalPagar = tarifaEstacionamento.getValorPrimeiraHora();
-
+    public void setTotalPagar (double totalPagar) {
         this.totalPagar = totalPagar;
     }
+
+    public abstract void encerrarTicket();
+
+    public abstract double calcularTotalPagar();
+
+
 }

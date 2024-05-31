@@ -61,7 +61,7 @@ public class MenuGerenciaVagas {
                     if (vaga != null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
-                    if (verificaTicketVaga(vaga, tickets) != 0) {
+                    if (verificaTicketVaga(vaga, tickets)) {
                         throw new EstacionamentoException("Não é possivel exluir uma vaga que possui um carro estacionado");
                     }
                     vagas.remove(vaga);
@@ -130,18 +130,18 @@ public class MenuGerenciaVagas {
         int numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
         String rua = terminal.selecionarString("Digite o nome da rua: ");
 
-        String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO ou MOTO): ");
+        String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO, MOTO, ou ONIBUS): ");
         tipo = StringUtil.formatarTipo(tipo);
 
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
 
-    public byte verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
+    public boolean verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
     {
         for(TicketEstacionamento ticket : tickets)
             if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())
-                return 1;
-        return 0;
+                return true;
+        return false;
     }
 
 }

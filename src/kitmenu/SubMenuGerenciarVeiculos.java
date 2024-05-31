@@ -11,11 +11,11 @@ import utilitarios.StringUtil;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
-public class SubMenuEditarVeiculos
+public class SubMenuGerenciarVeiculos
 {
     private final UI terminal;
 
-    SubMenuEditarVeiculos()
+    SubMenuGerenciarVeiculos()
     {
         this.terminal = UI.getInstance();
     }
@@ -108,20 +108,20 @@ public class SubMenuEditarVeiculos
             throw new EstacionamentoException("A placa: " + placa + " não existe");
         }
 
-        if (verificaSeOVeiculoTemTicket(tickets, veiculo) == 1){
+        if (verificaSeOVeiculoTemTicket(tickets, veiculo)){
             throw new InputMismatchException("O veiculo possui ticket não pago!");
         }
         veiculos.remove(veiculo);
     }
 
-    public byte verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionamento> tikets, Veiculo veiculo) {
-        for (TicketEstacionamento ticket : tikets) {
+    public boolean verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionamento> tickets, Veiculo veiculo) {
+        for (TicketEstacionamento ticket : tickets) {
 
             String placaVeiculoTicket = ticket.getVeiculo().getPlaca();
 
             if (veiculo.getPlaca().equals(placaVeiculoTicket))
-                return 1;
+                return true;
         }
-        return 0;
+        return false;
     }
 }

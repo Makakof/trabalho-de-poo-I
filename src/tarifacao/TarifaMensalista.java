@@ -12,4 +12,8 @@ public class TarifaMensalista extends TarifaEstacionamento{
         super(diaDaSemana, modoDeEstacionar);
         this.valorIntegral = valorIntegral;
     }
+
+    public double getValorIntegral() {
+        return valorIntegral;
+    }
 }

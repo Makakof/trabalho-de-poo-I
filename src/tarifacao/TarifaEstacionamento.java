@@ -3,11 +3,9 @@ package tarifacao;
 import enums.DiaDaSemana;
 import enums.HoristaMensalista;
 import utilitarios.DataUtil;
-
 import java.time.LocalDateTime;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Locale;
+
 
 public abstract class TarifaEstacionamento {
 
