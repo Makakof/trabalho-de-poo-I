@@ -26,10 +26,11 @@ public class MenuGerenciaCliente {
         String documento;
         byte opcao;
 
-        terminal.menuGerenciaCliente();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
-
         do {
+
+            terminal.menuGerenciaCliente();
+            opcao = terminal.selecionarByte("Digite a opção desejada: ");
+
             switch (opcao) {
                 case 1:
 
@@ -104,8 +105,6 @@ public class MenuGerenciaCliente {
                     break;
 
             }
-            terminal.menuGerenciaCliente();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
         } while (opcao != 7);
     }
 

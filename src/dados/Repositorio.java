@@ -15,7 +15,6 @@ public class Repositorio
     private final ArrayList<Cliente> clientes = new ArrayList<>();
     private final ArrayList<Vaga> vagas = new ArrayList<>();
     private final ArrayList<TicketEstacionamento> tickets = new ArrayList<>();
-    private final ArrayList<TicketEstacionamento> logTickets = new ArrayList<>();
     private final ArrayList<TarifaEstacionamento> tarifas = new ArrayList<>();
 
     public static synchronized Repositorio getInstance()
@@ -38,10 +37,6 @@ public class Repositorio
 
     public ArrayList<TicketEstacionamento> getTickets() {
         return tickets;
-    }
-
-    public ArrayList<TicketEstacionamento> getLogTickets() {
-        return logTickets;
     }
 
     public ArrayList<TarifaEstacionamento> getTarifas() {return tarifas;}

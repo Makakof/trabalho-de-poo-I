@@ -13,8 +13,6 @@ import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
-import tarifacao.TarifaHorista;
-import tarifacao.TarifaMensalista;
 import utilitarios.Util;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -32,7 +30,6 @@ public class MenuGerenciaEstacionamento {
     public void gerenciarEstacionamento() {
         SubMenuGerenciaTarifas subMenuGerenciaTarifas = new SubMenuGerenciaTarifas();
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
-        ArrayList<TicketEstacionamento> logTickets = Repositorio.getInstance().getLogTickets();
         ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
         ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
         ArrayList<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
@@ -48,12 +45,19 @@ public class MenuGerenciaEstacionamento {
                 case 1: // estacionar
 
                     TicketEstacionamento ticket = estacionar(clientes, tarifas, vagas);
-                    if (ticket != null) tickets.add(ticket);
+
+                    if (ticket.getTarifa().getModoDeEstacionar() == HoristaMensalista.MENSALISTA && ticket.getDataFim() == null){
+
+                        ticket.encerrarTicket();
+                        tickets.add(ticket);
+
+                    }else
+                        tickets.add(ticket);
 
                     break;
                 case 2: // retirar
 
-                    retirar(tickets, logTickets);
+                    retirar(tickets);
                     break;
                 case 3: // listar vagas
 
@@ -93,7 +97,7 @@ public class MenuGerenciaEstacionamento {
 
         if (modoDeEstacionar.equals(HoristaMensalista.MENSALISTA.name())){
 
-            TicketEstacionamento ticket = buscarTicketMensalista(Repositorio.getInstance().getTickets(), veiculo);
+            TicketEstacionamento ticket = buscarTicketMensalista(Repositorio.getInstance().getTickets(), veiculo.getPlaca());
 
             if (ticket != null)
                 return ticket;
@@ -159,13 +163,13 @@ public class MenuGerenciaEstacionamento {
         return tarifa;
     }
 
-    public TicketEstacionamento buscarTicketMensalista (ArrayList<TicketEstacionamento> tickets, Veiculo veiculo){
+    public TicketEstacionamento buscarTicketMensalista (ArrayList<TicketEstacionamento> tickets, String placa){
 
         LocalDateTime dataAtual = LocalDateTime.now();
 
         for (TicketEstacionamento ticket : tickets){
 
-            if(veiculo.getPlaca().equals(ticket.getVeiculo().getPlaca()) && HoristaMensalista.MENSALISTA.equals(ticket.getTarifa().getModoDeEstacionar())){
+            if(placa.equals(ticket.getVeiculo().getPlaca()) && HoristaMensalista.MENSALISTA.equals(ticket.getTarifa().getModoDeEstacionar())){
 
                 if (dataAtual.isBefore(ticket.getDataFim())){
                     return ticket;
@@ -176,37 +180,51 @@ public class MenuGerenciaEstacionamento {
         return null;
     }
 
-    public void retirar(ArrayList<TicketEstacionamento> tickets, ArrayList<TicketEstacionamento> logTickets) {
+    public TicketEstacionamento buscarTicketHorista (ArrayList<TicketEstacionamento> tickets, String placa) {
+
+        for (TicketEstacionamento ticket : tickets) {
+
+            if (placa.equals(ticket.getVeiculo().getPlaca()) && ticket.getDataFim() == null){
+                return ticket;
+            }
+
+        }
+
+        return null;
+    }
+
+    public void retirar(ArrayList<TicketEstacionamento> tickets) {
 
         long totalHoras;
         String placa;
         TicketEstacionamento ticket;
 
         placa = terminal.selecionarString("Digite a placa do veiculo: ");
-        ticket = consultarTicket(tickets, placa);
 
-        if (ticket != null) {
+        ticket = buscarTicketHorista(tickets, placa);
+
+        if (ticket == null)
+            ticket = buscarTicketMensalista(tickets, placa);
+
+        if (ticket == null)
+            terminal.exibir("Ticket não cadastrado!");
+
+        else if (ticket.getTarifa().getModoDeEstacionar() == HoristaMensalista.HORISTA) {
 
             ticket.encerrarTicket();
 
-            totalHoras = calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
+            totalHoras = Util.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
             terminal.exibir("Tempo total: " + totalHoras);
             terminal.exibir("Total a pagar: " + ticket.getTotalPagar());
 
-            logTickets.add(ticket);
-            tickets.remove(ticket);
-
             ticket.getVaga().setVagaStatus(VagaStatus.DISPONIVEL);
-
             terminal.exibir("Ticket encerrado com sucesso!");
 
+        }
 
-        } else terminal.exibir("Ticket não cadastrado!");
-    }
+        terminal.exibir("Carro pronto para ser retirado!");
 
-    public long calcularHoras(LocalDateTime dataInicio, LocalDateTime dataFim){
 
-        return dataInicio.until(dataFim, ChronoUnit.HOURS);
     }
 
     public void listarVagas(ArrayList<Vaga> vagas) {
@@ -242,18 +260,6 @@ public class MenuGerenciaEstacionamento {
         return null;
     }
 
-    public TicketEstacionamento consultarTicket(ArrayList<TicketEstacionamento> tickets, String placa) {
-
-        for (TicketEstacionamento ticket : tickets) {
-
-            if (placa.equals(ticket.getVeiculo().getPlaca())){
-                return ticket;
-            }
-
-        }
-
-        return null;
-    }
 
 
 

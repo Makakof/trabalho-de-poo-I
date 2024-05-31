@@ -23,6 +23,7 @@ public abstract class TicketEstacionamento
         this.veiculo = veiculo;
         this.tarifa = tarifa;
         this.dataInicio = LocalDateTime.now();
+        this.dataFim = null;
     }
 
     public Cliente getCliente() {

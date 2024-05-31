@@ -1,4 +1,5 @@
 
+import dados.Repositorio;
 import excecoes.EstacionamentoException;
 
 import kitmenu.MenuGerenciaCliente;
@@ -6,7 +7,7 @@ import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
 import kitmenu.MenuFaturamento;
 import kitmenu.UI;
-
+import utilitarios.Util;
 
 
 public class Estacionamento
@@ -20,6 +21,8 @@ public class Estacionamento
         MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento();
         MenuFaturamento menuFaturamento = new MenuFaturamento();
         byte opcaoPrincipal;
+
+        Util.atualizarStatusDasVagas(Repositorio.getInstance().getTickets());
 
         try 
         {

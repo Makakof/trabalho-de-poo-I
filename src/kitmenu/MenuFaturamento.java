@@ -18,29 +18,28 @@ public class MenuFaturamento
 
     public void realizarFaturamento()
     {
-        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getLogTickets();
         String dataInicio, dataFim;
         double faturamento;
 
         dataInicio = terminal.selecionarString("Digite a data de inicio (dia/mes/ano): ");
         dataFim = terminal.selecionarString("Digite a data de fim (dia/mes/ano): ");
 
-        faturamento = calculaFaturamento(dataInicio, dataFim);
+        faturamento = calcularFaturamento(dataInicio, dataFim);
         terminal.exibir("O faturamento no periodo selecionado foi de " + faturamento);
     }
 
-    private double calculaFaturamento(String dataInicioString, String dataFimString)
+    private double calcularFaturamento(String dataInicioString, String dataFimString)
     {
-        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getLogTickets();
+        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;
         LocalDateTime dataInicio = LocalDateTime.parse(dataInicioString);
         LocalDateTime dataFim = LocalDateTime.parse(dataFimString);
 
-        for(TicketEstacionamento ticketAtual : tickets)
+        for(TicketEstacionamento ticket : tickets)
         {
-            if(dataInicio.isAfter(ticketAtual.getDataInicio()) && dataFim.isBefore(ticketAtual.getDataFim()))
+            if(dataInicio.isAfter(ticket.getDataInicio()) && (ticket.getDataFim() != null && dataFim.isBefore(ticket.getDataFim())))
             {
-                soma += ticketAtual.getTotalPagar();
+                soma += ticket.getTotalPagar();
             }
         }
         return soma;

@@ -6,6 +6,7 @@ import enums.TipoVeiculo;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
+import utilitarios.Util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,8 +23,6 @@ public class TicketHorista extends TicketEstacionamento {
         this.setDataFim(LocalDateTime.now());
         double totalPagar = calcularTotalPagar();
         this.setTotalPagar(totalPagar);
-
-
     }
 
     public double calcularTotalPagar(){
@@ -34,7 +33,7 @@ public class TicketHorista extends TicketEstacionamento {
 
         if(!virouDia(this.getDataInicio(), this.getDataFim())) {
 
-            diferencaHoras = calcularDiferencaDeHoras(this.getDataInicio(), this.getDataFim());
+            diferencaHoras = Util.calcularHoras(this.getDataInicio(), this.getDataFim());
             totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
         }
         else{
@@ -42,10 +41,10 @@ public class TicketHorista extends TicketEstacionamento {
             inicioDoDia = this.getDataInicio().plusDays(1); //acrescenta um dia
             inicioDoDia = inicioDoDia.toLocalDate().atStartOfDay(); //inicializa a variavel com a virada do dia(00:00)
 
-            diferencaHoras = calcularDiferencaDeHoras(this.getDataInicio(), inicioDoDia); //horas antes do dia virar
+            diferencaHoras = Util.calcularHoras(this.getDataInicio(), inicioDoDia); //horas antes do dia virar
             totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
 
-            diferencaHoras = calcularDiferencaDeHoras(inicioDoDia, this.getDataFim()); //horas de multa
+            diferencaHoras = Util.calcularHoras(inicioDoDia, this.getDataFim()); //horas de multa
             totalPagar += calcularMulta(diferencaHoras, (TarifaHorista) this.getTarifa());
 
         }
@@ -83,13 +82,6 @@ public class TicketHorista extends TicketEstacionamento {
             totalPagar = valorPrimeiraHora;
 
         return totalPagar;
-    }
-
-    public long calcularDiferencaDeHoras(LocalDateTime dataInicio, LocalDateTime dataFim) {
-
-        long diferencaHoras = dataInicio.until(dataFim, ChronoUnit.HOURS);
-
-        return (long) Math.ceil(diferencaHoras);
     }
 
     public boolean virouDia (LocalDateTime dataInicio, LocalDateTime dataFim){

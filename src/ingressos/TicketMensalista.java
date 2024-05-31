@@ -6,6 +6,8 @@ import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaMensalista;
 
+import java.time.LocalDateTime;
+
 public class TicketMensalista extends TicketEstacionamento {
 
 
@@ -14,14 +16,14 @@ public class TicketMensalista extends TicketEstacionamento {
     }
 
     public void encerrarTicket(){
-
+        this.setDataFim(LocalDateTime.now().plusDays(30)); // acrescenta 30 dias de validade ao ticket
+        double totoalPagar = calcularTotalPagar();
+        this.setTotalPagar(totoalPagar);
     }
 
     public double calcularTotalPagar(){
 
-        double totalPagar;
-
-        totalPagar = ((TarifaMensalista) this.getTarifa()).getValorIntegral();
+        return ((TarifaMensalista) this.getTarifa()).getValorIntegral();
     }
 
 
