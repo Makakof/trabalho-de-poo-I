@@ -5,6 +5,7 @@ import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import modelagem.Vaga;
 import utilitarios.StringUtil;
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private final Terminal terminal;
+    private final InterfaceUsuario interfaceUsuario;
 
     public MenuGerenciaVagas() {
-        this.terminal = Terminal.getInstance();
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
     public void GerenciarVagas() {
@@ -30,8 +31,8 @@ public class MenuGerenciaVagas {
 
         do {
 
-            terminal.menuGerenciaVagas();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
+            interfaceUsuario.menuGerenciaVagas();
+            opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
                 case 1:
@@ -44,21 +45,21 @@ public class MenuGerenciaVagas {
                         throw new EstacionamentoException("Esta vaga já existe!");
 
                     vagas.add(vaga);
-                    terminal.exibir("Vaga cadastrada com sucesso!");
+                    interfaceUsuario.exibir("Vaga cadastrada com sucesso!");
 
                     break;
                 case 2:
-                    numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+                    numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga == null)
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
 
-                    terminal.exibir(vaga.toString());
+                    interfaceUsuario.exibir(vaga.toString());
 
                     break;
                 case 3:
 
-                    numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+                    numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
@@ -67,22 +68,22 @@ public class MenuGerenciaVagas {
                         throw new EstacionamentoException("Não é possivel exluir uma vaga que possui um carro estacionado");
                     }
                     vagas.remove(vaga);
-                    terminal.exibir("Vaga excluida com sucesso!");
+                    interfaceUsuario.exibir("Vaga excluida com sucesso!");
 
                     break;
                 case 4:
-                    numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+                    numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
 
-                    terminal.exibir("Rua atual: " + vaga.getRua());
-                    rua = terminal.selecionarString("Rua nova: ");
+                    interfaceUsuario.exibir("Rua atual: " + vaga.getRua());
+                    rua = interfaceUsuario.selecionarString("Rua nova: ");
 
-                    terminal.exibir("Numero atual: " + vaga.getNumeroVaga());
-                    int numeroVagaNovo = terminal.selecionarInt("Numero novo: ");
+                    interfaceUsuario.exibir("Numero atual: " + vaga.getNumeroVaga());
+                    int numeroVagaNovo = interfaceUsuario.selecionarInt("Numero novo: ");
 
                     Vaga verificaVaga = consultarVaga(vagas, numeroVagaNovo);
 
@@ -95,7 +96,7 @@ public class MenuGerenciaVagas {
 
                     break;
                 case 5:
-                    numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+                    numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null)
@@ -113,8 +114,8 @@ public class MenuGerenciaVagas {
 
     public void alterarDisponibilidade(Vaga vagas) {
 
-        terminal.exibir("1-DISPONIVEL 2-INDISPONIVEL 3-OCUPADA");
-        int status = terminal.selecionarInt("escolha uma opção para alterar a disponibilidade: ");
+        interfaceUsuario.exibir("1-DISPONIVEL 2-INDISPONIVEL 3-OCUPADA");
+        int status = interfaceUsuario.selecionarInt("escolha uma opção para alterar a disponibilidade: ");
         vagas.setVagaStatus(VagaStatus.values()[status]);
     }
 
@@ -130,10 +131,10 @@ public class MenuGerenciaVagas {
 
     public Vaga cadastrarVaga(ArrayList<Vaga> vagas){
 
-        int numeroVaga = terminal.selecionarInt("Digite o numero da vaga: ");
-        String rua = terminal.selecionarString("Digite o nome da rua: ");
+        int numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
+        String rua = interfaceUsuario.selecionarString("Digite o nome da rua: ");
 
-        String tipo = terminal.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO, MOTO, ou ONIBUS): ");
+        String tipo = interfaceUsuario.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO, MOTO, ou ONIBUS): ");
         tipo = StringUtil.formatarTipo(tipo);
 
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));

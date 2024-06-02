@@ -24,7 +24,7 @@ public abstract class TicketEstacionamento
         this.vaga = vaga;
         this.veiculo = veiculo;
         this.tarifa = tarifa;
-        this.dataInicio = LocalDateTime.now().plusHours(10);
+        this.dataInicio = LocalDateTime.now();
         this.dataFim = null;
     }
 

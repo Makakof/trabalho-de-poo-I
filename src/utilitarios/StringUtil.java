@@ -28,6 +28,7 @@ public class StringUtil
 
         String dia = data.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase();
         dia = dia.replace("-FEIRA", "");
+        dia = dia.replace("Á", "A");
         return dia;
     }
 }
