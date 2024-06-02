@@ -6,8 +6,8 @@ import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
 import kitmenu.MenuFaturamento;
-import kitmenu.UI;
-import utilitarios.Util;
+import interfaces.Terminal;
+import utilitarios.UpdateUtils;
 
 
 public class Estacionamento
@@ -15,14 +15,14 @@ public class Estacionamento
     public static void main(String[] args)
     {
 
-        UI terminal = UI.getInstance();
+        Terminal terminal = Terminal.getInstance();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente();
         MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas();
         MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento();
         MenuFaturamento menuFaturamento = new MenuFaturamento();
         byte opcaoPrincipal;
 
-        Util.atualizarStatusDasVagas(Repositorio.getInstance().getTickets());
+        UpdateUtils.atualizarStatusDasVagas(Repositorio.getInstance().getTickets());
 
         try 
         {

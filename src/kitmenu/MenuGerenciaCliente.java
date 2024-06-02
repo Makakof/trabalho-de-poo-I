@@ -6,16 +6,17 @@ import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 
 import java.util.ArrayList;
 
 
 public class MenuGerenciaCliente {
 
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuGerenciaCliente() {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void gerenciarCliente() {

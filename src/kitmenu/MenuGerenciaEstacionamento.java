@@ -11,19 +11,21 @@ import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
+import interfaces.Terminal;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
-import utilitarios.Util;
+import utilitarios.CalculoUtils;
+import utilitarios.StringUtil;
+
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class MenuGerenciaEstacionamento {
 
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuGerenciaEstacionamento() {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
 
@@ -141,7 +143,7 @@ public class MenuGerenciaEstacionamento {
 
                 for (DiaDaSemana dia : tarifaAtual.getDiaDaSemana()){
 
-                    if(Util.diaDaSemanaString(LocalDateTime.now()).equals(dia.name())){ //verifica se a tarifa é valida pro dia atual
+                    if(StringUtil.diaDaSemanaString(LocalDateTime.now()).equals(dia.name())){ //verifica se a tarifa é valida pro dia atual
                         achouDia = true;
                     }
                 }
@@ -213,7 +215,7 @@ public class MenuGerenciaEstacionamento {
 
             ticket.encerrarTicket();
 
-            totalHoras = Util.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
+            totalHoras = CalculoUtils.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
             terminal.exibir("Tempo total: " + totalHoras);
             terminal.exibir("Total a pagar: " + ticket.getTotalPagar());
 

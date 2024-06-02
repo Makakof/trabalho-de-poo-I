@@ -3,6 +3,7 @@ package kitmenu;
 import dados.Repositorio;
 import enums.DiaDaSemana;
 import enums.HoristaMensalista;
+import interfaces.Terminal;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
 import tarifacao.TarifaMensalista;
@@ -12,11 +13,11 @@ import java.util.ArrayList;
 
 public class SubMenuGerenciaTarifas
 {
-    private final UI terminal;
+    private final Terminal terminal;
 
     public SubMenuGerenciaTarifas()
     {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void gerenciarTarifas()
