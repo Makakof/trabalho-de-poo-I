@@ -11,6 +11,7 @@ import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
+import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
@@ -22,10 +23,10 @@ import java.util.ArrayList;
 
 public class MenuGerenciaEstacionamento {
 
-    private final Terminal terminal;
+    private final InterfaceUsuario interfaceUsuario;
 
     public MenuGerenciaEstacionamento() {
-        this.terminal = Terminal.getInstance();
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
 
@@ -40,8 +41,8 @@ public class MenuGerenciaEstacionamento {
 
         do {
 
-            terminal.menuGerenciaEstacionamento();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
+            interfaceUsuario.menuGerenciaEstacionamento();
+            opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
                 case 1: // estacionar
@@ -63,11 +64,18 @@ public class MenuGerenciaEstacionamento {
                     break;
                 case 3: // listar vagas
 
+                    if (vagas.isEmpty()) {
+                        throw new EstacionamentoException("O estacionamento não possui vagas cadastradas");
+                    }
                     listarVagas(vagas);
                     break;
                 case 4: // gerenciar tarifas
                     subMenuGerenciaTarifas.gerenciarTarifas();
                     break;
+                case 5: //voltar
+                    break;
+                default:
+                    throw new EstacionamentoException("Opção inválida de menu");
             }
         } while (opcao != 5);
     }
@@ -82,20 +90,22 @@ public class MenuGerenciaEstacionamento {
         TarifaEstacionamento tarifa;
         HoristaMensalista tipo;
 
-        documento = terminal.selecionarString("Motorista digite um documento: ");
+        documento = interfaceUsuario.selecionarString("Motorista digite um documento: ");
         cliente = consultarCliente(clientes, documento);
 
         if (cliente == null) {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
-        placa = terminal.selecionarString("Digite o numero da placa do veiculo: ");
+        placa = interfaceUsuario.selecionarString("Digite o numero da placa do veiculo: ");
+        placa = StringUtil.formatarPlaca(placa);
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
             throw new EstacionamentoException("Veiculo não cadastrado");
         }
 
-        modoDeEstacionar = terminal.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
+        modoDeEstacionar = interfaceUsuario.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
+        modoDeEstacionar = StringUtil.formatarTipo(modoDeEstacionar);
 
         if (modoDeEstacionar.equals(HoristaMensalista.MENSALISTA.name())){
 
@@ -105,7 +115,7 @@ public class MenuGerenciaEstacionamento {
                 return ticket;
         }
 
-        numeroDaVaga = terminal.selecionarInt("Digite o numero da vaga: ");
+        numeroDaVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
         vaga = consultarVaga(vagas, numeroDaVaga);
 
         if (vaga == null) {
@@ -141,9 +151,11 @@ public class MenuGerenciaEstacionamento {
 
             if(tarifaAtual.getModoDeEstacionar().equals(modoDeEstacionar)){ //procura pelo tipo de tarifa especificado
 
-                for (DiaDaSemana dia : tarifaAtual.getDiaDaSemana()){
+                for (DiaDaSemana diasTarifa : tarifaAtual.getDiaDaSemana()){
 
-                    if(StringUtil.diaDaSemanaString(LocalDateTime.now()).equals(dia.name())){ //verifica se a tarifa é valida pro dia atual
+                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(StringUtil.diaDaSemanaString(LocalDateTime.now()));
+
+                    if(diaAtual == diasTarifa){ //verifica se a tarifa é valida pro dia atual
                         achouDia = true;
                     }
                 }
@@ -201,7 +213,8 @@ public class MenuGerenciaEstacionamento {
         String placa;
         TicketEstacionamento ticket;
 
-        placa = terminal.selecionarString("Digite a placa do veiculo: ");
+        placa = interfaceUsuario.selecionarString("Digite a placa do veiculo: ");
+        placa = StringUtil.formatarPlaca(placa);
 
         ticket = buscarTicketHorista(tickets, placa);
 
@@ -209,22 +222,22 @@ public class MenuGerenciaEstacionamento {
             ticket = buscarTicketMensalista(tickets, placa);
 
         if (ticket == null)
-            terminal.exibir("Ticket não cadastrado!");
+            interfaceUsuario.exibir("Ticket não cadastrado!");
 
         else if (ticket.getTarifa().getModoDeEstacionar() == HoristaMensalista.HORISTA) {
 
             ticket.encerrarTicket();
 
             totalHoras = CalculoUtils.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
-            terminal.exibir("Tempo total: " + totalHoras);
-            terminal.exibir("Total a pagar: " + ticket.getTotalPagar());
+            interfaceUsuario.exibir("Tempo total: " + totalHoras);
+            interfaceUsuario.exibir("Total a pagar: " + ticket.getTotalPagar());
 
             ticket.getVaga().setVagaStatus(VagaStatus.DISPONIVEL);
-            terminal.exibir("Ticket encerrado com sucesso!");
+            interfaceUsuario.exibir("Ticket encerrado com sucesso!");
 
         }
 
-        terminal.exibir("Carro pronto para ser retirado!");
+        interfaceUsuario.exibir("Carro pronto para ser retirado!");
 
 
     }
@@ -232,7 +245,7 @@ public class MenuGerenciaEstacionamento {
     public void listarVagas(ArrayList<Vaga> vagas) {
         for (Vaga vaga : vagas)
             if (vaga.getStatus() == VagaStatus.DISPONIVEL)
-                terminal.exibir(vaga.toString());
+                interfaceUsuario.exibir(vaga.toString());
     }
 
     public Cliente consultarCliente(ArrayList<Cliente> clientes, String documento) {

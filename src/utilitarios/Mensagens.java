@@ -17,8 +17,7 @@ public class Mensagens
             "\n# 6 - Listas todos os cadastros" +
             "\n# 7 - Voltar";
 
-    public static String GERENCIA_TARIFAS = "# 1 - Cadastrar tarifa" +
-            "\n# 2 - Editar Tarifas";
+    public static String GERENCIA_TARIFAS = "# 1 - Cadastrar tarifa";
 
     public static String SUB_MENU_GERENCIA_VEICULO = "#1 - Ver veiculos do cliente" +
             "\n# 2 - Adicionar veiculo" +

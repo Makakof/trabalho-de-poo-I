@@ -3,6 +3,8 @@ package kitmenu;
 import dados.Repositorio;
 import enums.DiaDaSemana;
 import enums.HoristaMensalista;
+import excecoes.EstacionamentoException;
+import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
@@ -13,11 +15,11 @@ import java.util.ArrayList;
 
 public class SubMenuGerenciaTarifas
 {
-    private final Terminal terminal;
+    private final InterfaceUsuario interfaceUsuario;
 
     public SubMenuGerenciaTarifas()
     {
-        this.terminal = Terminal.getInstance();
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
     public void gerenciarTarifas()
@@ -26,8 +28,8 @@ public class SubMenuGerenciaTarifas
         ArrayList<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
         TarifaEstacionamento tarifa;
 
-        terminal.menuGerenciaTarifas();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
+        interfaceUsuario.menuGerenciaTarifas();
+        opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
         switch (opcao)
         {
@@ -37,12 +39,8 @@ public class SubMenuGerenciaTarifas
                 tarifas.add(tarifa);
 
                 break;
-            case 2:
-
-                for (TarifaEstacionamento tarifaAtual : tarifas) {
-                    System.out.println(tarifaAtual);
-                }
-                break;
+            default:
+                throw new EstacionamentoException("Opção inválida de menu");
         }
     }
 
@@ -50,7 +48,7 @@ public class SubMenuGerenciaTarifas
 
         TarifaEstacionamento tarifa;
 
-        String tipoTarifa = terminal.selecionarString("Cadastrar uma tarifa do tipo HORISTA ou MENSALISTA: ");
+        String tipoTarifa = interfaceUsuario.selecionarString("Cadastrar uma tarifa do tipo HORISTA ou MENSALISTA: ");
 
         if (HoristaMensalista.HORISTA.name().equals(tipoTarifa))
             tarifa = cadastrarTarifaMensalista();
@@ -62,9 +60,9 @@ public class SubMenuGerenciaTarifas
 
     public void editarTarifa(){
 
-        String diaDaSemana = terminal.selecionarString("Digite o dia da semana que deseja alterar: ");
-        double primeiraHora = terminal.selecionarDouble("Valor primeira hora: ");
-        double horaSubsequente = terminal.selecionarDouble("Valor hora subsequente: ");
+        String diaDaSemana = interfaceUsuario.selecionarString("Digite o dia da semana que deseja alterar: ");
+        double primeiraHora = interfaceUsuario.selecionarDouble("Valor primeira hora: ");
+        double horaSubsequente = interfaceUsuario.selecionarDouble("Valor hora subsequente: ");
 
         diaDaSemana = StringUtil.formatarDiaDaSemana(diaDaSemana);
         DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
@@ -76,7 +74,7 @@ public class SubMenuGerenciaTarifas
         double valorIntegral;
         ArrayList<DiaDaSemana> dias = new ArrayList<>();
 
-        valorIntegral = terminal.selecionarDouble("Valor integral: ");
+        valorIntegral = interfaceUsuario.selecionarDouble("Valor integral: ");
 
         dias = inicializarDiasDaSemana();
 
@@ -88,8 +86,8 @@ public class SubMenuGerenciaTarifas
         double primeiraHora, horaSubsequente;
         ArrayList<DiaDaSemana> dias = new ArrayList<>();
 
-        primeiraHora = terminal.selecionarDouble("Valor Primeira Hora: ");
-        horaSubsequente = terminal.selecionarDouble("Valor Hora Subsequente: ");
+        primeiraHora = interfaceUsuario.selecionarDouble("Valor Primeira Hora: ");
+        horaSubsequente = interfaceUsuario.selecionarDouble("Valor Hora Subsequente: ");
 
         dias = inicializarDiasDaSemana();
 
@@ -99,9 +97,9 @@ public class SubMenuGerenciaTarifas
     public ArrayList<DiaDaSemana> inicializarDiasDaSemana() {
 
         ArrayList<DiaDaSemana> diaDaSemana = new ArrayList<>();
-        terminal.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
-        terminal.exibir("Digite os dias da semana dessa tarifa separados por virgula e sem pontuação:");
-        String string = terminal.selecionarString();
+        interfaceUsuario.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
+        interfaceUsuario.exibir("Digite os dias da semana dessa tarifa separados por virgula e sem pontuação:");
+        String string = interfaceUsuario.selecionarString();
         string = StringUtil.formatarDiaDaSemana(string);
 
         String[] partes = string.split(",");

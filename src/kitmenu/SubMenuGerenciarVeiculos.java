@@ -6,6 +6,7 @@ import automovel.Veiculo;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import utilitarios.StringUtil;
 
@@ -14,11 +15,11 @@ import java.util.InputMismatchException;
 
 public class SubMenuGerenciarVeiculos
 {
-    private final Terminal terminal;
+    private final InterfaceUsuario interfaceUsuario;
 
     SubMenuGerenciarVeiculos()
     {
-        this.terminal = Terminal.getInstance();
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
     public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
@@ -34,7 +35,7 @@ public class SubMenuGerenciarVeiculos
                     throw new EstacionamentoException("O cliente não possui veiculos cadastrados");
                 }
                 for (Veiculo veiculoAtual : veiculos)
-                    terminal.exibir(veiculoAtual.toString());
+                    interfaceUsuario.exibir(veiculoAtual.toString());
 
                 break;
             case 2: //adicionar veiculo
@@ -47,26 +48,26 @@ public class SubMenuGerenciarVeiculos
                     throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
 
                 veiculos.add(veiculo);
-                terminal.exibir("Veiculo cadastrado com sucesso!");
+                interfaceUsuario.exibir("Veiculo cadastrado com sucesso!");
 
                 break;
             case 3: //excluir veiculo
 
-                placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
+                placa = interfaceUsuario.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
                 excluiVeiculo(veiculos, StringUtil.formatarPlaca(placa), tickets);
-                terminal.exibir("Veiculo excluido com sucesso!");
+                interfaceUsuario.exibir("Veiculo excluido com sucesso!");
 
                 break;
             case 4: //atualizar cor
 
-                placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
+                placa = interfaceUsuario.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
                 placa = StringUtil.formatarPlaca(placa);
                 veiculo = consultarVeiculo(veiculos, placa);
                 if (veiculo != null) {
-                    nomeCor = terminal.selecionarString("Digite a nova cor: ");
+                    nomeCor = interfaceUsuario.selecionarString("Digite a nova cor: ");
                     Cor cor = new Cor(nomeCor);
                     veiculo.setCor(cor);
-                    terminal.exibir("Cor alterada com sucesso");
+                    interfaceUsuario.exibir("Cor alterada com sucesso");
                 }
 
                 break;
@@ -89,16 +90,16 @@ public class SubMenuGerenciarVeiculos
     public Veiculo cadastraVeiculo() {
         String placa, modelo, cor, tipo;
 
-        placa = terminal.selecionarString("Digite a placa do veiculo: ");
+        placa = interfaceUsuario.selecionarString("Digite a placa do veiculo: ");
         placa = StringUtil.formatarPlaca(placa);
 
-        modelo = terminal.selecionarString("Digite o modelo do veiculo: ");
+        modelo = interfaceUsuario.selecionarString("Digite o modelo do veiculo: ");
         Modelo modeloCarro = new Modelo(modelo);
 
-        cor = terminal.selecionarString("Digite a cor do veiculo: ");
+        cor = interfaceUsuario.selecionarString("Digite a cor do veiculo: ");
         Cor corCarro = new Cor(cor);
 
-        tipo = terminal.selecionarString("Digite o tipo (CARRO, MOTO, ONIBUS) do veiculo: ");
+        tipo = interfaceUsuario.selecionarString("Digite o tipo (CARRO, MOTO, ONIBUS) do veiculo: ");
         tipo = StringUtil.formatarTipo(tipo);
 
         return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));

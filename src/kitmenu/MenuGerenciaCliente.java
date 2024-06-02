@@ -6,16 +6,18 @@ import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.InterfaceUsuario;
+import interfaces.Terminal;
 
 import java.util.ArrayList;
 
 
 public class MenuGerenciaCliente {
 
-    private final UI terminal;
+    private final InterfaceUsuario interfaceUsuario;
 
     public MenuGerenciaCliente() {
-        this.terminal = UI.getInstance();
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
     public void gerenciarCliente() {
@@ -28,8 +30,8 @@ public class MenuGerenciaCliente {
 
         do {
 
-            terminal.menuGerenciaCliente();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
+            interfaceUsuario.menuGerenciaCliente();
+            opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
                 case 1:
@@ -38,18 +40,18 @@ public class MenuGerenciaCliente {
                     clientes.add(cliente);
                     break;
                 case 2:
-                    documento = terminal.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
+                    documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
                     cliente = consultaCliente(clientes, documento);
 
                     if (cliente == null)
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
 
-                    terminal.exibir(cliente.toString());
+                    interfaceUsuario.exibir(cliente.toString());
 
                     break;
                 case 3:
 
-                    documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
+                    documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja excluir: ");
                     cliente = consultaCliente(clientes, documento);
 
                     if(cliente == null)
@@ -64,25 +66,25 @@ public class MenuGerenciaCliente {
                 case 4:
                     String novoNome, novoDocumento;
 
-                    documento = terminal.selecionarString("\nDigite o documento do cliente que deseja editar: ");
+                    documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja editar: ");
                     cliente = consultaCliente(clientes, documento);
                     if (cliente != null) {
 
-                        terminal.exibir("Nome antigo: " + cliente.getNome());
-                        novoNome = terminal.selecionarString("Novo nome: ");
+                        interfaceUsuario.exibir("Nome antigo: " + cliente.getNome());
+                        novoNome = interfaceUsuario.selecionarString("Novo nome: ");
                         cliente.setNome(novoNome);
 
-                        terminal.exibir("Documento antigo: " + cliente.getDocumento());
-                        novoDocumento = terminal.selecionarString("Novo documento: ");
+                        interfaceUsuario.exibir("Documento antigo: " + cliente.getDocumento());
+                        novoDocumento = interfaceUsuario.selecionarString("Novo documento: ");
                         cliente.setDocumento(novoDocumento);
 
-                    } else terminal.exibir("Cliente não cadastrado");
+                    } else interfaceUsuario.exibir("Cliente não cadastrado");
 
                     break;
                 case 5:
                     byte opcaoSubmenu;
 
-                    documento = terminal.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
+                    documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
                     Cliente clienteAtual = consultaCliente(clientes, documento);
 
                     if (clienteAtual == null) {
@@ -90,19 +92,23 @@ public class MenuGerenciaCliente {
 
                     }
 
-                    terminal.subMenuGerenciaVeiculos();
-                    opcaoSubmenu = terminal.selecionarByte();
+                    interfaceUsuario.subMenuGerenciaVeiculos();
+                    opcaoSubmenu = interfaceUsuario.selecionarByte();
                     subMenuEditarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
                     break;
                 case 6:
 
                     for (Cliente pessoa : clientes) {
-                        terminal.exibir(pessoa.toString());
+                        interfaceUsuario.exibir(pessoa.toString());
                         pessoa.mostraVeiculos();
                     }
 
                     break;
+                case 7:
+                    break;
+                default:
+                    throw new EstacionamentoException("Opção inválida de menu");
 
             }
         } while (opcao != 7);
@@ -124,16 +130,16 @@ public class MenuGerenciaCliente {
         String nome, documento;
         int qtdCarros;
 
-        nome = terminal.selecionarString("Digite nome do cliente: ");
-        documento = terminal.selecionarString("Digite o documento do cliente: ");
+        nome = interfaceUsuario.selecionarString("Digite nome do cliente: ");
+        documento = interfaceUsuario.selecionarString("Digite o documento do cliente: ");
         Cliente cliente = new Cliente(nome, documento);
 
-        qtdCarros = terminal.selecionarByte("O cliente possui quantos veículos: ");
+        qtdCarros = interfaceUsuario.selecionarByte("O cliente possui quantos veículos: ");
 
         if (qtdCarros > 0) {
             for (int i = 0; i < qtdCarros; i++) {
 
-                terminal.exibir("\nDados do veiculo #" + (i+1));
+                interfaceUsuario.exibir("\nDados do veiculo #" + (i+1));
                 veiculo = subMenuEditarVeiculos.cadastraVeiculo();
 
                 Veiculo veiculoExiste = subMenuEditarVeiculos.consultarVeiculo(cliente.getVeiculos(), veiculo.getPlaca());
