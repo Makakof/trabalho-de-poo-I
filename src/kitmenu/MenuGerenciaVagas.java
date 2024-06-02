@@ -5,6 +5,7 @@ import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 import modelagem.Vaga;
 import utilitarios.StringUtil;
 
@@ -12,10 +13,10 @@ import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuGerenciaVagas() {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void GerenciarVagas() {

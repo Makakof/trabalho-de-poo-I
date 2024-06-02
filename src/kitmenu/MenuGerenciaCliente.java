@@ -6,7 +6,6 @@ import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
-import utilitarios.StringUtil;
 
 import java.util.ArrayList;
 
@@ -40,20 +39,17 @@ public class MenuGerenciaCliente {
                     break;
                 case 2:
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
-                    documento = StringUtil.formatarTipo(documento);
                     cliente = consultaCliente(clientes, documento);
 
                     if (cliente == null)
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
 
                     terminal.exibir(cliente.toString());
-                    cliente.mostraVeiculos();
 
                     break;
                 case 3:
 
                     documento = terminal.selecionarString("Digite o documento do cliente que deseja excluir: ");
-                    documento = StringUtil.formatarTipo(documento);
                     cliente = consultaCliente(clientes, documento);
 
                     if(cliente == null)
@@ -69,7 +65,6 @@ public class MenuGerenciaCliente {
                     String novoNome, novoDocumento;
 
                     documento = terminal.selecionarString("\nDigite o documento do cliente que deseja editar: ");
-                    documento = StringUtil.formatarTipo(documento);
                     cliente = consultaCliente(clientes, documento);
                     if (cliente != null) {
 
@@ -79,7 +74,6 @@ public class MenuGerenciaCliente {
 
                         terminal.exibir("Documento antigo: " + cliente.getDocumento());
                         novoDocumento = terminal.selecionarString("Novo documento: ");
-                        novoDocumento = StringUtil.formatarTipo(novoDocumento);
                         cliente.setDocumento(novoDocumento);
 
                     } else terminal.exibir("Cliente não cadastrado");
@@ -89,7 +83,6 @@ public class MenuGerenciaCliente {
                     byte opcaoSubmenu;
 
                     documento = terminal.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
-                    documento = StringUtil.formatarTipo(documento);
                     Cliente clienteAtual = consultaCliente(clientes, documento);
 
                     if (clienteAtual == null) {
@@ -98,7 +91,7 @@ public class MenuGerenciaCliente {
                     }
 
                     terminal.subMenuGerenciaVeiculos();
-                    opcaoSubmenu = terminal.selecionarByte("Digite a opção desejada: ");
+                    opcaoSubmenu = terminal.selecionarByte();
                     subMenuEditarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
                     break;
@@ -110,10 +103,7 @@ public class MenuGerenciaCliente {
                     }
 
                     break;
-                case 7: //voltar
-                    break;
-                default:
-                    throw new EstacionamentoException("Opção inválida de menu");
+
             }
         } while (opcao != 7);
     }
@@ -136,7 +126,6 @@ public class MenuGerenciaCliente {
 
         nome = terminal.selecionarString("Digite nome do cliente: ");
         documento = terminal.selecionarString("Digite o documento do cliente: ");
-        documento = StringUtil.formatarTipo(documento);
         Cliente cliente = new Cliente(nome, documento);
 
         qtdCarros = terminal.selecionarByte("O cliente possui quantos veículos: ");

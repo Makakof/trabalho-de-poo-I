@@ -2,6 +2,7 @@ package kitmenu;
 
 import dados.Repositorio;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 
 
 import java.time.LocalDate;
@@ -12,11 +13,11 @@ import static utilitarios.DataUtil.formatarDataSemHora;
 
 public class MenuFaturamento
 {
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuFaturamento()
     {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void realizarFaturamento()
