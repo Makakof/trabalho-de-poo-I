@@ -4,6 +4,7 @@ import dados.Repositorio;
 import ingressos.TicketEstacionamento;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -32,12 +33,12 @@ public class MenuFaturamento
     {
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;
-        LocalDateTime dataInicio = LocalDateTime.parse(dataInicioString);
-        LocalDateTime dataFim = LocalDateTime.parse(dataFimString);
+        LocalDate dataInicio = LocalDate.parse(dataInicioString);
+        LocalDate dataFim = LocalDate.parse(dataFimString);
 
         for(TicketEstacionamento ticket : tickets)
         {
-            if(dataInicio.isAfter(ticket.getDataInicio()) && (ticket.getDataFim() != null && dataFim.isBefore(ticket.getDataFim())))
+            if(dataInicio.isAfter(ticket.getDataInicio().toLocalDate()) && (ticket.getDataFim() != null && dataFim.isBefore(ticket.getDataFim().toLocalDate())))
             {
                 soma += ticket.getTotalPagar();
             }
