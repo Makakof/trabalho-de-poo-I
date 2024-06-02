@@ -10,17 +10,15 @@ import utilitarios.Util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class TicketHorista extends TicketEstacionamento {
-
 
     public TicketHorista(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifa){
         super(cliente, vaga, veiculo, tarifa);
     }
 
     public void encerrarTicket() {
-        this.setDataFim(LocalDateTime.now());
+        this.setDataFim(this.getDataInicio().plusHours(3));
         double totalPagar = calcularTotalPagar();
         this.setTotalPagar(totalPagar);
     }
@@ -31,7 +29,7 @@ public class TicketHorista extends TicketEstacionamento {
         long diferencaHoras;
         LocalDateTime inicioDoDia;
 
-        if(!virouDia(this.getDataInicio(), this.getDataFim())) {
+        if(eMesmoDia(this.getDataInicio(), this.getDataFim())) {
 
             diferencaHoras = Util.calcularHoras(this.getDataInicio(), this.getDataFim());
             totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
@@ -45,7 +43,7 @@ public class TicketHorista extends TicketEstacionamento {
             totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
 
             diferencaHoras = Util.calcularHoras(inicioDoDia, this.getDataFim()); //horas de multa
-            totalPagar += calcularMulta(diferencaHoras, (TarifaHorista) this.getTarifa());
+            totalPagar += calcularMulta(diferencaHoras, (TarifaHorista) this.getTarifa());;
 
         }
 
@@ -84,7 +82,7 @@ public class TicketHorista extends TicketEstacionamento {
         return totalPagar;
     }
 
-    public boolean virouDia (LocalDateTime dataInicio, LocalDateTime dataFim){
+    public boolean eMesmoDia(LocalDateTime dataInicio, LocalDateTime dataFim){
 
         LocalDate inicio = dataInicio.toLocalDate();
         LocalDate fim = dataFim.toLocalDate();

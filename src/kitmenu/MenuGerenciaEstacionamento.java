@@ -13,9 +13,9 @@ import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
+import utilitarios.StringUtil;
 import utilitarios.Util;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class MenuGerenciaEstacionamento {
@@ -51,8 +51,10 @@ public class MenuGerenciaEstacionamento {
                         ticket.encerrarTicket();
                         tickets.add(ticket);
 
-                    }else
+                    }else{
+
                         tickets.add(ticket);
+                    }
 
                     break;
                 case 2: // retirar
@@ -61,11 +63,18 @@ public class MenuGerenciaEstacionamento {
                     break;
                 case 3: // listar vagas
 
+                    if (vagas.isEmpty()) {
+                        throw new EstacionamentoException("O estacionamento não possui vagas cadastradas");
+                    }
                     listarVagas(vagas);
                     break;
                 case 4: // gerenciar tarifas
                     subMenuGerenciaTarifas.gerenciarTarifas();
                     break;
+                case 5: //voltar
+                    break;
+                default:
+                    throw new EstacionamentoException("Opção inválida de menu");
             }
         } while (opcao != 5);
     }
@@ -87,6 +96,7 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
         placa = terminal.selecionarString("Digite o numero da placa do veiculo: ");
+        placa = StringUtil.formatarPlaca(placa);
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
@@ -94,6 +104,7 @@ public class MenuGerenciaEstacionamento {
         }
 
         modoDeEstacionar = terminal.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
+        modoDeEstacionar = StringUtil.formatarTipo(modoDeEstacionar);
 
         if (modoDeEstacionar.equals(HoristaMensalista.MENSALISTA.name())){
 
@@ -139,17 +150,20 @@ public class MenuGerenciaEstacionamento {
 
             if(tarifaAtual.getModoDeEstacionar().equals(modoDeEstacionar)){ //procura pelo tipo de tarifa especificado
 
-                for (DiaDaSemana dia : tarifaAtual.getDiaDaSemana()){
+                for (DiaDaSemana diasTarifa : tarifaAtual.getDiaDaSemana()){
 
-                    if(Util.diaDaSemanaString(LocalDateTime.now()).equals(dia.name())){ //verifica se a tarifa é valida pro dia atual
+                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(Util.diaDaSemanaString(LocalDateTime.now()));
+
+                    if(diaAtual == diasTarifa){ //verifica se a tarifa é valida pro dia atual
                         achouDia = true;
                     }
                 }
 
                 if (achouDia) {
 
-                    if (tarifa == null)
+                    if (tarifa == null){
                         tarifa = tarifaAtual;
+                    }
 
                     else {
 
@@ -200,6 +214,7 @@ public class MenuGerenciaEstacionamento {
         TicketEstacionamento ticket;
 
         placa = terminal.selecionarString("Digite a placa do veiculo: ");
+        placa = StringUtil.formatarPlaca(placa);
 
         ticket = buscarTicketHorista(tickets, placa);
 

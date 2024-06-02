@@ -57,6 +57,7 @@ public class UI {
         exibir("# 2 - Adicionar veículo");
         exibir("# 3 - Excluir veículo");
         exibir("# 4 - Atualizar cor do veículo");
+        exibir("# 5 - Voltar");
         exibir("================================================");
 
     }

@@ -26,10 +26,11 @@ public class MenuGerenciaVagas {
         String rua;
         Vaga vaga;
 
-        terminal.menuGerenciaVagas();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
         do {
+
+            terminal.menuGerenciaVagas();
+            opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
                 case 1:
@@ -101,10 +102,11 @@ public class MenuGerenciaVagas {
 
                     alterarDisponibilidade(vaga);
                     break;
+                case 6: //voltar
+                    break;
+                default:
+                    throw new EstacionamentoException("Opção inválida de menu");
             }
-
-            terminal.menuGerenciaVagas();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
         } while (opcao != 6);
     }
 

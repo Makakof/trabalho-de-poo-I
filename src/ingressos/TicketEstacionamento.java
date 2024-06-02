@@ -4,6 +4,8 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
+import utilitarios.DataUtil;
+
 import java.time.LocalDateTime;
 
 public abstract class TicketEstacionamento
@@ -22,7 +24,7 @@ public abstract class TicketEstacionamento
         this.vaga = vaga;
         this.veiculo = veiculo;
         this.tarifa = tarifa;
-        this.dataInicio = LocalDateTime.now();
+        this.dataInicio = LocalDateTime.now().plusHours(10);
         this.dataFim = null;
     }
 
@@ -58,5 +60,13 @@ public abstract class TicketEstacionamento
 
     public abstract double calcularTotalPagar();
 
-
+    public String toString() {
+        return "\nCliente: " + cliente +
+                "\nVaga: " + vaga +
+                "\nVeiculo: " + veiculo +
+                "\nTarifa: " + tarifa +
+                "\nData inicio: " + DataUtil.formatarData(dataInicio) +
+                "\nData fim: " + DataUtil.formatarData(dataFim) +
+                "\nTotal pagar: " + totalPagar;
+    }
 }

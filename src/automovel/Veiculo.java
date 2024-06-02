@@ -11,9 +11,6 @@ public class Veiculo
 
     private TipoVeiculo tipoVeiculo;
 
-    public Veiculo() {
-    }
-
     public Veiculo(String placa, Cor cor, Modelo modelo, TipoVeiculo tipoVeiculo) {
         this.placa = StringUtil.formatarPlaca(placa);
         this.cor = cor;
