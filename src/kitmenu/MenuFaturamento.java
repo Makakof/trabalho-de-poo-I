@@ -3,10 +3,15 @@ package kitmenu;
 import dados.Repositorio;
 import ingressos.TicketEstacionamento;
 import interfaces.Terminal;
+import utilitarios.DataUtil;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static utilitarios.DataUtil.formatadorData;
+import static utilitarios.DataUtil.formatadorDataSemHora;
 
 public class MenuFaturamento
 {
@@ -33,12 +38,12 @@ public class MenuFaturamento
     {
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;
-        LocalDateTime dataInicio = LocalDateTime.parse(dataInicioString);
-        LocalDateTime dataFim = LocalDateTime.parse(dataFimString);
+        LocalDate dataInicio = LocalDate.parse(dataInicioString, formatadorDataSemHora);
+        LocalDate dataFim = LocalDate.parse(dataFimString, formatadorDataSemHora);
 
         for(TicketEstacionamento ticket : tickets)
         {
-            if(dataInicio.isAfter(ticket.getDataInicio()) && (ticket.getDataFim() != null && dataFim.isBefore(ticket.getDataFim())))
+            if(dataInicio.isAfter(ticket.getDataInicio().toLocalDate()) && (ticket.getDataFim() != null && dataFim.isBefore(ticket.getDataFim().toLocalDate())))
             {
                 soma += ticket.getTotalPagar();
             }
