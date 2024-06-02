@@ -9,9 +9,6 @@ public class Cliente {
     private String documento;
     private ArrayList<Veiculo> veiculos = new ArrayList<>();
 
-    public Cliente() {
-    }
-
     public Cliente(String nome, String documento) {
         this.nome = nome;
         this.documento = documento;
@@ -51,8 +48,8 @@ public class Cliente {
     }
 
     public void mostraVeiculos(){
-        for(Veiculo v : veiculos) {
-            System.out.println(v);
+        for(Veiculo veiculo : veiculos) {
+            System.out.println(veiculo);
         }
     }
 

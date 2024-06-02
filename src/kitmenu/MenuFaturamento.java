@@ -2,19 +2,22 @@ package kitmenu;
 
 import dados.Repositorio;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import static utilitarios.DataUtil.formatarDataSemHora;
+
 public class MenuFaturamento
 {
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuFaturamento()
     {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void realizarFaturamento()
@@ -33,8 +36,8 @@ public class MenuFaturamento
     {
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;
-        LocalDate dataInicio = LocalDate.parse(dataInicioString);
-        LocalDate dataFim = LocalDate.parse(dataFimString);
+        LocalDate dataInicio = LocalDate.parse(dataInicioString, formatarDataSemHora);
+        LocalDate dataFim = LocalDate.parse(dataFimString, formatarDataSemHora);
 
         for(TicketEstacionamento ticket : tickets)
         {

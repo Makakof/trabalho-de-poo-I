@@ -6,6 +6,7 @@ import automovel.Veiculo;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 import utilitarios.StringUtil;
 
 import java.util.ArrayList;
@@ -13,21 +14,21 @@ import java.util.InputMismatchException;
 
 public class SubMenuGerenciarVeiculos
 {
-    private final UI terminal;
+    private final Terminal terminal;
 
     SubMenuGerenciarVeiculos()
     {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
     {
-        Veiculo veiculo = new Veiculo();
+        Veiculo veiculo;
         String nomeCor, placa;
 
         switch (opcao) {
 
-            case 1:
+            case 1: //ver veiculos
 
                 if (veiculos.isEmpty()) {
                     throw new EstacionamentoException("O cliente não possui veiculos cadastrados");
@@ -36,7 +37,7 @@ public class SubMenuGerenciarVeiculos
                     terminal.exibir(veiculoAtual.toString());
 
                 break;
-            case 2:
+            case 2: //adicionar veiculo
 
                 veiculo = cadastraVeiculo();
 
@@ -49,14 +50,14 @@ public class SubMenuGerenciarVeiculos
                 terminal.exibir("Veiculo cadastrado com sucesso!");
 
                 break;
-            case 3:
+            case 3: //excluir veiculo
 
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
                 excluiVeiculo(veiculos, StringUtil.formatarPlaca(placa), tickets);
                 terminal.exibir("Veiculo excluido com sucesso!");
 
                 break;
-            case 4:
+            case 4: //atualizar cor
 
                 placa = terminal.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
                 placa = StringUtil.formatarPlaca(placa);
@@ -68,6 +69,8 @@ public class SubMenuGerenciarVeiculos
                     terminal.exibir("Cor alterada com sucesso");
                 }
 
+                break;
+            case 5: //voltar
                 break;
             default:
                 throw new EstacionamentoException("Opção inválida de menu");
@@ -87,6 +90,7 @@ public class SubMenuGerenciarVeiculos
         String placa, modelo, cor, tipo;
 
         placa = terminal.selecionarString("Digite a placa do veiculo: ");
+        placa = StringUtil.formatarPlaca(placa);
 
         modelo = terminal.selecionarString("Digite o modelo do veiculo: ");
         Modelo modeloCarro = new Modelo(modelo);
@@ -94,7 +98,7 @@ public class SubMenuGerenciarVeiculos
         cor = terminal.selecionarString("Digite a cor do veiculo: ");
         Cor corCarro = new Cor(cor);
 
-        tipo = terminal.selecionarString("Digite se seu veiculo é carro ou moto: ");
+        tipo = terminal.selecionarString("Digite o tipo (CARRO, MOTO, ONIBUS) do veiculo: ");
         tipo = StringUtil.formatarTipo(tipo);
 
         return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));

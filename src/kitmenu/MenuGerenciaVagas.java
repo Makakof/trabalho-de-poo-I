@@ -5,6 +5,7 @@ import enums.TipoVeiculo;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 import modelagem.Vaga;
 import utilitarios.StringUtil;
 
@@ -12,10 +13,10 @@ import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuGerenciaVagas() {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void GerenciarVagas() {
@@ -26,10 +27,11 @@ public class MenuGerenciaVagas {
         String rua;
         Vaga vaga;
 
-        terminal.menuGerenciaVagas();
-        opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
         do {
+
+            terminal.menuGerenciaVagas();
+            opcao = terminal.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
                 case 1:
@@ -101,10 +103,11 @@ public class MenuGerenciaVagas {
 
                     alterarDisponibilidade(vaga);
                     break;
+                case 6: //voltar
+                    break;
+                default:
+                    throw new EstacionamentoException("Opção inválida de menu");
             }
-
-            terminal.menuGerenciaVagas();
-            opcao = terminal.selecionarByte("Digite a opção desejada: ");
         } while (opcao != 6);
     }
 
