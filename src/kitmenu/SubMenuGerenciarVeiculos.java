@@ -6,6 +6,7 @@ import automovel.Veiculo;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
+import interfaces.Terminal;
 import utilitarios.StringUtil;
 
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ import java.util.InputMismatchException;
 
 public class SubMenuGerenciarVeiculos
 {
-    private final UI terminal;
+    private final Terminal terminal;
 
     SubMenuGerenciarVeiculos()
     {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
     public void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)

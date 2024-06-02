@@ -11,19 +11,21 @@ import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
+import interfaces.Terminal;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
+import utilitarios.CalculoUtils;
 import utilitarios.StringUtil;
-import utilitarios.Util;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MenuGerenciaEstacionamento {
 
-    private final UI terminal;
+    private final Terminal terminal;
 
     public MenuGerenciaEstacionamento() {
-        this.terminal = UI.getInstance();
+        this.terminal = Terminal.getInstance();
     }
 
 
@@ -51,10 +53,8 @@ public class MenuGerenciaEstacionamento {
                         ticket.encerrarTicket();
                         tickets.add(ticket);
 
-                    }else{
-
+                    }else
                         tickets.add(ticket);
-                    }
 
                     break;
                 case 2: // retirar
@@ -63,18 +63,11 @@ public class MenuGerenciaEstacionamento {
                     break;
                 case 3: // listar vagas
 
-                    if (vagas.isEmpty()) {
-                        throw new EstacionamentoException("O estacionamento não possui vagas cadastradas");
-                    }
                     listarVagas(vagas);
                     break;
                 case 4: // gerenciar tarifas
                     subMenuGerenciaTarifas.gerenciarTarifas();
                     break;
-                case 5: //voltar
-                    break;
-                default:
-                    throw new EstacionamentoException("Opção inválida de menu");
             }
         } while (opcao != 5);
     }
@@ -96,7 +89,6 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
         placa = terminal.selecionarString("Digite o numero da placa do veiculo: ");
-        placa = StringUtil.formatarPlaca(placa);
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
@@ -104,7 +96,6 @@ public class MenuGerenciaEstacionamento {
         }
 
         modoDeEstacionar = terminal.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
-        modoDeEstacionar = StringUtil.formatarTipo(modoDeEstacionar);
 
         if (modoDeEstacionar.equals(HoristaMensalista.MENSALISTA.name())){
 
@@ -150,20 +141,17 @@ public class MenuGerenciaEstacionamento {
 
             if(tarifaAtual.getModoDeEstacionar().equals(modoDeEstacionar)){ //procura pelo tipo de tarifa especificado
 
-                for (DiaDaSemana diasTarifa : tarifaAtual.getDiaDaSemana()){
+                for (DiaDaSemana dia : tarifaAtual.getDiaDaSemana()){
 
-                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(Util.diaDaSemanaString(LocalDateTime.now()));
-
-                    if(diaAtual == diasTarifa){ //verifica se a tarifa é valida pro dia atual
+                    if(StringUtil.diaDaSemanaString(LocalDateTime.now()).equals(dia.name())){ //verifica se a tarifa é valida pro dia atual
                         achouDia = true;
                     }
                 }
 
                 if (achouDia) {
 
-                    if (tarifa == null){
+                    if (tarifa == null)
                         tarifa = tarifaAtual;
-                    }
 
                     else {
 
@@ -214,7 +202,6 @@ public class MenuGerenciaEstacionamento {
         TicketEstacionamento ticket;
 
         placa = terminal.selecionarString("Digite a placa do veiculo: ");
-        placa = StringUtil.formatarPlaca(placa);
 
         ticket = buscarTicketHorista(tickets, placa);
 
@@ -228,7 +215,7 @@ public class MenuGerenciaEstacionamento {
 
             ticket.encerrarTicket();
 
-            totalHoras = Util.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
+            totalHoras = CalculoUtils.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
             terminal.exibir("Tempo total: " + totalHoras);
             terminal.exibir("Total a pagar: " + ticket.getTotalPagar());
 

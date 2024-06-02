@@ -6,19 +6,20 @@ import enums.TipoVeiculo;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
-import utilitarios.Util;
+import utilitarios.CalculoUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TicketHorista extends TicketEstacionamento {
 
+
     public TicketHorista(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifa){
         super(cliente, vaga, veiculo, tarifa);
     }
 
     public void encerrarTicket() {
-        this.setDataFim(this.getDataInicio().plusHours(3));
+        this.setDataFim(LocalDateTime.now());
         double totalPagar = calcularTotalPagar();
         this.setTotalPagar(totalPagar);
     }
@@ -29,9 +30,9 @@ public class TicketHorista extends TicketEstacionamento {
         long diferencaHoras;
         LocalDateTime inicioDoDia;
 
-        if(eMesmoDia(this.getDataInicio(), this.getDataFim())) {
+        if(!virouDia(this.getDataInicio(), this.getDataFim())) {
 
-            diferencaHoras = Util.calcularHoras(this.getDataInicio(), this.getDataFim());
+            diferencaHoras = CalculoUtils.calcularHoras(this.getDataInicio(), this.getDataFim());
             totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
         }
         else{
@@ -39,11 +40,11 @@ public class TicketHorista extends TicketEstacionamento {
             inicioDoDia = this.getDataInicio().plusDays(1); //acrescenta um dia
             inicioDoDia = inicioDoDia.toLocalDate().atStartOfDay(); //inicializa a variavel com a virada do dia(00:00)
 
-            diferencaHoras = Util.calcularHoras(this.getDataInicio(), inicioDoDia); //horas antes do dia virar
+            diferencaHoras = CalculoUtils.calcularHoras(this.getDataInicio(), inicioDoDia); //horas antes do dia virar
             totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
 
-            diferencaHoras = Util.calcularHoras(inicioDoDia, this.getDataFim()); //horas de multa
-            totalPagar += calcularMulta(diferencaHoras, (TarifaHorista) this.getTarifa());;
+            diferencaHoras = CalculoUtils.calcularHoras(inicioDoDia, this.getDataFim()); //horas de multa
+            totalPagar += calcularMulta(diferencaHoras, (TarifaHorista) this.getTarifa());
 
         }
 
@@ -82,7 +83,7 @@ public class TicketHorista extends TicketEstacionamento {
         return totalPagar;
     }
 
-    public boolean eMesmoDia(LocalDateTime dataInicio, LocalDateTime dataFim){
+    public boolean virouDia (LocalDateTime dataInicio, LocalDateTime dataFim){
 
         LocalDate inicio = dataInicio.toLocalDate();
         LocalDate fim = dataFim.toLocalDate();
