@@ -2,7 +2,6 @@ package kitmenu;
 
 import dados.Repositorio;
 import enums.DiaDaSemana;
-import enums.HoristaMensalista;
 import excecoes.EstacionamentoException;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
@@ -50,7 +49,7 @@ public class SubMenuGerenciaTarifas
 
         String tipoTarifa = interfaceUsuario.selecionarString("Cadastrar uma tarifa do tipo HORISTA ou MENSALISTA: ");
 
-        if (HoristaMensalista.HORISTA.name().equals(tipoTarifa))
+        if (tipoTarifa.equals("MENSALISTA"))
             tarifa = cadastrarTarifaMensalista();
         else
             tarifa = cadastrarTarifaHorista();
@@ -58,27 +57,24 @@ public class SubMenuGerenciaTarifas
         return tarifa;
     }
 
-    public void editarTarifa(){
-
-        String diaDaSemana = interfaceUsuario.selecionarString("Digite o dia da semana que deseja alterar: ");
-        double primeiraHora = interfaceUsuario.selecionarDouble("Valor primeira hora: ");
-        double horaSubsequente = interfaceUsuario.selecionarDouble("Valor hora subsequente: ");
-
-        diaDaSemana = StringUtil.formatarDiaDaSemana(diaDaSemana);
-        DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
-    }
+//    public void editarTarifa(){
+//
+//        String diaDaSemana = interfaceUsuario.selecionarString("Digite o dia da semana que deseja alterar: ");
+//        double primeiraHora = interfaceUsuario.selecionarDouble("Valor primeira hora: ");
+//        double horaSubsequente = interfaceUsuario.selecionarDouble("Valor hora subsequente: ");
+//
+//        diaDaSemana = StringUtil.formatarDiaDaSemana(diaDaSemana);
+//        DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
+//    }
 
 
     public TarifaMensalista cadastrarTarifaMensalista () {
 
         double valorIntegral;
-        ArrayList<DiaDaSemana> dias = new ArrayList<>();
 
         valorIntegral = interfaceUsuario.selecionarDouble("Valor integral: ");
 
-        dias = inicializarDiasDaSemana();
-
-        return new TarifaMensalista(valorIntegral, dias, HoristaMensalista.MENSALISTA);
+        return new TarifaMensalista(valorIntegral);
     }
 
     public TarifaHorista cadastrarTarifaHorista () {
@@ -91,7 +87,7 @@ public class SubMenuGerenciaTarifas
 
         dias = inicializarDiasDaSemana();
 
-        return new TarifaHorista(primeiraHora, horaSubsequente, dias, HoristaMensalista.HORISTA);
+        return new TarifaHorista(primeiraHora, horaSubsequente, dias);
     }
 
     public ArrayList<DiaDaSemana> inicializarDiasDaSemana() {
