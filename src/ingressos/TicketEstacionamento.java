@@ -4,7 +4,7 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
-import utilitarios.DataUtil;
+import utilitarios.DataUtils;
 
 import java.time.LocalDateTime;
 
@@ -65,8 +65,8 @@ public abstract class TicketEstacionamento
                 "\nVaga: " + vaga +
                 "\nVeiculo: " + veiculo +
                 "\nTarifa: " + tarifa +
-                "\nData inicio: " + DataUtil.formatarData(dataInicio) +
-                "\nData fim: " + DataUtil.formatarData(dataFim) +
+                "\nData inicio: " + DataUtils.formatarData(dataInicio) +
+                "\nData fim: " + DataUtils.formatarData(dataFim) +
                 "\nTotal pagar: " + totalPagar;
     }
 }

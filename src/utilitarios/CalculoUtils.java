@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class CalculoUtils {
-    public static long calcularHoras(LocalDateTime dataInicio, LocalDateTime dataFim) {
+    public static long calcularTempoEstacionado(LocalDateTime dataInicio, LocalDateTime dataFim) {
 
         long diferencaHoras = dataInicio.until(dataFim, ChronoUnit.HOURS);
 

@@ -8,7 +8,7 @@ import interfaces.Terminal;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
 import tarifacao.TarifaMensalista;
-import utilitarios.StringUtil;
+import utilitarios.StringUtils;
 
 import java.util.ArrayList;
 
@@ -96,7 +96,7 @@ public class SubMenuGerenciaTarifas
         interfaceUsuario.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
         interfaceUsuario.exibir("Digite os dias da semana dessa tarifa separados por virgula e sem pontuação:");
         String string = interfaceUsuario.selecionarString();
-        string = StringUtil.formatarDiaDaSemana(string);
+        string = StringUtils.formatarDiaDaSemana(string);
 
         String[] partes = string.split(",");
 

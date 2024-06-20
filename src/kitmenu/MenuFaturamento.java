@@ -9,7 +9,7 @@ import interfaces.Terminal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static utilitarios.DataUtil.formatarDataSemHora;
+import static utilitarios.DataUtils.formatarDataSemHora;
 
 public class MenuFaturamento
 {

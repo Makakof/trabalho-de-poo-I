@@ -8,7 +8,7 @@ import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
-import utilitarios.StringUtil;
+import utilitarios.StringUtils;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -54,14 +54,14 @@ public class SubMenuGerenciarVeiculos
             case 3: //excluir veiculo
 
                 placa = interfaceUsuario.selecionarString("Digite a placa do veiculo que vai ser excluido: ");
-                excluiVeiculo(veiculos, StringUtil.formatarPlaca(placa), tickets);
+                excluiVeiculo(veiculos, StringUtils.formatarPlaca(placa), tickets);
                 interfaceUsuario.exibir("Veiculo excluido com sucesso!");
 
                 break;
             case 4: //atualizar cor
 
                 placa = interfaceUsuario.selecionarString("Digite a placa do veiculo que vai ser alterada a cor: ");
-                placa = StringUtil.formatarPlaca(placa);
+                placa = StringUtils.formatarPlaca(placa);
                 veiculo = consultarVeiculo(veiculos, placa);
                 if (veiculo != null) {
                     nomeCor = interfaceUsuario.selecionarString("Digite a nova cor: ");
@@ -91,7 +91,7 @@ public class SubMenuGerenciarVeiculos
         String placa, modelo, cor, tipo;
 
         placa = interfaceUsuario.selecionarString("Digite a placa do veiculo: ");
-        placa = StringUtil.formatarPlaca(placa);
+        placa = StringUtils.formatarPlaca(placa);
 
         modelo = interfaceUsuario.selecionarString("Digite o modelo do veiculo: ");
         Modelo modeloCarro = new Modelo(modelo);
@@ -100,7 +100,7 @@ public class SubMenuGerenciarVeiculos
         Cor corCarro = new Cor(cor);
 
         tipo = interfaceUsuario.selecionarString("Digite o tipo (CARRO, MOTO, ONIBUS) do veiculo: ");
-        tipo = StringUtil.formatarTipo(tipo);
+        tipo = StringUtils.formatarTipo(tipo);
 
         return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));
     }

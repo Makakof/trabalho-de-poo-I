@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-public class StringUtil
+public class StringUtils
 {
     public static String formatarPlaca(String string)
     {

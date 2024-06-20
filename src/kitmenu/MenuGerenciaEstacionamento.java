@@ -17,7 +17,7 @@ import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
 import tarifacao.TarifaMensalista;
 import utilitarios.CalculoUtils;
-import utilitarios.StringUtil;
+import utilitarios.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
         placa = interfaceUsuario.selecionarString("Digite o numero da placa do veiculo: ");
-        placa = StringUtil.formatarPlaca(placa);
+        placa = StringUtils.formatarPlaca(placa);
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
@@ -104,7 +104,7 @@ public class MenuGerenciaEstacionamento {
         }
 
         modoDeEstacionar = interfaceUsuario.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
-        modoDeEstacionar = StringUtil.formatarTipo(modoDeEstacionar);
+        modoDeEstacionar = StringUtils.formatarTipo(modoDeEstacionar);
 
         if (modoDeEstacionar.equals("MENSALISTA")) {
 
@@ -174,7 +174,7 @@ public class MenuGerenciaEstacionamento {
 
                 for (DiaDaSemana diasTarifa : ((TarifaHorista) tarifaAtual).getDiaDaSemana()) {
 
-                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(StringUtil.diaDaSemanaString(LocalDateTime.now()));
+                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(StringUtils.diaDaSemanaString(LocalDateTime.now()));
 
                     if (diaAtual == diasTarifa) { //verifica se a tarifa é valida pro dia atual
                         achouDia = true;
@@ -235,7 +235,7 @@ public class MenuGerenciaEstacionamento {
         TicketEstacionamento ticket;
 
         placa = interfaceUsuario.selecionarString("Digite a placa do veiculo: ");
-        placa = StringUtil.formatarPlaca(placa);
+        placa = StringUtils.formatarPlaca(placa);
 
         ticket = buscarTicketHorista(tickets, placa);
 
@@ -249,7 +249,7 @@ public class MenuGerenciaEstacionamento {
 
             ticket.encerrarTicket();
 
-            totalHoras = CalculoUtils.calcularHoras(ticket.getDataInicio(), ticket.getDataFim());
+            totalHoras = CalculoUtils.calcularTempoEstacionado(ticket.getDataInicio(), ticket.getDataFim());
             interfaceUsuario.exibir("Tempo total: " + totalHoras);
             interfaceUsuario.exibir("Total a pagar: " + ticket.getTotalPagar());
 

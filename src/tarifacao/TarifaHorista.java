@@ -1,7 +1,7 @@
 package tarifacao;
 
 import enums.DiaDaSemana;
-import utilitarios.DataUtil;
+import utilitarios.DataUtils;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class TarifaHorista extends TarifaEstacionamento{
 
     public String toString()
     {
-        return "\nData inicio: " + DataUtil.formatarData(this.getDataInicio()) +
+        return "\nData inicio: " + DataUtils.formatarData(this.getDataInicio()) +
                 "\nDias: " + diaDaSemana +
                 "\nValor 1ºhora: " + valorPrimeiraHora +
                 "\nValor após 1ºhora: " + valorHoraSubsequente;

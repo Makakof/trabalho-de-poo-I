@@ -8,7 +8,7 @@ import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import modelagem.Vaga;
-import utilitarios.StringUtil;
+import utilitarios.StringUtils;
 
 import java.util.ArrayList;
 
@@ -135,7 +135,7 @@ public class MenuGerenciaVagas {
         String rua = interfaceUsuario.selecionarString("Digite o nome da rua: ");
 
         String tipo = interfaceUsuario.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO, MOTO, ou ONIBUS): ");
-        tipo = StringUtil.formatarTipo(tipo);
+        tipo = StringUtils.formatarTipo(tipo);
 
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }

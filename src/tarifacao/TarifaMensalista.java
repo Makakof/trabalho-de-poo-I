@@ -1,6 +1,6 @@
 package tarifacao;
 
-import utilitarios.DataUtil;
+import utilitarios.DataUtils;
 
 public class TarifaMensalista extends TarifaEstacionamento{
 
@@ -17,7 +17,7 @@ public class TarifaMensalista extends TarifaEstacionamento{
 
     public String toString()
     {
-        return "\nData inicio: " + DataUtil.formatarData(this.getDataInicio()) +
+        return "\nData inicio: " + DataUtils.formatarData(this.getDataInicio()) +
                 "\nValor integral: " + this.getValorIntegral();
     }
 }

@@ -2,9 +2,7 @@ package ingressos;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
-import enums.TipoVeiculo;
 import modelagem.Vaga;
-import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
 import utilitarios.CalculoUtils;
 
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 public class TicketHorista extends TicketEstacionamento {
 
 
-    public TicketHorista(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifa){
+    public TicketHorista(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaHorista tarifa){
         super(cliente, vaga, veiculo, tarifa);
     }
 
@@ -26,69 +24,54 @@ public class TicketHorista extends TicketEstacionamento {
 
     public double calcularTotalPagar(){
 
-        double totalPagar;
-        long diferencaHoras;
+        double valorTotal = 0;
+        long tempoEstacionadoEmHoras = 0;
         LocalDateTime inicioDoDia;
 
-        if(eMesmoDia(this.getDataInicio(), this.getDataFim())) {
-
-            diferencaHoras = CalculoUtils.calcularHoras(this.getDataInicio(), this.getDataFim());
-            totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
-        }
-        else{
+        if(passouDeMeiaNoite(this.getDataInicio(), this.getDataFim())) {
 
             inicioDoDia = this.getDataInicio().plusDays(1); //acrescenta um dia
-            inicioDoDia = inicioDoDia.toLocalDate().atStartOfDay(); //inicializa a variavel com a virada do dia(00:00)
+            inicioDoDia = inicioDoDia.toLocalDate().atStartOfDay(); //inicializa com a virada do dia(00:00)
 
-            diferencaHoras = CalculoUtils.calcularHoras(this.getDataInicio(), inicioDoDia); //horas antes do dia virar
-            totalPagar = calcularTotal(diferencaHoras, (TarifaHorista) this.getTarifa());
+            // calculo da multa
+            long tempoEstacionadoDaMulta = CalculoUtils.calcularTempoEstacionado(inicioDoDia, this.getDataFim());
+            double valorMulta = calcularMulta(tempoEstacionadoDaMulta, (TarifaHorista) this.getTarifa());
 
-            diferencaHoras = CalculoUtils.calcularHoras(inicioDoDia, this.getDataFim()); //horas de multa
-            totalPagar += calcularMulta(diferencaHoras, (TarifaHorista) this.getTarifa());
-
+            tempoEstacionadoEmHoras -= tempoEstacionadoDaMulta;
+            valorTotal += valorMulta;
         }
 
-        return totalPagar;
+        tempoEstacionadoEmHoras += CalculoUtils.calcularTempoEstacionado(this.getDataInicio(), this.getDataFim());
+        valorTotal += calcularValorDoTempoEstacionado(tempoEstacionadoEmHoras);
+
+        return valorTotal;
     }
 
-    public double calcularMulta(long diferencaHoras, TarifaHorista tarifa) {
+    public double calcularMulta(long tempoEstacionado, TarifaHorista tarifa) {
 
-       return (tarifa.getValorPrimeiraHora() * 2) * diferencaHoras;
+       return ((((TarifaHorista) this.getTarifa()).getValorPrimeiraHora() * this.getVeiculo().getTipoVeiculo().getPercentualTarifa()) * 2) * tempoEstacionado;
     }
 
-    public double calcularTotal(long diferencaHoras, TarifaHorista tarifa) {
-        double totalPagar;
+    public double calcularValorDoTempoEstacionado(long tempoEstacionado) {
 
-        double valorPrimeiraHora = tarifa.getValorPrimeiraHora();
-        double valorHoraSubsequente = tarifa.getValorHoraSubsequente();
 
-        if (this.getVeiculo().getTipoVeiculo() == TipoVeiculo.MOTO){
+        double valorPrimeiraHora = ((TarifaHorista) this.getTarifa()).getValorPrimeiraHora() * this.getVeiculo().getTipoVeiculo().getPercentualTarifa();
+        double valorHoraSubsequente = ((TarifaHorista) this.getTarifa()).getValorHoraSubsequente() * this.getVeiculo().getTipoVeiculo().getPercentualTarifa();
 
-            valorPrimeiraHora = tarifa.getValorPrimeiraHora() / 2;
-            valorHoraSubsequente = tarifa.getValorHoraSubsequente() / 2;
-
-        }else if (this.getVeiculo().getTipoVeiculo() == TipoVeiculo.ONIBUS){
-
-            valorPrimeiraHora = tarifa.getValorPrimeiraHora() / 2;
-            valorHoraSubsequente = tarifa.getValorHoraSubsequente() / 2;
-
+        if (tempoEstacionado > 1) {
+            valorHoraSubsequente *= (tempoEstacionado - 1); // -1 hora pra descontar o valor da primeira hora
         }
 
-        if (diferencaHoras > 1) {
-            totalPagar = valorPrimeiraHora;
-            totalPagar += valorHoraSubsequente * (diferencaHoras - 1);
-        } else
-            totalPagar = valorPrimeiraHora;
-
-        return totalPagar;
+        return valorPrimeiraHora += valorHoraSubsequente;
     }
 
-    public boolean eMesmoDia(LocalDateTime dataInicio, LocalDateTime dataFim){
+    public boolean passouDeMeiaNoite(LocalDateTime dataInicio, LocalDateTime dataFim){
 
         LocalDate inicio = dataInicio.toLocalDate();
         LocalDate fim = dataFim.toLocalDate();
 
-        return inicio.equals(fim);
+        return !inicio.equals(fim);
     }
+
 
 }

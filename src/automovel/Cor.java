@@ -1,6 +1,6 @@
 package automovel;
 
-import utilitarios.StringUtil;
+import utilitarios.StringUtils;
 
 public class Cor
 {
@@ -11,7 +11,7 @@ public class Cor
 
     public Cor(String nomeCor)
     {
-        this.nomeCor = StringUtil.formatarCor(nomeCor);
+        this.nomeCor = StringUtils.formatarCor(nomeCor);
     }
 
     public String getNomeCor() {

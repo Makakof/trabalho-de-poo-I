@@ -1,6 +1,6 @@
 package automovel;
 
-import utilitarios.StringUtil;
+import utilitarios.StringUtils;
 
 public class Modelo
 {
@@ -11,7 +11,7 @@ public class Modelo
 
     public Modelo(String nomeModelo)
     {
-        this.nomeModelo = StringUtil.formatarModelo(nomeModelo);
+        this.nomeModelo = StringUtils.formatarModelo(nomeModelo);
     }
 
     public String getNomeModelo() {
