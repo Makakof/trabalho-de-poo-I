@@ -42,8 +42,16 @@ public class Vaga
         this.rua = rua;
     }
 
-    public void setVagaStatus (VagaStatus status){
-        this.status = status;
+    public void ocupar(){
+        status = VagaStatus.OCUPADA;
+    }
+
+    public void liberar (){
+        status = VagaStatus.DISPONIVEL;
+    }
+
+    public void proibirAcesso(){
+        status = VagaStatus.INDISPONIVEL;
     }
 
     public String toString(){

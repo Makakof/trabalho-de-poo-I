@@ -35,7 +35,7 @@ public class TicketHorista extends TicketEstacionamento {
 
             // calculo da multa
             long tempoEstacionadoDaMulta = CalculoUtils.calcularTempoEstacionado(inicioDoDia, this.getDataFim());
-            double valorMulta = calcularMulta(tempoEstacionadoDaMulta, (TarifaHorista) this.getTarifa());
+            double valorMulta = calcularMulta(tempoEstacionadoDaMulta);
 
             tempoEstacionadoEmHoras -= tempoEstacionadoDaMulta;
             valorTotal += valorMulta;
@@ -47,7 +47,7 @@ public class TicketHorista extends TicketEstacionamento {
         return valorTotal;
     }
 
-    public double calcularMulta(long tempoEstacionado, TarifaHorista tarifa) {
+    public double calcularMulta(long tempoEstacionado) {
 
        return ((((TarifaHorista) this.getTarifa()).getValorPrimeiraHora() * this.getVeiculo().getTipoVeiculo().getPercentualTarifa()) * 2) * tempoEstacionado;
     }

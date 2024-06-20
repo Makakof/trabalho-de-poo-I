@@ -14,7 +14,7 @@ public class UpdateUtils {
 
             if (ticket.getTarifa() instanceof TarifaMensalista && ticket.getDataFim().isBefore(LocalDateTime.now()) && ticket.getVaga().getStatus() == VagaStatus.OCUPADA){
 
-                ticket.getVaga().setVagaStatus(VagaStatus.DISPONIVEL);
+                ticket.getVaga().liberar();
             }
         }
     }

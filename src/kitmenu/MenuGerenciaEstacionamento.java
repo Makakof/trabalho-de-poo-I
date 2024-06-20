@@ -129,8 +129,6 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
         }
 
-        vaga.setVagaStatus(VagaStatus.OCUPADA);
-
         if (modoDeEstacionar.equals("MENSALISTA")) {
 
             TarifaHorista tarifa = buscarTarifaHorista(tarifas);
@@ -174,7 +172,7 @@ public class MenuGerenciaEstacionamento {
 
                 for (DiaDaSemana diasTarifa : ((TarifaHorista) tarifaAtual).getDiaDaSemana()) {
 
-                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(StringUtils.diaDaSemanaString(LocalDateTime.now()));
+                    DiaDaSemana diaAtual = DiaDaSemana.valueOf(StringUtils.getDiaDaSemana(LocalDateTime.now()));
 
                     if (diaAtual == diasTarifa) { //verifica se a tarifa é valida pro dia atual
                         achouDia = true;
@@ -253,7 +251,7 @@ public class MenuGerenciaEstacionamento {
             interfaceUsuario.exibir("Tempo total: " + totalHoras);
             interfaceUsuario.exibir("Total a pagar: " + ticket.getTotalPagar());
 
-            ticket.getVaga().setVagaStatus(VagaStatus.DISPONIVEL);
+            ticket.getVaga().liberar();
             interfaceUsuario.exibir("Ticket encerrado com sucesso!");
 
         }

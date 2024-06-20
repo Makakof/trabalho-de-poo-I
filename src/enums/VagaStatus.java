@@ -2,6 +2,6 @@ package enums;
 
 public enum VagaStatus {
     DISPONIVEL,
-    OCUPADA,
-    INDISPONIVEL;
+    INDISPONIVEL,
+    OCUPADA;
 }

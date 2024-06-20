@@ -24,7 +24,7 @@ public class StringUtils
         return string.toUpperCase().replaceAll("\\s", "");
     }
 
-    public static String diaDaSemanaString(LocalDateTime data){
+    public static String getDiaDaSemana(LocalDateTime data){
 
         String dia = data.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase();
         dia = dia.replace("-FEIRA", "");

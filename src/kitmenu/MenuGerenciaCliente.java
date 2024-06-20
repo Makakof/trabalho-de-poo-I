@@ -57,7 +57,7 @@ public class MenuGerenciaCliente {
                     if(cliente == null)
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
 
-                    if (verificaTicketCliente(cliente.getVeiculos(), tickets))
+                    if (verificaSeOClienteTemTicket(cliente.getVeiculos(), tickets))
                         throw new EstacionamentoException("Não é possivel excluir clientes que possuem carros estacionados");
 
                     clientes.remove(cliente);
@@ -114,7 +114,7 @@ public class MenuGerenciaCliente {
         } while (opcao != 7);
     }
 
-    public boolean verificaTicketCliente(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
+    public boolean verificaSeOClienteTemTicket(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
     {
         SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
         for(Veiculo veiculo : veiculos)

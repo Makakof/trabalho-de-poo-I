@@ -35,7 +35,7 @@ public class MenuGerenciaVagas {
             opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
-                case 1:
+                case 1: //cadastrar vaga
 
                     vaga = cadastrarVaga(vagas);
 
@@ -48,7 +48,7 @@ public class MenuGerenciaVagas {
                     interfaceUsuario.exibir("Vaga cadastrada com sucesso!");
 
                     break;
-                case 2:
+                case 2: // consultar vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga == null)
@@ -57,21 +57,21 @@ public class MenuGerenciaVagas {
                     interfaceUsuario.exibir(vaga.toString());
 
                     break;
-                case 3:
+                case 3: // excluir vaga
 
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
-                    if (verificaTicketVaga(vaga, tickets)) {
+                    if (verificaSeAVagaTemTicket(vaga, tickets)) {
                         throw new EstacionamentoException("Não é possivel exluir uma vaga que possui um carro estacionado");
                     }
                     vagas.remove(vaga);
                     interfaceUsuario.exibir("Vaga excluida com sucesso!");
 
                     break;
-                case 4:
+                case 4: // atualizar dados da vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
@@ -95,7 +95,7 @@ public class MenuGerenciaVagas {
                     vaga.setRua(rua);
 
                     break;
-                case 5:
+                case 5: // alterar disponibilidade da vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = consultarVaga(vagas, numeroVaga);
 
@@ -112,11 +112,16 @@ public class MenuGerenciaVagas {
         } while (opcao != 6);
     }
 
-    public void alterarDisponibilidade(Vaga vagas) {
+    public void alterarDisponibilidade(Vaga vaga) {
 
-        interfaceUsuario.exibir("1-DISPONIVEL 2-INDISPONIVEL 3-OCUPADA");
+        interfaceUsuario.exibir("1-DISPONIVEL 2-INDISPONIVEL");
         int status = interfaceUsuario.selecionarInt("escolha uma opção para alterar a disponibilidade: ");
-        vagas.setVagaStatus(VagaStatus.values()[status]);
+
+        if (status == 1) {
+            vaga.liberar();
+        }else {
+            vaga.proibirAcesso();
+        }
     }
 
     public Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
@@ -140,7 +145,7 @@ public class MenuGerenciaVagas {
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
 
-    public boolean verificaTicketVaga(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
+    public boolean verificaSeAVagaTemTicket(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
     {
         for(TicketEstacionamento ticket : tickets)
             if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())

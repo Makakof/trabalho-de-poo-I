@@ -21,6 +21,7 @@ public abstract class TicketEstacionamento
     public TicketEstacionamento(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifa)
     {
         this.cliente = cliente;
+        vaga.ocupar();
         this.vaga = vaga;
         this.veiculo = veiculo;
         this.tarifa = tarifa;
