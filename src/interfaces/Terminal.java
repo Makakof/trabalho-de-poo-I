@@ -1,6 +1,6 @@
 package interfaces;
 
-import utilitarios.Mensagens;
+import enums.*;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -22,38 +22,61 @@ public class Terminal implements InterfaceUsuario {
         return INSTANCE;
     }
 
-    @Override
-    public void menuPrincipal() {
-        exibir(Mensagens.MENU_PRINCIPAL);
+    public void exibirMenuPrincipal() {
+        exibir(OpcaoMenuPrincipal.OPCAO1.getDescricao() +
+                OpcaoMenuPrincipal.OPCAO2.getDescricao() +
+                OpcaoMenuPrincipal.OPCAO3.getDescricao() +
+                OpcaoMenuPrincipal.OPCAO4.getDescricao() +
+                OpcaoMenuPrincipal.OPCAO5.getDescricao() +
+                OpcaoMenuPrincipal.SAIR.getDescricao());
     }
 
     @Override
-    public void menuGerenciaCliente() {
-        exibir(Mensagens.MENU_GERENCIA_CLIENTE);
-
-    }
-
-    @Override
-    public void menuGerenciaTarifas() {
-        exibir(Mensagens.GERENCIA_TARIFAS);
-
-    }
-
-    @Override
-    public void subMenuGerenciaVeiculos() {
-        exibir(Mensagens.SUB_MENU_GERENCIA_VEICULO);
-
-    }
-
-    @Override
-    public void menuGerenciaVagas() {
-        exibir(Mensagens.MENU_GERENCIA_VAGAS);
+    public void exibirMenuGerenciaCliente() {
+        exibir(OpcaoMenuGerenciaCliente.OPCAO1.getDescricao() +
+                OpcaoMenuGerenciaCliente.OPCAO2.getDescricao() +
+                OpcaoMenuGerenciaCliente.OPCAO3.getDescricao() +
+                OpcaoMenuGerenciaCliente.OPCAO4.getDescricao() +
+                OpcaoMenuGerenciaCliente.OPCAO5.getDescricao() +
+                OpcaoMenuGerenciaCliente.OPCAO6.getDescricao() +
+                OpcaoMenuGerenciaCliente.SAIR.getDescricao());
 
     }
 
     @Override
-    public void menuGerenciaEstacionamento() {
-        exibir(Mensagens.MENU_GERENCIA_ESTACIONAMENTO);
+    public void exibirMenuGerenciaTarifas() {
+        exibir(OpcaoMenuGerenciaTarifas.OPCAO1.getDescricao());
+
+    }
+
+    @Override
+    public void exibirSubMenuGerenciaVeiculos() {
+        exibir(OpcaoSubMenuGerenciaVeiculo.OPCAO1.getDescricao() +
+                OpcaoSubMenuGerenciaVeiculo.OPCAO2.getDescricao() +
+                OpcaoSubMenuGerenciaVeiculo.OPCAO3.getDescricao() +
+                OpcaoSubMenuGerenciaVeiculo.OPCAO4.getDescricao() +
+                OpcaoSubMenuGerenciaVeiculo.OPCAO5.getDescricao());
+
+    }
+
+    @Override
+    public void exibirMenuGerenciaVagas() {
+        exibir(OpcaoMenuGerenciaVagas.OPCAO1.getDescricao() +
+                OpcaoMenuGerenciaVagas.OPCAO2.getDescricao() +
+                OpcaoMenuGerenciaVagas.OPCAO3.getDescricao() +
+                OpcaoMenuGerenciaVagas.OPCAO4.getDescricao() +
+                OpcaoMenuGerenciaVagas.OPCAO5.getDescricao() +
+                OpcaoMenuGerenciaVagas.SAIR.getDescricao());
+
+    }
+
+    @Override
+    public void exibirMenuGerenciaEstacionamento() {
+        exibir(OpcaoMenuGerenciaEstacionamento.OPCAO1.getDescricao() +
+                OpcaoMenuGerenciaEstacionamento.OPCAO2.getDescricao() +
+                OpcaoMenuGerenciaEstacionamento.OPCAO3.getDescricao() +
+                OpcaoMenuGerenciaEstacionamento.OPCAO4.getDescricao() +
+                OpcaoMenuGerenciaEstacionamento.SAIR.getDescricao());
     }
 
     @Override

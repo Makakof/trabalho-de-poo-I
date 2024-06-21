@@ -1,5 +1,6 @@
 
 import dados.Repositorio;
+import enums.OpcaoMenuPrincipal;
 import excecoes.EstacionamentoException;
 
 import kitmenu.MenuGerenciaCliente;
@@ -30,7 +31,7 @@ public class Estacionamento
         {
             do 
             {
-                terminal.menuPrincipal();
+                terminal.exibirMenuPrincipal();
                 opcaoPrincipal = terminal.selecionarByte("Digite a opção desejada: ");
 
                 switch (opcaoPrincipal)
@@ -55,7 +56,7 @@ public class Estacionamento
                     default:
                         throw new EstacionamentoException("Opção inválida de menu");
                 }
-            }while(opcaoPrincipal != 6);
+            }while(opcaoPrincipal != OpcaoMenuPrincipal.SAIR.ordinal()+1);
         }
         catch (EstacionamentoException msg){
             System.out.println(msg);

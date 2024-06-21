@@ -4,12 +4,12 @@ import java.time.LocalDate;
 
 public interface InterfaceUsuario
 {
-    public void menuPrincipal();
-    public void menuGerenciaCliente();
-    public void menuGerenciaTarifas();
-    public void subMenuGerenciaVeiculos();
-    public void menuGerenciaVagas();
-    public void menuGerenciaEstacionamento();
+    public void exibirMenuPrincipal();
+    public void exibirMenuGerenciaCliente();
+    public void exibirMenuGerenciaTarifas();
+    public void exibirSubMenuGerenciaVeiculos();
+    public void exibirMenuGerenciaVagas();
+    public void exibirMenuGerenciaEstacionamento();
     public void exibir(String msg);
     public byte selecionarByte(String msg);
     public int selecionarInt(String msg);

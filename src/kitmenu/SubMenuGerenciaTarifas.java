@@ -27,7 +27,7 @@ public class SubMenuGerenciaTarifas
         ArrayList<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
         TarifaEstacionamento tarifa;
 
-        interfaceUsuario.menuGerenciaTarifas();
+        interfaceUsuario.exibirMenuGerenciaTarifas();
         opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
         switch (opcao)

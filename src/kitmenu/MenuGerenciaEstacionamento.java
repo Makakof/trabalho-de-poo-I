@@ -5,6 +5,7 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import enums.DiaDaSemana;
+import enums.OpcaoMenuGerenciaEstacionamento;
 import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
@@ -42,7 +43,7 @@ public class MenuGerenciaEstacionamento {
 
         do {
 
-            interfaceUsuario.menuGerenciaEstacionamento();
+            interfaceUsuario.exibirMenuGerenciaEstacionamento();
             opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
@@ -78,7 +79,7 @@ public class MenuGerenciaEstacionamento {
                 default:
                     throw new EstacionamentoException("Opção inválida de menu");
             }
-        } while (opcao != 5);
+        } while (opcao != OpcaoMenuGerenciaEstacionamento.SAIR.ordinal()+1);
     }
 
     public TicketEstacionamento estacionar(ArrayList<Cliente> clientes, ArrayList<TarifaEstacionamento> tarifas, ArrayList<Vaga> vagas) {

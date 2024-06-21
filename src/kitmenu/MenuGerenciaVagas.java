@@ -1,6 +1,7 @@
 package kitmenu;
 
 import dados.Repositorio;
+import enums.OpcaoMenuGerenciaVagas;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
@@ -30,7 +31,7 @@ public class MenuGerenciaVagas {
 
         do {
 
-            interfaceUsuario.menuGerenciaVagas();
+            interfaceUsuario.exibirMenuGerenciaVagas();
             opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
@@ -108,7 +109,7 @@ public class MenuGerenciaVagas {
                 default:
                     throw new EstacionamentoException("Opção inválida de menu");
             }
-        } while (opcao != 6);
+        } while (opcao != OpcaoMenuGerenciaVagas.SAIR.ordinal()+1);
     }
 
     public void alterarDisponibilidade(Vaga vaga) {

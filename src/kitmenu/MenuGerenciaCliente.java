@@ -4,6 +4,7 @@ package kitmenu;
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
+import enums.OpcaoMenuGerenciaCliente;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
@@ -30,7 +31,7 @@ public class MenuGerenciaCliente {
 
         do {
 
-            interfaceUsuario.menuGerenciaCliente();
+            interfaceUsuario.exibirMenuGerenciaCliente();
             opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
@@ -92,7 +93,7 @@ public class MenuGerenciaCliente {
 
                     }
 
-                    interfaceUsuario.subMenuGerenciaVeiculos();
+                    interfaceUsuario.exibirSubMenuGerenciaVeiculos();
                     opcaoSubmenu = interfaceUsuario.selecionarByte();
                     subMenuEditarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
@@ -111,7 +112,7 @@ public class MenuGerenciaCliente {
                     throw new EstacionamentoException("Opção inválida de menu");
 
             }
-        } while (opcao != 7);
+        } while (opcao != OpcaoMenuGerenciaCliente.SAIR.ordinal()+1);
     }
 
     public boolean verificaSeOClienteTemTicket(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
