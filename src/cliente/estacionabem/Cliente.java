@@ -1,10 +1,15 @@
 package cliente.estacionabem;
 
 import automovel.Veiculo;
+import interfaces.InterfaceUsuario;
+import interfaces.Terminal;
 
 import java.util.ArrayList;
 
 public class Cliente {
+
+    private final InterfaceUsuario interfaceUsuario;
+
     private String nome;
     private String documento;
     private ArrayList<Veiculo> veiculos = new ArrayList<>();
@@ -12,12 +17,14 @@ public class Cliente {
     public Cliente(String nome, String documento) {
         this.nome = nome;
         this.documento = documento;
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
     public Cliente(String nome, String documento, ArrayList<Veiculo> veiculos) {
         this.nome = nome;
         this.documento = documento;
         this.veiculos = veiculos;
+        this.interfaceUsuario = Terminal.getInstance();
     }
 
     public String getNome() {
@@ -48,8 +55,9 @@ public class Cliente {
     }
 
     public void mostraVeiculos(){
+
         for(Veiculo veiculo : veiculos) {
-            System.out.println(veiculo);
+            interfaceUsuario.exibir(veiculo.toString());
         }
     }
 

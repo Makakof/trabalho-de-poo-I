@@ -5,8 +5,8 @@ import cliente.estacionabem.Cliente;
 import modelagem.Vaga;
 import tarifacao.TarifaHorista;
 import utilitarios.CalculoUtils;
+import utilitarios.DataUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TicketHorista extends TicketEstacionamento {
@@ -17,9 +17,8 @@ public class TicketHorista extends TicketEstacionamento {
     }
 
     public void encerrarTicket() {
-        this.setDataFim(LocalDateTime.now());
-        double totalPagar = calcularTotalPagar();
-        this.setTotalPagar(totalPagar);
+        this.dataFim = LocalDateTime.now();
+        this.totalPagar = calcularTotalPagar();
     }
 
     public double calcularTotalPagar(){
@@ -28,7 +27,7 @@ public class TicketHorista extends TicketEstacionamento {
         long tempoEstacionadoEmHoras = 0;
         LocalDateTime inicioDoDia;
 
-        if(passouDeMeiaNoite(this.getDataInicio(), this.getDataFim())) {
+        if(DataUtils.equalsData(this.getDataInicio(), this.getDataFim())) {
 
             inicioDoDia = this.getDataInicio().plusDays(1); //acrescenta um dia
             inicioDoDia = inicioDoDia.toLocalDate().atStartOfDay(); //inicializa com a virada do dia(00:00)
@@ -63,14 +62,6 @@ public class TicketHorista extends TicketEstacionamento {
         }
 
         return valorPrimeiraHora += valorHoraSubsequente;
-    }
-
-    public boolean passouDeMeiaNoite(LocalDateTime dataInicio, LocalDateTime dataFim){
-
-        LocalDate inicio = dataInicio.toLocalDate();
-        LocalDate fim = dataFim.toLocalDate();
-
-        return !inicio.equals(fim);
     }
 
 

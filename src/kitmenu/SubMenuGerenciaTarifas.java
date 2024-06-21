@@ -94,9 +94,9 @@ public class SubMenuGerenciaTarifas
 
         ArrayList<DiaDaSemana> diaDaSemana = new ArrayList<>();
         interfaceUsuario.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
-        interfaceUsuario.exibir("Digite os dias da semana dessa tarifa separados por virgula e sem pontuação:");
-        String string = interfaceUsuario.selecionarString();
-        string = StringUtils.formatarDiaDaSemana(string);
+        String string = interfaceUsuario.selecionarString("Digite os dias da semana :");
+        string = StringUtils.formatarPadraoCapturaDeDados(string);
+        string = StringUtils.retirarAcentosESinais(string);
 
         String[] partes = string.split(",");
 

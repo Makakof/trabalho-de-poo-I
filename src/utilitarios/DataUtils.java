@@ -1,5 +1,6 @@
 package utilitarios;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,5 +13,14 @@ public class DataUtils
     public static String formatarData(LocalDateTime data)
     {
         return data.format(formatadorData);
+    }
+
+    // converte os
+    public static boolean equalsData(LocalDateTime dataInicio, LocalDateTime dataFim){
+
+        LocalDate inicio = dataInicio.toLocalDate();
+        LocalDate fim = dataFim.toLocalDate();
+
+        return !inicio.equals(fim);
     }
 }

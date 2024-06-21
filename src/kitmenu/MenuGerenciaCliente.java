@@ -34,12 +34,12 @@ public class MenuGerenciaCliente {
             opcao = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
 
             switch (opcao) {
-                case 1:
+                case 1: // cadastrar cliente
 
                     cliente = cadastrarCliente();
                     clientes.add(cliente);
                     break;
-                case 2:
+                case 2: // mostrar informações cliente
                     documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
                     cliente = consultaCliente(clientes, documento);
 
@@ -49,7 +49,7 @@ public class MenuGerenciaCliente {
                     interfaceUsuario.exibir(cliente.toString());
 
                     break;
-                case 3:
+                case 3: // excluir cliente
 
                     documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja excluir: ");
                     cliente = consultaCliente(clientes, documento);
@@ -63,7 +63,7 @@ public class MenuGerenciaCliente {
                     clientes.remove(cliente);
 
                     break;
-                case 4:
+                case 4: // editar informações cliente
                     String novoNome, novoDocumento;
 
                     documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja editar: ");
@@ -81,7 +81,7 @@ public class MenuGerenciaCliente {
                     } else interfaceUsuario.exibir("Cliente não cadastrado");
 
                     break;
-                case 5:
+                case 5: // chamada do menu para veiculos
                     byte opcaoSubmenu;
 
                     documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");

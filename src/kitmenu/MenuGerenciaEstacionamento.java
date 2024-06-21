@@ -96,7 +96,7 @@ public class MenuGerenciaEstacionamento {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
         placa = interfaceUsuario.selecionarString("Digite o numero da placa do veiculo: ");
-        placa = StringUtils.formatarPlaca(placa);
+        placa = StringUtils.formatarPadraoCapturaDeDados(placa);
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
@@ -104,7 +104,7 @@ public class MenuGerenciaEstacionamento {
         }
 
         modoDeEstacionar = interfaceUsuario.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
-        modoDeEstacionar = StringUtils.formatarTipo(modoDeEstacionar);
+        modoDeEstacionar = StringUtils.formatarPadraoCapturaDeDados(modoDeEstacionar);
 
         if (modoDeEstacionar.equals("MENSALISTA")) {
 
@@ -196,7 +196,7 @@ public class MenuGerenciaEstacionamento {
         return tarifa;
     }
 
-    public TicketEstacionamento buscarTicketMensalista(ArrayList<TicketEstacionamento> tickets, String placa) {
+    public TicketMensalista buscarTicketMensalista(ArrayList<TicketEstacionamento> tickets, String placa) {
 
         LocalDateTime dataAtual = LocalDateTime.now();
 
@@ -205,7 +205,7 @@ public class MenuGerenciaEstacionamento {
             if (placa.equals(ticket.getVeiculo().getPlaca()) && ticket.getTarifa() instanceof TarifaMensalista) {
 
                 if (dataAtual.isBefore(ticket.getDataFim())) {
-                    return ticket;
+                    return (TicketMensalista) ticket;
                 }
             }
         }
@@ -213,12 +213,12 @@ public class MenuGerenciaEstacionamento {
         return null;
     }
 
-    public TicketEstacionamento buscarTicketHorista(ArrayList<TicketEstacionamento> tickets, String placa) {
+    public TicketHorista buscarTicketHorista(ArrayList<TicketEstacionamento> tickets, String placa) {
 
         for (TicketEstacionamento ticket : tickets) {
 
             if (placa.equals(ticket.getVeiculo().getPlaca()) && ticket.getDataFim() == null) {
-                return ticket;
+                return (TicketHorista) ticket;
             }
 
         }
@@ -233,7 +233,7 @@ public class MenuGerenciaEstacionamento {
         TicketEstacionamento ticket;
 
         placa = interfaceUsuario.selecionarString("Digite a placa do veiculo: ");
-        placa = StringUtils.formatarPlaca(placa);
+        placa = StringUtils.formatarPadraoCapturaDeDados(placa);
 
         ticket = buscarTicketHorista(tickets, placa);
 

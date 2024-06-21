@@ -12,10 +12,10 @@ public class Repositorio
 {
     private static Repositorio INSTANCE;
 
-    private final ArrayList<Cliente> clientes = new ArrayList<>();
-    private final ArrayList<Vaga> vagas = new ArrayList<>();
-    private final ArrayList<TicketEstacionamento> tickets = new ArrayList<>();
-    private final ArrayList<TarifaEstacionamento> tarifas = new ArrayList<>();
+    private final ArrayList<Cliente> clientes;
+    private final ArrayList<Vaga> vagas;
+    private final ArrayList<TicketEstacionamento> tickets;
+    private final ArrayList<TarifaEstacionamento> tarifas;
 
     public static synchronized Repositorio getInstance()
     {
@@ -25,7 +25,12 @@ public class Repositorio
         return INSTANCE;
     }
 
-    private Repositorio(){}
+    private Repositorio(){
+        clientes = new ArrayList<>();
+        vagas = new ArrayList<>();
+        tickets = new ArrayList<>();
+        tarifas = new ArrayList<>();
+    }
 
     public ArrayList<Cliente> getClientes() {
         return clientes;

@@ -22,22 +22,20 @@ public class MenuFaturamento
 
     public void realizarFaturamento()
     {
-        String dataInicio, dataFim;
+        LocalDate dataInicio, dataFim;
         double faturamento;
 
-        dataInicio = interfaceUsuario.selecionarString("Digite a data de inicio (dia/mes/ano): ");
-        dataFim = interfaceUsuario.selecionarString("Digite a data de fim (dia/mes/ano): ");
+        dataInicio = interfaceUsuario.selecionarData("Digite a data de inicio (dia/mes/ano): ");
+        dataFim = interfaceUsuario.selecionarData("Digite a data de fim (dia/mes/ano): ");
 
         faturamento = calcularFaturamento(dataInicio, dataFim);
         interfaceUsuario.exibir("O faturamento no periodo selecionado foi de " + faturamento);
     }
 
-    private double calcularFaturamento(String dataInicioString, String dataFimString)
+    private double calcularFaturamento(LocalDate dataInicio, LocalDate dataFim)
     {
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;
-        LocalDate dataInicio = LocalDate.parse(dataInicioString, formatarDataSemHora);
-        LocalDate dataFim = LocalDate.parse(dataFimString, formatarDataSemHora);
 
         for(TicketEstacionamento ticket : tickets)
         {

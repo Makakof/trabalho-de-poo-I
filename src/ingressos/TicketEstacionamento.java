@@ -15,8 +15,8 @@ public abstract class TicketEstacionamento
     private Veiculo veiculo;
     private TarifaEstacionamento tarifa;
     private LocalDateTime dataInicio;
-    private LocalDateTime dataFim;
-    private double totalPagar;
+    protected LocalDateTime dataFim;
+    protected double totalPagar;
 
     public TicketEstacionamento(Cliente cliente, Vaga vaga, Veiculo veiculo, TarifaEstacionamento tarifa)
     {
@@ -48,14 +48,6 @@ public abstract class TicketEstacionamento
         return dataFim;
     }
     public double getTotalPagar() {return totalPagar;}
-
-    public void setDataFim(LocalDateTime dataFim) {
-        this.dataFim = dataFim;
-    }
-
-    public void setTotalPagar (double totalPagar) {
-        this.totalPagar = totalPagar;
-    }
 
     public abstract void encerrarTicket();
 

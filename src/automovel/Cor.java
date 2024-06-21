@@ -11,7 +11,7 @@ public class Cor
 
     public Cor(String nomeCor)
     {
-        this.nomeCor = StringUtils.formatarCor(nomeCor);
+        this.nomeCor = StringUtils.formatarPadraoCapturaDeDados(nomeCor);
     }
 
     public String getNomeCor() {

@@ -12,7 +12,7 @@ public class Veiculo
     private TipoVeiculo tipoVeiculo;
 
     public Veiculo(String placa, Cor cor, Modelo modelo, TipoVeiculo tipoVeiculo) {
-        this.placa = StringUtils.formatarPlaca(placa);
+        this.placa = StringUtils.formatarPadraoCapturaDeDados(placa);
         this.cor = cor;
         this.modelo = modelo;
         this.tipoVeiculo = tipoVeiculo;
@@ -20,7 +20,7 @@ public class Veiculo
 
     // Um veículo precisa de pelo menos placa e modelo
     public Veiculo(String placa, Modelo modelo, TipoVeiculo tipoVeiculo) {
-        this.placa = StringUtils.formatarPlaca(placa);
+        this.placa = StringUtils.formatarPadraoCapturaDeDados(placa);
         this.modelo = modelo;
         this.tipoVeiculo = tipoVeiculo;
     }

@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.time.LocalDate;
+
 public interface InterfaceUsuario
 {
     public void menuPrincipal();
@@ -15,4 +17,5 @@ public interface InterfaceUsuario
     public byte selecionarByte();
     public String selecionarString(String msg);
     public String selecionarString();
+    public LocalDate selecionarData(String msg);
 }

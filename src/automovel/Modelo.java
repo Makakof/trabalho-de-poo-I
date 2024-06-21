@@ -11,7 +11,7 @@ public class Modelo
 
     public Modelo(String nomeModelo)
     {
-        this.nomeModelo = StringUtils.formatarModelo(nomeModelo);
+        this.nomeModelo = StringUtils.formatarPadraoCapturaDeDados(nomeModelo);
     }
 
     public String getNomeModelo() {

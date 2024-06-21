@@ -2,7 +2,6 @@ package kitmenu;
 
 import dados.Repositorio;
 import enums.TipoVeiculo;
-import enums.VagaStatus;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
@@ -140,7 +139,7 @@ public class MenuGerenciaVagas {
         String rua = interfaceUsuario.selecionarString("Digite o nome da rua: ");
 
         String tipo = interfaceUsuario.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO, MOTO, ou ONIBUS): ");
-        tipo = StringUtils.formatarTipo(tipo);
+        tipo = StringUtils.formatarPadraoCapturaDeDados(tipo);
 
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }

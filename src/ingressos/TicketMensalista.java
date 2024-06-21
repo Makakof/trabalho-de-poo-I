@@ -15,9 +15,8 @@ public class TicketMensalista extends TicketEstacionamento {
     }
 
     public void encerrarTicket(){
-        this.setDataFim(LocalDateTime.now().plusDays(30)); // acrescenta 30 dias de validade ao ticket
-        double totalPagar = calcularTotalPagar();
-        this.setTotalPagar(totalPagar);
+        this.dataFim = LocalDateTime.now().plusDays(30); // acrescenta 30 dias de validade ao ticket
+        this.totalPagar = calcularTotalPagar();
     }
 
     public double calcularTotalPagar(){
