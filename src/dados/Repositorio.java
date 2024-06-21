@@ -3,6 +3,7 @@ package dados;
 import cliente.estacionabem.Cliente;
 import ingressos.TicketEstacionamento;
 import modelagem.Vaga;
+import operacoes.FuncionalidadesVaga;
 import tarifacao.TarifaEstacionamento;
 
 
@@ -16,6 +17,8 @@ public class Repositorio
     private final ArrayList<Vaga> vagas;
     private final ArrayList<TicketEstacionamento> tickets;
     private final ArrayList<TarifaEstacionamento> tarifas;
+    private final FuncionalidadesVaga funcVaga;
+
 
     public static synchronized Repositorio getInstance()
     {
@@ -30,6 +33,7 @@ public class Repositorio
         vagas = new ArrayList<>();
         tickets = new ArrayList<>();
         tarifas = new ArrayList<>();
+        funcVaga = new FuncionalidadesVaga();
     }
 
     public ArrayList<Cliente> getClientes() {
@@ -45,4 +49,6 @@ public class Repositorio
     }
 
     public ArrayList<TarifaEstacionamento> getTarifas() {return tarifas;}
+
+    public FuncionalidadesVaga getFuncVaga() {return funcVaga;}
 }

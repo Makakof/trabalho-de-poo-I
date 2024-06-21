@@ -19,7 +19,6 @@ public class Estacionamento
 
         Terminal terminal = Terminal.getInstance();
         MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente();
-        MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas();
         MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento();
         MenuFaturamento menuFaturamento = new MenuFaturamento();
         byte opcaoPrincipal;
@@ -40,7 +39,7 @@ public class Estacionamento
                         menuGerenciaCliente.gerenciarCliente();
                         break;
                     case 2:
-                        menuGerenciaVagas.GerenciarVagas();
+                        MenuGerenciaVagas.GerenciarVagas();
                         break;
                     case 3:
                         menuGerenciaEstacionamento.gerenciarEstacionamento();

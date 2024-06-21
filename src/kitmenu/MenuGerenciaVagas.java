@@ -1,26 +1,21 @@
 package kitmenu;
 
 import dados.Repositorio;
-import enums.OpcaoMenuGerenciaVagas;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import modelagem.Vaga;
-import utilitarios.StringUtils;
+import operacoes.FuncionalidadesVaga;
 
 import java.util.ArrayList;
 
 public class MenuGerenciaVagas {
 
-    private final InterfaceUsuario interfaceUsuario;
-
-    public MenuGerenciaVagas() {
-        this.interfaceUsuario = Terminal.getInstance();
-    }
-
-    public void GerenciarVagas() {
+    public static void GerenciarVagas() {
+        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+        FuncionalidadesVaga funcVagas = Repositorio.getInstance().getFuncVaga();
         ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         byte opcao;
@@ -37,9 +32,9 @@ public class MenuGerenciaVagas {
             switch (opcao) {
                 case 1: //cadastrar vaga
 
-                    vaga = cadastrarVaga(vagas);
+                    vaga = funcVagas.cadastrarVaga(vagas);
 
-                    Vaga vagaExiste = consultarVaga(vagas, vaga.getNumeroVaga());
+                    Vaga vagaExiste = funcVagas.consultarVaga(vagas, vaga.getNumeroVaga());
 
                     if(vagaExiste != null)
                         throw new EstacionamentoException("Esta vaga já existe!");
@@ -50,7 +45,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 2: // consultar vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = consultarVaga(vagas, numeroVaga);
+                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
                     if (vaga == null)
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
 
@@ -60,11 +55,11 @@ public class MenuGerenciaVagas {
                 case 3: // excluir vaga
 
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = consultarVaga(vagas, numeroVaga);
+                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
-                    if (verificaSeAVagaTemTicket(vaga, tickets)) {
+                    if (funcVagas.verificaSeAVagaTemTicket(vaga, tickets)) {
                         throw new EstacionamentoException("Não é possivel exluir uma vaga que possui um carro estacionado");
                     }
                     vagas.remove(vaga);
@@ -73,7 +68,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 4: // atualizar dados da vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = consultarVaga(vagas, numeroVaga);
+                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
@@ -85,7 +80,7 @@ public class MenuGerenciaVagas {
                     interfaceUsuario.exibir("Numero atual: " + vaga.getNumeroVaga());
                     int numeroVagaNovo = interfaceUsuario.selecionarInt("Numero novo: ");
 
-                    Vaga verificaVaga = consultarVaga(vagas, numeroVagaNovo);
+                    Vaga verificaVaga = funcVagas.consultarVaga(vagas, numeroVagaNovo);
 
                     if (verificaVaga != null) {
                         throw new EstacionamentoException("Ja existe vaga cadastrada com o numero: " + numeroVaga);
@@ -97,60 +92,18 @@ public class MenuGerenciaVagas {
                     break;
                 case 5: // alterar disponibilidade da vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = consultarVaga(vagas, numeroVaga);
+                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null)
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
 
-                    alterarDisponibilidade(vaga);
+                    funcVagas.alterarDisponibilidade(vaga);
                     break;
                 case 6: //voltar
                     break;
                 default:
                     throw new EstacionamentoException("Opção inválida de menu");
             }
-        } while (opcao != OpcaoMenuGerenciaVagas.SAIR.ordinal()+1);
+        } while (opcao != 6);
     }
-
-    public void alterarDisponibilidade(Vaga vaga) {
-
-        interfaceUsuario.exibir("1-DISPONIVEL 2-INDISPONIVEL");
-        int status = interfaceUsuario.selecionarInt("escolha uma opção para alterar a disponibilidade: ");
-
-        if (status == 1) {
-            vaga.liberar();
-        }else {
-            vaga.proibirAcesso();
-        }
-    }
-
-    public Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
-
-        for (Vaga vaga : vagas) {
-            if (vaga.getNumeroVaga() == numero)
-                return vaga;
-        }
-
-        return null;
-    }
-
-    public Vaga cadastrarVaga(ArrayList<Vaga> vagas){
-
-        int numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-        String rua = interfaceUsuario.selecionarString("Digite o nome da rua: ");
-
-        String tipo = interfaceUsuario.selecionarString("Digite qual tipo de veiculo pode estacionar na vaga (CARRO, MOTO, ou ONIBUS): ");
-        tipo = StringUtils.formatarPadraoCapturaDeDados(tipo);
-
-        return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
-    }
-
-    public boolean verificaSeAVagaTemTicket(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
-    {
-        for(TicketEstacionamento ticket : tickets)
-            if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())
-                return true;
-        return false;
-    }
-
 }
