@@ -1,6 +1,7 @@
 package operacoes;
 
 import enums.TipoVeiculo;
+import enums.VagaStatus;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
@@ -29,7 +30,7 @@ public class FuncionalidadesVaga {
         }
     }
 
-    public Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
+    public static Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
 
         for (Vaga vaga : vagas) {
             if (vaga.getNumeroVaga() == numero)
@@ -56,5 +57,13 @@ public class FuncionalidadesVaga {
             if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())
                 return true;
         return false;
+    }
+
+    public static void listarVagas(ArrayList<Vaga> vagas) {
+        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+
+        for (Vaga vaga : vagas)
+            if (vaga.getStatus() == VagaStatus.DISPONIVEL)
+                interfaceUsuario.exibir(vaga.toString());
     }
 }

@@ -1,7 +1,5 @@
 package kitmenu;
 
-
-import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import enums.OpcaoMenuGerenciaCliente;
@@ -9,9 +7,8 @@ import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
-
+import operacoes.FuncionalidadesCliente;
 import java.util.ArrayList;
-
 
 public class MenuGerenciaCliente {
 
@@ -21,8 +18,9 @@ public class MenuGerenciaCliente {
         this.interfaceUsuario = Terminal.getInstance();
     }
 
-    public void gerenciarCliente() {
-        SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
+    public static void gerenciarCliente() {
+        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+        FuncionalidadesCliente funcCliente = new FuncionalidadesCliente();
         ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
         ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         Cliente cliente;
@@ -37,12 +35,13 @@ public class MenuGerenciaCliente {
             switch (opcao) {
                 case 1: // cadastrar cliente
 
-                    cliente = cadastrarCliente();
+                    cliente = funcCliente.cadastrarCliente();
                     clientes.add(cliente);
                     break;
                 case 2: // mostrar informações cliente
+
                     documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
-                    cliente = consultaCliente(clientes, documento);
+                    cliente = funcCliente.consultaCliente(clientes, documento);
 
                     if (cliente == null)
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
@@ -53,40 +52,28 @@ public class MenuGerenciaCliente {
                 case 3: // excluir cliente
 
                     documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja excluir: ");
-                    cliente = consultaCliente(clientes, documento);
+                    cliente = funcCliente.consultaCliente(clientes, documento);
 
                     if(cliente == null)
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
 
-                    if (verificaSeOClienteTemTicket(cliente.getVeiculos(), tickets))
+                    if (FuncionalidadesCliente.verificaSeOClienteTemTicket(cliente.getVeiculos(), tickets))
                         throw new EstacionamentoException("Não é possivel excluir clientes que possuem carros estacionados");
 
                     clientes.remove(cliente);
 
                     break;
                 case 4: // editar informações cliente
-                    String novoNome, novoDocumento;
 
                     documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja editar: ");
-                    cliente = consultaCliente(clientes, documento);
-                    if (cliente != null) {
-
-                        interfaceUsuario.exibir("Nome antigo: " + cliente.getNome());
-                        novoNome = interfaceUsuario.selecionarString("Novo nome: ");
-                        cliente.setNome(novoNome);
-
-                        interfaceUsuario.exibir("Documento antigo: " + cliente.getDocumento());
-                        novoDocumento = interfaceUsuario.selecionarString("Novo documento: ");
-                        cliente.setDocumento(novoDocumento);
-
-                    } else interfaceUsuario.exibir("Cliente não cadastrado");
+                    funcCliente.editarCliente(clientes, documento);
 
                     break;
                 case 5: // chamada do menu para veiculos
                     byte opcaoSubmenu;
 
                     documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
-                    Cliente clienteAtual = consultaCliente(clientes, documento);
+                    Cliente clienteAtual = funcCliente.consultaCliente(clientes, documento);
 
                     if (clienteAtual == null) {
                         throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
@@ -95,15 +82,12 @@ public class MenuGerenciaCliente {
 
                     interfaceUsuario.exibirSubMenuGerenciaVeiculos();
                     opcaoSubmenu = interfaceUsuario.selecionarByte();
-                    subMenuEditarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
+                    SubMenuGerenciarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
                     break;
                 case 6:
 
-                    for (Cliente pessoa : clientes) {
-                        interfaceUsuario.exibir(pessoa.toString());
-                        pessoa.mostraVeiculos();
-                    }
+                    funcCliente.listarCadastros(clientes);
 
                     break;
                 case 7:
@@ -113,53 +97,5 @@ public class MenuGerenciaCliente {
 
             }
         } while (opcao != OpcaoMenuGerenciaCliente.SAIR.ordinal()+1);
-    }
-
-    public boolean verificaSeOClienteTemTicket(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
-    {
-        SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
-        for(Veiculo veiculo : veiculos)
-            if(subMenuEditarVeiculos.verificaSeOVeiculoTemTicket(tickets, veiculo))
-                return true;
-
-        return false;
-    }
-
-    public Cliente cadastrarCliente() {
-        SubMenuGerenciarVeiculos subMenuEditarVeiculos = new SubMenuGerenciarVeiculos();
-        Veiculo veiculo;
-        String nome, documento;
-        int qtdCarros;
-
-        nome = interfaceUsuario.selecionarString("Digite nome do cliente: ");
-        documento = interfaceUsuario.selecionarString("Digite o documento do cliente: ");
-        Cliente cliente = new Cliente(nome, documento);
-
-        qtdCarros = interfaceUsuario.selecionarByte("O cliente possui quantos veículos: ");
-
-        if (qtdCarros > 0) {
-            for (int i = 0; i < qtdCarros; i++) {
-
-                interfaceUsuario.exibir("\nDados do veiculo #" + (i+1));
-                veiculo = subMenuEditarVeiculos.cadastraVeiculo();
-
-                Veiculo veiculoExiste = subMenuEditarVeiculos.consultarVeiculo(cliente.getVeiculos(), veiculo.getPlaca());
-
-                if (veiculoExiste != null)
-                    throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
-
-                cliente.addVeiculo(veiculo);
-            }
-        }
-        return cliente;
-    }
-
-    public Cliente consultaCliente(ArrayList<Cliente> clientes, String documento) {
-
-        for (Cliente clienteAtual : clientes) {
-            if (clienteAtual.getDocumento().equals(documento)) return clienteAtual;
-        }
-
-        return null;
     }
 }

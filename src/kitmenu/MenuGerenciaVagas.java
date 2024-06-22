@@ -1,7 +1,6 @@
 package kitmenu;
 
 import dados.Repositorio;
-import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
@@ -34,7 +33,7 @@ public class MenuGerenciaVagas {
 
                     vaga = funcVagas.cadastrarVaga(vagas);
 
-                    Vaga vagaExiste = funcVagas.consultarVaga(vagas, vaga.getNumeroVaga());
+                    Vaga vagaExiste = FuncionalidadesVaga.consultarVaga(vagas, vaga.getNumeroVaga());
 
                     if(vagaExiste != null)
                         throw new EstacionamentoException("Esta vaga já existe!");
@@ -45,7 +44,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 2: // consultar vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
+                    vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
                     if (vaga == null)
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
 
@@ -55,7 +54,7 @@ public class MenuGerenciaVagas {
                 case 3: // excluir vaga
 
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
+                    vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
                     }
@@ -68,7 +67,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 4: // atualizar dados da vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
+                    vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null) {
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
@@ -80,7 +79,7 @@ public class MenuGerenciaVagas {
                     interfaceUsuario.exibir("Numero atual: " + vaga.getNumeroVaga());
                     int numeroVagaNovo = interfaceUsuario.selecionarInt("Numero novo: ");
 
-                    Vaga verificaVaga = funcVagas.consultarVaga(vagas, numeroVagaNovo);
+                    Vaga verificaVaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVagaNovo);
 
                     if (verificaVaga != null) {
                         throw new EstacionamentoException("Ja existe vaga cadastrada com o numero: " + numeroVaga);
@@ -92,7 +91,7 @@ public class MenuGerenciaVagas {
                     break;
                 case 5: // alterar disponibilidade da vaga
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
-                    vaga = funcVagas.consultarVaga(vagas, numeroVaga);
+                    vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null)
                         throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
