@@ -1,4 +1,4 @@
-package kitmenu;
+package operacoes;
 
 import dados.Repositorio;
 import ingressos.TicketEstacionamento;
@@ -9,13 +9,11 @@ import interfaces.Terminal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static utilitarios.DataUtils.formatarDataSemHora;
-
-public class MenuFaturamento
+public class FuncionalidadesFaturamento
 {
     private final InterfaceUsuario interfaceUsuario;
 
-    public MenuFaturamento()
+    public FuncionalidadesFaturamento()
     {
         this.interfaceUsuario = Terminal.getInstance();
     }

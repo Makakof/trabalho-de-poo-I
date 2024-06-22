@@ -6,7 +6,7 @@ import excecoes.EstacionamentoException;
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
-import kitmenu.MenuFaturamento;
+import operacoes.FuncionalidadesFaturamento;
 import interfaces.Terminal;
 import utilitarios.UpdateUtils;
 
@@ -18,10 +18,7 @@ public class Estacionamento
     {
 
         Terminal terminal = Terminal.getInstance();
-        MenuGerenciaCliente menuGerenciaCliente = new MenuGerenciaCliente();
-        MenuGerenciaVagas menuGerenciaVagas = new MenuGerenciaVagas();
-        MenuGerenciaEstacionamento menuGerenciaEstacionamento = new MenuGerenciaEstacionamento();
-        MenuFaturamento menuFaturamento = new MenuFaturamento();
+        FuncionalidadesFaturamento menuFaturamento = new FuncionalidadesFaturamento();
         byte opcaoPrincipal;
 
         UpdateUtils.atualizarStatusDasVagas(Repositorio.getInstance().getTickets());
@@ -37,13 +34,13 @@ public class Estacionamento
                 switch (opcaoPrincipal)
                 {
                     case 1:
-                        menuGerenciaCliente.gerenciarCliente();
+                        MenuGerenciaCliente.gerenciarCliente();
                         break;
                     case 2:
-                        menuGerenciaVagas.GerenciarVagas();
+                        MenuGerenciaVagas.GerenciarVagas();
                         break;
                     case 3:
-                        menuGerenciaEstacionamento.gerenciarEstacionamento();
+                        MenuGerenciaEstacionamento.gerenciarEstacionamento();
                         break;
                     case 4:
                         terminal.exibir("Sem funcionalidades no momento");
