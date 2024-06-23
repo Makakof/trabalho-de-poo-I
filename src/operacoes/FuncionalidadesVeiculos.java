@@ -3,6 +3,7 @@ package operacoes;
 import automovel.Cor;
 import automovel.Modelo;
 import automovel.Veiculo;
+import dados.Repositorio;
 import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
@@ -18,7 +19,7 @@ public class FuncionalidadesVeiculos {
     private final InterfaceUsuario interfaceUsuario;
 
     public FuncionalidadesVeiculos() {
-        interfaceUsuario = Terminal.getInstance();
+        interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public Veiculo consultarVeiculo(List<Veiculo> veiculos, String placa) {

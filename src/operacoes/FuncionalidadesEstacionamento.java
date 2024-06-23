@@ -23,7 +23,7 @@ public class FuncionalidadesEstacionamento {
     private final InterfaceUsuario interfaceUsuario;
 
     public FuncionalidadesEstacionamento() {
-        this.interfaceUsuario = Terminal.getInstance();
+        interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public TicketEstacionamento estacionar(List<Cliente> clientes, List<TarifaEstacionamento> tarifas, List<Vaga> vagas) {

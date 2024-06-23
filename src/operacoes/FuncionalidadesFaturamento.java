@@ -3,7 +3,7 @@ package operacoes;
 import dados.Repositorio;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
+
 
 
 import java.time.LocalDate;
@@ -12,15 +12,9 @@ import java.util.List;
 
 public class FuncionalidadesFaturamento
 {
-    private final InterfaceUsuario interfaceUsuario;
-
-    public FuncionalidadesFaturamento()
+    public static void realizarFaturamento()
     {
-        this.interfaceUsuario = Terminal.getInstance();
-    }
-
-    public void realizarFaturamento()
-    {
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();
         LocalDate dataInicio, dataFim;
         double faturamento;
 
@@ -31,7 +25,7 @@ public class FuncionalidadesFaturamento
         interfaceUsuario.exibir("O faturamento no periodo selecionado foi de " + faturamento);
     }
 
-    private double calcularFaturamento(LocalDate dataInicio, LocalDate dataFim)
+    private static double calcularFaturamento(LocalDate dataInicio, LocalDate dataFim)
     {
         List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;

@@ -1,5 +1,6 @@
 package operacoes;
 
+import dados.Repositorio;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
 import ingressos.TicketEstacionamento;
@@ -15,7 +16,7 @@ public class FuncionalidadesVaga {
     private final InterfaceUsuario interfaceUsuario;
 
     public FuncionalidadesVaga() {
-        this.interfaceUsuario = Terminal.getInstance();
+        interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public void alterarDisponibilidade(Vaga vaga) {

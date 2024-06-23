@@ -2,6 +2,7 @@ package operacoes;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
+import dados.Repositorio;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
@@ -13,7 +14,7 @@ public class FuncionalidadesCliente {
     private final InterfaceUsuario interfaceUsuario;
 
     public FuncionalidadesCliente() {
-        interfaceUsuario = Terminal.getInstance();
+        interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public static boolean verificaSeOClienteTemTicket(List<Veiculo> veiculos, List<TicketEstacionamento> tickets)

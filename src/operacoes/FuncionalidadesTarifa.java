@@ -1,5 +1,6 @@
 package operacoes;
 
+import dados.Repositorio;
 import enums.DiaDaSemana;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
@@ -15,7 +16,7 @@ public class FuncionalidadesTarifa {
 
     private final InterfaceUsuario interfaceUsuario;
 
-    public FuncionalidadesTarifa() {interfaceUsuario = Terminal.getInstance();}
+    public FuncionalidadesTarifa() {interfaceUsuario = Repositorio.getInstance().getUI();}
 
     public static TarifaMensalista buscarTarifaMensalista(List<TarifaEstacionamento> tarifas) {
         TarifaMensalista tarifa = null;

@@ -15,7 +15,7 @@ public class MenuGerenciaCliente {
     private final InterfaceUsuario interfaceUsuario;
 
     public MenuGerenciaCliente() {
-        this.interfaceUsuario = Terminal.getInstance();
+        this.interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public static void gerenciarCliente() {
