@@ -1,24 +1,20 @@
 package kitmenu;
 
 import automovel.Cor;
-import automovel.Modelo;
 import automovel.Veiculo;
-import enums.TipoVeiculo;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
-import operacoes.FuncionalidadesTarifa;
 import operacoes.FuncionalidadesVeiculos;
 import utilitarios.StringUtils;
+import java.util.List;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 public class SubMenuGerenciarVeiculos
 {
 
-    public static void editarVeiculos(byte opcao, ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
+    public static void editarVeiculos(byte opcao, List<Veiculo> veiculos, List<TicketEstacionamento> tickets)
     {
         InterfaceUsuario interfaceUsuario = Terminal.getInstance();
         FuncionalidadesVeiculos funcVeiculos = new FuncionalidadesVeiculos();

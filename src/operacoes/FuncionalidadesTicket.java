@@ -4,13 +4,12 @@ import ingressos.TicketEstacionamento;
 import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
 import tarifacao.TarifaMensalista;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionalidadesTicket {
 
-    public static TicketMensalista buscarTicketMensalista(ArrayList<TicketEstacionamento> tickets, String placa) {
+    public static TicketMensalista buscarTicketMensalista(List<TicketEstacionamento> tickets, String placa) {
 
         LocalDateTime dataAtual = LocalDateTime.now();
 
@@ -27,7 +26,7 @@ public class FuncionalidadesTicket {
         return null;
     }
 
-    public static TicketHorista buscarTicketHorista(ArrayList<TicketEstacionamento> tickets, String placa) {
+    public static TicketHorista buscarTicketHorista(List<TicketEstacionamento> tickets, String placa) {
 
         for (TicketEstacionamento ticket : tickets) {
 

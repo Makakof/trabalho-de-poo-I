@@ -9,7 +9,7 @@ import interfaces.Terminal;
 import modelagem.Vaga;
 import utilitarios.StringUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionalidadesVaga {
 
@@ -31,7 +31,7 @@ public class FuncionalidadesVaga {
         }
     }
 
-    public static Vaga consultarVaga(ArrayList<Vaga> vagas, int numero) {
+    public static Vaga consultarVaga(List<Vaga> vagas, int numero) {
 
         for (Vaga vaga : vagas) {
             if (vaga.getNumeroVaga() == numero)
@@ -41,7 +41,7 @@ public class FuncionalidadesVaga {
         return null;
     }
 
-    public Vaga cadastrarVaga(ArrayList<Vaga> vagas){
+    public Vaga cadastrarVaga(List<Vaga> vagas){
 
         int numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
         String rua = interfaceUsuario.selecionarString("Digite o nome da rua: ");
@@ -52,7 +52,7 @@ public class FuncionalidadesVaga {
         return new Vaga(numeroVaga, rua, TipoVeiculo.valueOf(tipo));
     }
 
-    public boolean verificaSeAVagaTemTicket(Vaga vaga, ArrayList<TicketEstacionamento> tickets)
+    public boolean verificaSeAVagaTemTicket(Vaga vaga, List<TicketEstacionamento> tickets)
     {
         for(TicketEstacionamento ticket : tickets)
             if(vaga.getNumeroVaga() == ticket.getVaga().getNumeroVaga())
@@ -60,7 +60,7 @@ public class FuncionalidadesVaga {
         return false;
     }
 
-    public static void listarVagas(ArrayList<Vaga> vagas) {
+    public static void listarVagas(List<Vaga> vagas) {
         InterfaceUsuario interfaceUsuario = Terminal.getInstance();
 
         for (Vaga vaga : vagas)

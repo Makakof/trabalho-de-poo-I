@@ -7,8 +7,7 @@ import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionalidadesCliente {
 
@@ -18,7 +17,7 @@ public class FuncionalidadesCliente {
         interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
-    public static boolean verificaSeOClienteTemTicket(ArrayList<Veiculo> veiculos, ArrayList<TicketEstacionamento> tickets)
+    public static boolean verificaSeOClienteTemTicket(List<Veiculo> veiculos, List<TicketEstacionamento> tickets)
     {
         for(Veiculo veiculo : veiculos)
             if(FuncionalidadesVeiculos.verificaSeOVeiculoTemTicket(tickets, veiculo))
@@ -56,7 +55,7 @@ public class FuncionalidadesCliente {
         return cliente;
     }
 
-    public Cliente consultaCliente(ArrayList<Cliente> clientes, String documento) {
+    public Cliente consultaCliente(List<Cliente> clientes, String documento) {
 
         for (Cliente clienteAtual : clientes) {
             if (clienteAtual.getDocumento().equals(documento)) return clienteAtual;
@@ -65,14 +64,14 @@ public class FuncionalidadesCliente {
         return null;
     }
 
-    public void listarCadastros(ArrayList<Cliente> clientes){
+    public void listarCadastros(List<Cliente> clientes){
         for (Cliente pessoa : clientes) {
             interfaceUsuario.exibir(pessoa.toString());
             pessoa.mostraVeiculos();
         }
     }
 
-    public void editarCliente(ArrayList<Cliente> clientes, String documento){
+    public void editarCliente(List<Cliente> clientes, String documento){
 
         FuncionalidadesCliente funcCliente = new FuncionalidadesCliente();
 

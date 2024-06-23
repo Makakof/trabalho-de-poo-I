@@ -1,6 +1,8 @@
 package enums;
 
-public enum TipoVeiculo
+import java.io.Serializable;
+
+public enum TipoVeiculo implements Serializable
 {
     CARRO (1),
     MOTO (0.5),

@@ -4,15 +4,17 @@ import automovel.Veiculo;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Cliente {
+public class Cliente implements Serializable {
 
-    private final InterfaceUsuario interfaceUsuario;
+    transient private final InterfaceUsuario interfaceUsuario;
 
     private String nome;
     private String documento;
-    private ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private List<Veiculo> veiculos = new ArrayList<>();
 
     public Cliente(String nome, String documento) {
         this.nome = nome;
@@ -20,7 +22,7 @@ public class Cliente {
         this.interfaceUsuario = Terminal.getInstance();
     }
 
-    public Cliente(String nome, String documento, ArrayList<Veiculo> veiculos) {
+    public Cliente(String nome, String documento, List<Veiculo> veiculos) {
         this.nome = nome;
         this.documento = documento;
         this.veiculos = veiculos;
@@ -42,7 +44,7 @@ public class Cliente {
         this.documento = documento;
     }
 
-    public ArrayList<Veiculo> getVeiculos() {
+    public List<Veiculo> getVeiculos() {
         return veiculos;
     }
 

@@ -8,7 +8,7 @@ import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import operacoes.FuncionalidadesCliente;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MenuGerenciaCliente {
 
@@ -21,8 +21,8 @@ public class MenuGerenciaCliente {
     public static void gerenciarCliente() {
         InterfaceUsuario interfaceUsuario = Terminal.getInstance();
         FuncionalidadesCliente funcCliente = new FuncionalidadesCliente();
-        ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
-        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
+        List<Cliente> clientes = Repositorio.getInstance().getClientes();
+        List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         Cliente cliente;
         String documento;
         byte opcao;
