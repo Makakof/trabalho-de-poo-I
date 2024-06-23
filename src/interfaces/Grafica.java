@@ -1,28 +1,25 @@
 package interfaces;
 
-import enums.*;
 import utilitarios.Mensagens;
 
+import javax.swing.*;
 import java.time.LocalDate;
-import java.util.Scanner;
 
-import static utilitarios.DataUtils.formatarDataSemHora;
 
-public class Terminal implements InterfaceUsuario {
+public class Grafica implements InterfaceUsuario{
+    private static Grafica INSTANCE;
 
-    private static Terminal INSTANCE;
-
-    private Terminal(){};
+    private Grafica(){};
 
     // Singleton
-    public static synchronized Terminal getInstance()
+    public static synchronized Grafica getInstance()
     {
         if(INSTANCE == null)
-            INSTANCE = new Terminal();
+            INSTANCE = new Grafica();
 
         return INSTANCE;
     }
-
+    @Override
     public void exibirMenuPrincipal() {
         exibir(Mensagens.MENU_PRINCIPAL);
     }
@@ -30,25 +27,21 @@ public class Terminal implements InterfaceUsuario {
     @Override
     public void exibirMenuGerenciaCliente() {
         exibir(Mensagens.MENU_GERENCIA_CLIENTE);
-
     }
 
     @Override
     public void exibirMenuGerenciaTarifas() {
         exibir(Mensagens.GERENCIA_TARIFAS);
-
     }
 
     @Override
     public void exibirSubMenuGerenciaVeiculos() {
         exibir(Mensagens.SUB_MENU_GERENCIA_VEICULO);
-
     }
 
     @Override
     public void exibirMenuGerenciaVagas() {
         exibir(Mensagens.MENU_GERENCIA_VAGAS);
-
     }
 
     @Override
@@ -58,79 +51,73 @@ public class Terminal implements InterfaceUsuario {
 
     @Override
     public void exibir(String msg) {
-        System.out.println(msg);
+        JOptionPane.showMessageDialog(null,msg);
     }
 
     @Override
     public byte selecionarByte(String msg) {
-        Scanner scanner = new Scanner(System.in);
+        String string;
         byte opcao;
 
-        System.out.print(msg);
-        opcao = scanner.nextByte();
+        string = JOptionPane.showInputDialog(null, msg);
+        opcao = Byte.parseByte(string);
 
         return opcao;
     }
 
     @Override
     public int selecionarInt(String msg) {
-        Scanner scanner = new Scanner(System.in);
+        String string;
         int opcao;
 
-        System.out.print(msg);
-        opcao = scanner.nextInt();
+        string = JOptionPane.showInputDialog(null, msg);
+        opcao = Integer.parseInt(string);
 
         return opcao;
     }
 
     @Override
     public double selecionarDouble(String msg) {
-        Scanner scanner = new Scanner(System.in);
+        String string;
         double opcao;
 
-        System.out.print(msg);
-        opcao = scanner.nextDouble();
+        string = JOptionPane.showInputDialog(null, msg);
+        opcao = Double.parseDouble(string);
 
         return opcao;
     }
 
     @Override
     public byte selecionarByte() {
-        Scanner scanner = new Scanner(System.in);
+        String string;
         byte opcao;
 
-        opcao = scanner.nextByte();
+        string = JOptionPane.showInputDialog(null);
+        opcao = Byte.parseByte(string);
+
         return opcao;
     }
 
     @Override
     public String selecionarString(String msg) {
-        Scanner scanner = new Scanner(System.in);
         String string;
 
-        System.out.print(msg);
-        string = scanner.nextLine();
+        string = JOptionPane.showInputDialog(null, msg);
 
         return string;
     }
 
     @Override
     public String selecionarString() {
-        Scanner scanner = new Scanner(System.in);
         String string;
 
-        string = scanner.nextLine();
+        string = JOptionPane.showInputDialog(null);
+
         return string;
     }
 
+    @Override
     public LocalDate selecionarData(String msg) {
-        Scanner scanner = new Scanner(System.in);
-        String string;
-
-        System.out.print(msg);
-        string = scanner.nextLine();
-
-        return LocalDate.parse(string, formatarDataSemHora);
+        return null;
     }
-
 }
