@@ -1,15 +1,18 @@
 
+import cliente.estacionabem.Cliente;
+import dados.Input;
 import dados.Repositorio;
 import enums.OpcaoMenuPrincipal;
 import excecoes.EstacionamentoException;
-
 import kitmenu.MenuGerenciaCliente;
 import kitmenu.MenuGerenciaEstacionamento;
 import kitmenu.MenuGerenciaVagas;
 import operacoes.FuncionalidadesFaturamento;
 import interfaces.Terminal;
+import utilitarios.Arquivos;
 import utilitarios.UpdateUtils;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Estacionamento
@@ -24,6 +27,13 @@ public class Estacionamento
         UpdateUtils.atualizarStatusDasVagas(Repositorio.getInstance().getTickets());
 
 
+        Input.inputClientes(Repositorio.getInstance().getClientes());
+
+        Arquivos.escreverNoArquivo(Repositorio.getInstance().getClientes(), "Veiculos.dat");
+
+        List<Cliente> clientes = new ArrayList<>();
+        Arquivos.lerDoArquivo(clientes, "Veiculos.dat");
+
         try 
         {
             do 
@@ -37,7 +47,7 @@ public class Estacionamento
                         MenuGerenciaCliente.gerenciarCliente();
                         break;
                     case 2:
-                        MenuGerenciaVagas.GerenciarVagas();
+                        MenuGerenciaVagas.gerenciarVagas();
                         break;
                     case 3:
                         MenuGerenciaEstacionamento.gerenciarEstacionamento();

@@ -2,7 +2,9 @@ package automovel;
 
 import utilitarios.StringUtils;
 
-public class Modelo
+import java.io.Serializable;
+
+public class Modelo implements Serializable
 {
     private String nomeModelo;
 

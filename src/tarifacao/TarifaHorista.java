@@ -4,14 +4,15 @@ import enums.DiaDaSemana;
 import utilitarios.DataUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TarifaHorista extends TarifaEstacionamento{
 
     private double valorPrimeiraHora;
     private double valorHoraSubsequente;
-    private ArrayList<DiaDaSemana> diaDaSemana;
+    private List<DiaDaSemana> diaDaSemana;
 
-    public TarifaHorista(double valorPrimeiraHora, double valorHoraSubsequente, ArrayList<DiaDaSemana> diaDaSemana){
+    public TarifaHorista(double valorPrimeiraHora, double valorHoraSubsequente, List<DiaDaSemana> diaDaSemana){
         super();
         this.valorPrimeiraHora = valorPrimeiraHora;
         this.valorHoraSubsequente = valorHoraSubsequente;
@@ -26,7 +27,7 @@ public class TarifaHorista extends TarifaEstacionamento{
         return valorHoraSubsequente;
     }
 
-    public ArrayList<DiaDaSemana> getDiaDaSemana() {
+    public List<DiaDaSemana> getDiaDaSemana() {
         return diaDaSemana;
     }
 

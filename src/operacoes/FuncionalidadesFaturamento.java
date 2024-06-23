@@ -8,6 +8,7 @@ import interfaces.Terminal;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionalidadesFaturamento
 {
@@ -32,7 +33,7 @@ public class FuncionalidadesFaturamento
 
     private double calcularFaturamento(LocalDate dataInicio, LocalDate dataFim)
     {
-        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
+        List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         double soma = 0.0;
 
         for(TicketEstacionamento ticket : tickets)

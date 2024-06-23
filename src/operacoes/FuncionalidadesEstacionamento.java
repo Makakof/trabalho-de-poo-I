@@ -16,7 +16,7 @@ import tarifacao.TarifaHorista;
 import tarifacao.TarifaMensalista;
 import utilitarios.CalculoUtils;
 import utilitarios.StringUtils;
-import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionalidadesEstacionamento {
 
@@ -26,7 +26,7 @@ public class FuncionalidadesEstacionamento {
         this.interfaceUsuario = Terminal.getInstance();
     }
 
-    public TicketEstacionamento estacionar(ArrayList<Cliente> clientes, ArrayList<TarifaEstacionamento> tarifas, ArrayList<Vaga> vagas) {
+    public TicketEstacionamento estacionar(List<Cliente> clientes, List<TarifaEstacionamento> tarifas, List<Vaga> vagas) {
 
         int numeroDaVaga;
         String documento, placa, modoDeEstacionar;
@@ -87,7 +87,7 @@ public class FuncionalidadesEstacionamento {
         }
     }
 
-    public void retirar(ArrayList<TicketEstacionamento> tickets) {
+    public void retirar(List<TicketEstacionamento> tickets) {
 
         long totalHoras;
         String placa;
@@ -122,7 +122,7 @@ public class FuncionalidadesEstacionamento {
 
     }
 
-    public Cliente consultarCliente(ArrayList<Cliente> clientes, String documento) {
+    public Cliente consultarCliente(List<Cliente> clientes, String documento) {
 
         for (Cliente clienteAtual : clientes) {
             if (clienteAtual.getDocumento().equals(documento)) return clienteAtual;
@@ -131,7 +131,7 @@ public class FuncionalidadesEstacionamento {
         return null;
     }
 
-    public Veiculo consultarVeiculo(ArrayList<Veiculo> veiculos, String placa) {
+    public Veiculo consultarVeiculo(List<Veiculo> veiculos, String placa) {
 
         for (Veiculo veiculoAtual : veiculos) {
             if (veiculoAtual.getPlaca().equals(placa)) return veiculoAtual;

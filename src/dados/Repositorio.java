@@ -11,15 +11,16 @@ import tarifacao.TarifaEstacionamento;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Repositorio
 {
     private static Repositorio INSTANCE;
 
-    private final ArrayList<Cliente> clientes;
-    private final ArrayList<Vaga> vagas;
-    private final ArrayList<TicketEstacionamento> tickets;
-    private final ArrayList<TarifaEstacionamento> tarifas;
+    private final List<Cliente> clientes;
+    private final List<Vaga> vagas;
+    private final List<TicketEstacionamento> tickets;
+    private final List<TarifaEstacionamento> tarifas;
     private final FuncionalidadesVaga funcVaga;
     private final FuncionalidadesEstacionamento funcEstacionamento;
     private final FuncionalidadesTarifa funcTarifas;
@@ -43,19 +44,19 @@ public class Repositorio
         funcTarifas = new FuncionalidadesTarifa();
     }
 
-    public ArrayList<Cliente> getClientes() {
+    public List<Cliente> getClientes() {
         return clientes;
     }
 
-    public ArrayList<Vaga> getVagas() {
+    public List<Vaga> getVagas() {
         return vagas;
     }
 
-    public ArrayList<TicketEstacionamento> getTickets() {
+    public List<TicketEstacionamento> getTickets() {
         return tickets;
     }
 
-    public ArrayList<TarifaEstacionamento> getTarifas() {return tarifas;}
+    public List<TarifaEstacionamento> getTarifas() {return tarifas;}
 
     public FuncionalidadesVaga getFuncVaga() {return funcVaga;}
 

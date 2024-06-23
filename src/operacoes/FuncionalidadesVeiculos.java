@@ -10,8 +10,8 @@ import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import utilitarios.StringUtils;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 
 public class FuncionalidadesVeiculos {
 
@@ -21,7 +21,7 @@ public class FuncionalidadesVeiculos {
         interfaceUsuario = Terminal.getInstance();
     }
 
-    public Veiculo consultarVeiculo(ArrayList<Veiculo> veiculos, String placa) {
+    public Veiculo consultarVeiculo(List<Veiculo> veiculos, String placa) {
 
         for (Veiculo veiculoAtual : veiculos) {
             if (veiculoAtual.getPlaca().equals(placa)) return veiculoAtual;
@@ -49,7 +49,7 @@ public class FuncionalidadesVeiculos {
         return new Veiculo(placa, corCarro, modeloCarro, TipoVeiculo.valueOf(tipo));
     }
 
-    public void excluiVeiculo(ArrayList<Veiculo> veiculos, String placa, ArrayList<TicketEstacionamento> tickets) {
+    public void excluiVeiculo(List<Veiculo> veiculos, String placa, List<TicketEstacionamento> tickets) {
 
         Veiculo veiculo = consultarVeiculo(veiculos, placa);
 
@@ -63,7 +63,7 @@ public class FuncionalidadesVeiculos {
         veiculos.remove(veiculo);
     }
 
-    public static boolean verificaSeOVeiculoTemTicket(ArrayList<TicketEstacionamento> tickets, Veiculo veiculo) {
+    public static boolean verificaSeOVeiculoTemTicket(List<TicketEstacionamento> tickets, Veiculo veiculo) {
         for (TicketEstacionamento ticket : tickets) {
 
             String placaVeiculoTicket = ticket.getVeiculo().getPlaca();

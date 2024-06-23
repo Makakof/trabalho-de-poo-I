@@ -5,10 +5,10 @@ import ingressos.TicketEstacionamento;
 import tarifacao.TarifaMensalista;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class UpdateUtils {
-    public static void atualizarStatusDasVagas(ArrayList<TicketEstacionamento> tickets) {
+    public static void atualizarStatusDasVagas(List<TicketEstacionamento> tickets) {
 
         for (TicketEstacionamento ticket : tickets){
 

@@ -12,7 +12,7 @@ import operacoes.FuncionalidadesEstacionamento;
 import operacoes.FuncionalidadesVaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaMensalista;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MenuGerenciaEstacionamento {
 
@@ -20,10 +20,10 @@ public class MenuGerenciaEstacionamento {
         
         InterfaceUsuario interfaceUsuario = Terminal.getInstance();
         FuncionalidadesEstacionamento funcEstacionamento = Repositorio.getInstance().getFuncEstacionamento();
-        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
-        ArrayList<Cliente> clientes = Repositorio.getInstance().getClientes();
-        ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
-        ArrayList<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
+        List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
+        List<Cliente> clientes = Repositorio.getInstance().getClientes();
+        List<Vaga> vagas = Repositorio.getInstance().getVagas();
+        List<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
 
         byte opcao;
 

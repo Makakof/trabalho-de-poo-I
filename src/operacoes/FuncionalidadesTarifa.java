@@ -9,6 +9,7 @@ import tarifacao.TarifaMensalista;
 import utilitarios.StringUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionalidadesTarifa {
 
@@ -16,7 +17,7 @@ public class FuncionalidadesTarifa {
 
     public FuncionalidadesTarifa() {interfaceUsuario = Terminal.getInstance();}
 
-    public static TarifaMensalista buscarTarifaMensalista(ArrayList<TarifaEstacionamento> tarifas) {
+    public static TarifaMensalista buscarTarifaMensalista(List<TarifaEstacionamento> tarifas) {
         TarifaMensalista tarifa = null;
 
         for (TarifaEstacionamento tarifaAtual : tarifas) { //olha pra todas as tarifas
@@ -35,7 +36,7 @@ public class FuncionalidadesTarifa {
         return tarifa;
     }
 
-    public static TarifaHorista buscarTarifaHorista(ArrayList<TarifaEstacionamento> tarifas) {
+    public static TarifaHorista buscarTarifaHorista(List<TarifaEstacionamento> tarifas) {
 
         TarifaHorista tarifa = null;
         boolean achouDia = false;
@@ -107,7 +108,7 @@ public class FuncionalidadesTarifa {
     public TarifaHorista cadastrarTarifaHorista () {
 
         double primeiraHora, horaSubsequente;
-        ArrayList<DiaDaSemana> dias = new ArrayList<>();
+        List<DiaDaSemana> dias = new ArrayList<>();
 
         primeiraHora = interfaceUsuario.selecionarDouble("Valor Primeira Hora: ");
         horaSubsequente = interfaceUsuario.selecionarDouble("Valor Hora Subsequente: ");
@@ -117,9 +118,9 @@ public class FuncionalidadesTarifa {
         return new TarifaHorista(primeiraHora, horaSubsequente, dias);
     }
 
-    public ArrayList<DiaDaSemana> inicializarDiasDaSemana() {
+    public List<DiaDaSemana> inicializarDiasDaSemana() {
 
-        ArrayList<DiaDaSemana> diaDaSemana = new ArrayList<>();
+        List<DiaDaSemana> diaDaSemana = new ArrayList<>();
         interfaceUsuario.exibir("Exemplo (SEGUNDA,TERCA,QUARTA)");
         String string = interfaceUsuario.selecionarString("Digite os dias da semana :");
         string = StringUtils.formatarPadraoCapturaDeDados(string);

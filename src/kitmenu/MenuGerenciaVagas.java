@@ -7,16 +7,15 @@ import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import modelagem.Vaga;
 import operacoes.FuncionalidadesVaga;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class MenuGerenciaVagas {
 
-    public static void GerenciarVagas() {
+    public static void gerenciarVagas() {
         InterfaceUsuario interfaceUsuario = Terminal.getInstance();
         FuncionalidadesVaga funcVagas = Repositorio.getInstance().getFuncVaga();
-        ArrayList<Vaga> vagas = Repositorio.getInstance().getVagas();
-        ArrayList<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
+        List<Vaga> vagas = Repositorio.getInstance().getVagas();
+        List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         byte opcao;
         int numeroVaga;
         String rua;

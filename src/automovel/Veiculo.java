@@ -3,12 +3,13 @@ package automovel;
 import enums.TipoVeiculo;
 import utilitarios.StringUtils;
 
-public class Veiculo
+import java.io.Serializable;
+
+public class Veiculo implements Serializable
 {
     private String placa;
     private Cor cor;
     private Modelo modelo;
-
     private TipoVeiculo tipoVeiculo;
 
     public Veiculo(String placa, Cor cor, Modelo modelo, TipoVeiculo tipoVeiculo) {

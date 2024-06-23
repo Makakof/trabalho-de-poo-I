@@ -2,7 +2,9 @@ package automovel;
 
 import utilitarios.StringUtils;
 
-public class Cor
+import java.io.Serializable;
+
+public class Cor implements Serializable
 {
     private String nomeCor;
 
