@@ -20,7 +20,7 @@ public class MenuPrincipal {
                     MenuGerenciaCliente.gerenciarCliente();
                     break;
                 case 2:
-                    MenuGerenciaVagas.GerenciarVagas();
+                    MenuGerenciaVagas.gerenciarVagas();
                     break;
                 case 3:
                     MenuGerenciaEstacionamento.gerenciarEstacionamento();

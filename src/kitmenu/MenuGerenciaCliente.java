@@ -12,14 +12,8 @@ import java.util.List;
 
 public class MenuGerenciaCliente {
 
-    private final InterfaceUsuario interfaceUsuario;
-
-    public MenuGerenciaCliente() {
-        this.interfaceUsuario = Repositorio.getInstance().getUI();
-    }
-
     public static void gerenciarCliente() {
-        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();;
         FuncionalidadesCliente funcCliente = new FuncionalidadesCliente();
         List<Cliente> clientes = Repositorio.getInstance().getClientes();
         List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();

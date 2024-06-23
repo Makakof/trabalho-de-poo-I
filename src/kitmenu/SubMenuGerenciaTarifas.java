@@ -12,8 +12,8 @@ public class SubMenuGerenciaTarifas
 {
     public static void gerenciarTarifas()
     {
-        FuncionalidadesTarifa funcTarifa = Repositorio.getInstance().getFuncTarifas();
-        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+        FuncionalidadesTarifa funcTarifa = new FuncionalidadesTarifa();
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();;
         byte opcao;
         List<TarifaEstacionamento> tarifas = Repositorio.getInstance().getTarifas();
         TarifaEstacionamento tarifa;

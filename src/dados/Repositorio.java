@@ -24,9 +24,6 @@ public class Repositorio
     private final List<Vaga> vagas;
     private final List<TicketEstacionamento> tickets;
     private final List<TarifaEstacionamento> tarifas;
-    private final FuncionalidadesVaga funcVaga;
-    private final FuncionalidadesEstacionamento funcEstacionamento;
-    private final FuncionalidadesTarifa funcTarifas;
     private final InterfaceUsuario UI;
     private static String interfaceEscolhida;
 
@@ -45,9 +42,6 @@ public class Repositorio
         vagas = new ArrayList<>();
         tickets = new ArrayList<>();
         tarifas = new ArrayList<>();
-        funcVaga = new FuncionalidadesVaga();
-        funcEstacionamento = new FuncionalidadesEstacionamento();
-        funcTarifas = new FuncionalidadesTarifa();
     }
 
     public List<Cliente> getClientes() {
@@ -64,9 +58,6 @@ public class Repositorio
 
     public List<TarifaEstacionamento> getTarifas() {return tarifas;}
 
-    public FuncionalidadesVaga getFuncVaga() {return funcVaga;}
-    public FuncionalidadesEstacionamento getFuncEstacionamento() {return funcEstacionamento;}
-    public FuncionalidadesTarifa getFuncTarifas() {return funcTarifas;}
     public InterfaceUsuario getUI()
     {
         if(interfaceEscolhida.equalsIgnoreCase("grafica"))

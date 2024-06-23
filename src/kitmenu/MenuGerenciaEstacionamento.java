@@ -18,8 +18,8 @@ public class MenuGerenciaEstacionamento {
 
     public static void gerenciarEstacionamento() {
         
-        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
-        FuncionalidadesEstacionamento funcEstacionamento = Repositorio.getInstance().getFuncEstacionamento();
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();;
+        FuncionalidadesEstacionamento funcEstacionamento = new FuncionalidadesEstacionamento();
         List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         List<Cliente> clientes = Repositorio.getInstance().getClientes();
         List<Vaga> vagas = Repositorio.getInstance().getVagas();

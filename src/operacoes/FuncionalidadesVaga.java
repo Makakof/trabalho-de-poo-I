@@ -61,7 +61,7 @@ public class FuncionalidadesVaga {
     }
 
     public static void listarVagas(List<Vaga> vagas) {
-        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();
 
         for (Vaga vaga : vagas)
             if (vaga.getStatus() == VagaStatus.DISPONIVEL)
