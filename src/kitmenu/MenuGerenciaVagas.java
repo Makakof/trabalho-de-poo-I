@@ -12,8 +12,8 @@ import java.util.List;
 public class MenuGerenciaVagas {
 
     public static void gerenciarVagas() {
-        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
-        FuncionalidadesVaga funcVagas = Repositorio.getInstance().getFuncVaga();
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();;
+        FuncionalidadesVaga funcVagas = new FuncionalidadesVaga();
         List<Vaga> vagas = Repositorio.getInstance().getVagas();
         List<TicketEstacionamento> tickets = Repositorio.getInstance().getTickets();
         byte opcao;

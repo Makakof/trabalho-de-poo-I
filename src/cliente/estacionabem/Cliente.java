@@ -1,6 +1,7 @@
 package cliente.estacionabem;
 
 import automovel.Veiculo;
+import dados.Repositorio;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 
@@ -19,14 +20,14 @@ public class Cliente implements Serializable {
     public Cliente(String nome, String documento) {
         this.nome = nome;
         this.documento = documento;
-        this.interfaceUsuario = Terminal.getInstance();
+        this.interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public Cliente(String nome, String documento, List<Veiculo> veiculos) {
         this.nome = nome;
         this.documento = documento;
         this.veiculos = veiculos;
-        this.interfaceUsuario = Terminal.getInstance();
+        this.interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
     public String getNome() {

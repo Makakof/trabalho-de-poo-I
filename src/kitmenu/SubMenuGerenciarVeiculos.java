@@ -2,6 +2,7 @@ package kitmenu;
 
 import automovel.Cor;
 import automovel.Veiculo;
+import dados.Repositorio;
 import excecoes.EstacionamentoException;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
@@ -16,7 +17,7 @@ public class SubMenuGerenciarVeiculos
 
     public static void editarVeiculos(byte opcao, List<Veiculo> veiculos, List<TicketEstacionamento> tickets)
     {
-        InterfaceUsuario interfaceUsuario = Terminal.getInstance();
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();;
         FuncionalidadesVeiculos funcVeiculos = new FuncionalidadesVeiculos();
         Veiculo veiculo;
         String nomeCor, placa;
