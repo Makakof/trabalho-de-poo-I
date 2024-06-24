@@ -77,6 +77,7 @@ public class FuncionalidadesTarifa {
         TarifaEstacionamento tarifa;
 
         String tipoTarifa = interfaceUsuario.selecionarString("Cadastrar uma tarifa do tipo HORISTA ou MENSALISTA: ");
+        tipoTarifa = StringUtils.formatarPadraoCapturaDeDados(tipoTarifa);
 
         if (tipoTarifa.equals("MENSALISTA"))
             tarifa = cadastrarTarifaMensalista();

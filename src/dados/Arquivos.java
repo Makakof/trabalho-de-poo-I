@@ -1,7 +1,4 @@
-package utilitarios;
-
-import automovel.Veiculo;
-import cliente.estacionabem.Cliente;
+package dados;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -58,24 +55,10 @@ public class Arquivos {
                     e.printStackTrace();
                 }
             }
-
-            for(T array : arrays) {
-                System.out.println(array.toString());
-                mostraVeiculos(((Cliente) array).getVeiculos());
-                System.out.println("----------------");
-            }
-
         }
     }
 
-    public static void mostraVeiculos(List<Veiculo> veiculos){
-
-        for(Veiculo veiculo : veiculos) {
-            System.out.println(veiculo.toString());
-        }
-    }
-
-    public static void escreverNoArquivo(List<Cliente> arrays, String caminhoArquivo){
+    public static <T> void escreverNoArquivo(List<T> arrays, String caminhoArquivo){
 
         if (!verificaSeArquivoExiste(caminhoArquivo)){
             try {
@@ -90,7 +73,7 @@ public class Arquivos {
         try{
             arquivo = new ObjectOutputStream(new FileOutputStream(caminhoArquivo));
 
-            for (Cliente array : arrays){
+            for (T array : arrays){
                 arquivo.writeObject(array);
             }
 
@@ -103,5 +86,32 @@ public class Arquivos {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void inicializarDadosDoSistema(){
+
+        Repositorio repositorio = Repositorio.getInstance();
+
+        lerDoArquivo(repositorio.getClientes(), "Dados_Clientes.dat");
+
+        lerDoArquivo(repositorio.getVagas(), "Dados_Vagas.dat");
+
+        lerDoArquivo(repositorio.getTickets(), "Dados_Tickets.dat");
+
+        lerDoArquivo(repositorio.getTarifas(), "Dados_Tarifas.dat");
+
+    }
+
+    public static void salvarDadosDoSistema (){
+
+        Repositorio repositorio = Repositorio.getInstance();
+
+        escreverNoArquivo(repositorio.getClientes(), "Dados_Clientes.dat");
+
+        escreverNoArquivo(repositorio.getVagas(), "Dados_Vagas.dat");
+
+        escreverNoArquivo(repositorio.getTickets(), "Dados_Tickets.dat");
+
+        escreverNoArquivo(repositorio.getTarifas(), "Dados_Tarifas.dat");
     }
 }
