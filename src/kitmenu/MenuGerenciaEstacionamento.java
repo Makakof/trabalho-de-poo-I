@@ -9,6 +9,7 @@ import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
 import modelagem.Vaga;
 import operacoes.FuncionalidadesEstacionamento;
+import operacoes.FuncionalidadesTicket;
 import operacoes.FuncionalidadesVaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaMensalista;
@@ -35,15 +36,15 @@ public class MenuGerenciaEstacionamento {
             switch (opcao) {
                 case 1: // estacionar
 
-                    TicketEstacionamento ticket = funcEstacionamento.estacionar(clientes, tarifas, vagas);
-
-                    if (ticket.getTarifa() instanceof TarifaMensalista && ticket.getDataFim() == null) {
-
-                        ticket.encerrarTicket();
-                        tickets.add(ticket);
-
-                    } else
-                        tickets.add(ticket);
+                    try {
+                        TicketEstacionamento ticket = funcEstacionamento.estacionar(clientes, tarifas, vagas);
+                        FuncionalidadesTicket.verificaTicket(ticket, tickets);
+                    }
+                    catch (EstacionamentoException msg)
+                    {
+                        System.out.println(msg);
+                        MenuGerenciaEstacionamento.gerenciarEstacionamento();
+                    }
 
                     break;
                 case 2: // retirar
