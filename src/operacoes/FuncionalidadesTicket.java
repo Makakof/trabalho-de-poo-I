@@ -14,28 +14,33 @@ public class FuncionalidadesTicket {
         LocalDateTime dataAtual = LocalDateTime.now();
 
         for (TicketEstacionamento ticket : tickets) {
-
             if (placa.equals(ticket.getVeiculo().getPlaca()) && ticket.getTarifa() instanceof TarifaMensalista) {
-
                 if (dataAtual.isBefore(ticket.getDataFim())) {
                     return (TicketMensalista) ticket;
                 }
             }
         }
-
         return null;
     }
 
     public static TicketHorista buscarTicketHorista(List<TicketEstacionamento> tickets, String placa) {
 
         for (TicketEstacionamento ticket : tickets) {
-
             if (placa.equals(ticket.getVeiculo().getPlaca()) && ticket.getDataFim() == null) {
                 return (TicketHorista) ticket;
             }
-
         }
-
         return null;
+    }
+
+    public static void verificaTicket(TicketEstacionamento ticket, List<TicketEstacionamento> tickets)
+    {
+        if(ticket.getTarifa() instanceof TarifaMensalista && ticket.getDataFim() == null) {
+
+            ticket.encerrarTicket();
+            tickets.add(ticket);
+
+        }else
+            tickets.add(ticket);
     }
 }

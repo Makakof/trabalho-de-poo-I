@@ -10,6 +10,7 @@ import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
 import interfaces.InterfaceUsuario;
 import interfaces.Terminal;
+import kitmenu.MenuGerenciaEstacionamento;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
@@ -26,8 +27,8 @@ public class FuncionalidadesEstacionamento {
         interfaceUsuario = Repositorio.getInstance().getUI();
     }
 
-    public TicketEstacionamento estacionar(List<Cliente> clientes, List<TarifaEstacionamento> tarifas, List<Vaga> vagas) {
-
+    public TicketEstacionamento estacionar(List<Cliente> clientes, List<TarifaEstacionamento> tarifas, List<Vaga> vagas)
+    {
         int numeroDaVaga;
         String documento, placa, modoDeEstacionar;
         Cliente cliente;
@@ -40,6 +41,7 @@ public class FuncionalidadesEstacionamento {
         if (cliente == null) {
             throw new EstacionamentoException("Cliente não cadastrado");
         }
+
         placa = interfaceUsuario.selecionarString("Digite o numero da placa do veiculo: ");
         placa = StringUtils.formatarPadraoCapturaDeDados(placa);
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
@@ -74,14 +76,23 @@ public class FuncionalidadesEstacionamento {
             throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
         }
 
+
         if (modoDeEstacionar.equals("MENSALISTA")) {
 
             TarifaHorista tarifa = FuncionalidadesTarifa.buscarTarifaHorista(tarifas);
+
+            if (tarifa == null) {
+                throw new EstacionamentoException("Nenhuma tarifa mensalista encontrada!");
+            }
 
             return new TicketHorista(cliente, vaga, veiculo, tarifa);
         } else {
 
             TarifaMensalista tarifa = FuncionalidadesTarifa.buscarTarifaMensalista(tarifas);
+
+            if (tarifa == null) {
+                throw new EstacionamentoException("Nenhuma tarifa horista encontrada!");
+            }
 
             return new TicketMensalista(cliente, vaga, veiculo, tarifa);
         }
@@ -116,7 +127,6 @@ public class FuncionalidadesEstacionamento {
             interfaceUsuario.exibir("Ticket encerrado com sucesso!");
 
         }
-
         interfaceUsuario.exibir("Carro pronto para ser retirado!");
 
 
