@@ -74,4 +74,14 @@ public class FuncionalidadesVeiculos {
         }
         return false;
     }
+
+    public static void mostraVeiculos(List<Veiculo> veiculos){
+        InterfaceUsuario interfaceUsuario = Repositorio.getInstance().getUI();
+
+        interfaceUsuario.exibir("Veiculos: ");
+
+        for(Veiculo veiculo : veiculos) {
+            interfaceUsuario.exibir(veiculo.toString());
+        }
+    }
 }

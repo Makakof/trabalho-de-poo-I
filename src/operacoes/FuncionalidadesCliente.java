@@ -70,7 +70,7 @@ public class FuncionalidadesCliente {
     public void listarCadastros(List<Cliente> clientes){
         for (Cliente pessoa : clientes) {
             interfaceUsuario.exibir(pessoa.toString());
-            pessoa.mostraVeiculos();
+            FuncionalidadesVeiculos.mostraVeiculos(pessoa.getVeiculos());
         }
     }
 
@@ -87,6 +87,7 @@ public class FuncionalidadesCliente {
 
             interfaceUsuario.exibir("Documento antigo: " + cliente.getDocumento());
             String novoDocumento = interfaceUsuario.selecionarString("Novo documento: ");
+            novoDocumento = StringUtils.formatarPadraoCapturaDeDados(novoDocumento);
             cliente.setDocumento(novoDocumento);
 
         } else interfaceUsuario.exibir("Cliente não cadastrado");
