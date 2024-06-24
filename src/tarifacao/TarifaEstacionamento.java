@@ -1,8 +1,9 @@
 package tarifacao;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public abstract class TarifaEstacionamento {
+public abstract class TarifaEstacionamento implements Serializable {
 
     private LocalDateTime dataInicio;
 

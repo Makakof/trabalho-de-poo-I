@@ -35,6 +35,7 @@ public class FuncionalidadesEstacionamento {
         Vaga vaga;
 
         documento = interfaceUsuario.selecionarString("Motorista digite um documento: ");
+        documento = StringUtils.formatarPadraoCapturaDeDados(documento);
         cliente = consultarCliente(clientes, documento);
 
         if (cliente == null) {
@@ -74,14 +75,22 @@ public class FuncionalidadesEstacionamento {
             throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
         }
 
-        if (modoDeEstacionar.equals("MENSALISTA")) {
+        if (modoDeEstacionar.equals("HORISTA")) {
 
             TarifaHorista tarifa = FuncionalidadesTarifa.buscarTarifaHorista(tarifas);
+
+            if (tarifa == null){
+                throw new EstacionamentoException("Nenhuma tarifa horista encontrada!");
+            }
 
             return new TicketHorista(cliente, vaga, veiculo, tarifa);
         } else {
 
             TarifaMensalista tarifa = FuncionalidadesTarifa.buscarTarifaMensalista(tarifas);
+
+            if (tarifa == null){
+                throw new EstacionamentoException("Nenhuma tarifa mensalista encontrada!");
+            }
 
             return new TicketMensalista(cliente, vaga, veiculo, tarifa);
         }
