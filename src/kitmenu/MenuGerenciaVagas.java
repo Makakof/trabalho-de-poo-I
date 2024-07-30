@@ -1,10 +1,12 @@
 package kitmenu;
 
 import dados.Repositorio;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
+import excecoes.ExcecaoEstacionamento;
+import excecoes.ExcecaoMenu;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
 import modelagem.Vaga;
 import operacoes.FuncionalidadesVaga;
 import java.util.List;
@@ -35,7 +37,7 @@ public class MenuGerenciaVagas {
                     Vaga vagaExiste = FuncionalidadesVaga.consultarVaga(vagas, vaga.getNumeroVaga());
 
                     if(vagaExiste != null)
-                        throw new EstacionamentoException("Esta vaga já existe!");
+                        throw new ExcecaoEntradaInvalida("Esta vaga já existe!","Menu Gerencia Vagas",2);
 
                     vagas.add(vaga);
                     interfaceUsuario.exibir("Vaga cadastrada com sucesso!");
@@ -45,7 +47,7 @@ public class MenuGerenciaVagas {
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
                     if (vaga == null)
-                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
+                        throw new ExcecaoEntradaInvalida("Não existe vaga cadastrada com o numero","Menu Gerencia Vagas",2);
 
                     interfaceUsuario.exibir(vaga.toString());
 
@@ -55,10 +57,10 @@ public class MenuGerenciaVagas {
                     numeroVaga = interfaceUsuario.selecionarInt("Digite o numero da vaga: ");
                     vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
                     if (vaga != null) {
-                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
+                        throw new ExcecaoEntradaInvalida("Não existe vaga cadastrada com o numero","Menu Gerencia Vagas",2);
                     }
                     if (funcVagas.verificaSeAVagaTemTicket(vaga, tickets)) {
-                        throw new EstacionamentoException("Não é possivel exluir uma vaga que possui um carro estacionado");
+                        throw new ExcecaoEstacionamento("Não é possivel exluir uma vaga que possui um carro estacionado","Menu Gerencia Vagas",3);
                     }
                     vagas.remove(vaga);
                     interfaceUsuario.exibir("Vaga excluida com sucesso!");
@@ -69,7 +71,7 @@ public class MenuGerenciaVagas {
                     vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null) {
-                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
+                        throw new ExcecaoEntradaInvalida("Não existe vaga cadastrada com o numero","Menu Gerencia Vagas",2);
                     }
 
                     interfaceUsuario.exibir("Rua atual: " + vaga.getRua());
@@ -81,7 +83,7 @@ public class MenuGerenciaVagas {
                     Vaga verificaVaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVagaNovo);
 
                     if (verificaVaga != null) {
-                        throw new EstacionamentoException("Ja existe vaga cadastrada com o numero: " + numeroVaga);
+                        throw new ExcecaoEstacionamento("Ja existe vaga cadastrada com o numero","Menu Gerencia Vagas",3);
                     }
 
                     vaga.setNumeroVaga(numeroVagaNovo);
@@ -93,14 +95,14 @@ public class MenuGerenciaVagas {
                     vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroVaga);
 
                     if (vaga == null)
-                        throw new EstacionamentoException("Não existe vaga cadastrada com o numero: " + numeroVaga);
+                        throw new ExcecaoEntradaInvalida("Não existe vaga cadastrada com o numero","Menu Gerencia Vagas",2);
 
                     funcVagas.alterarDisponibilidade(vaga);
                     break;
                 case 6: //voltar
                     break;
                 default:
-                    throw new EstacionamentoException("Opção inválida de menu");
+                    throw new ExcecaoMenu("Opção inválida","Menu Gerencia Vagas",1);
             }
         } while (opcao != 6);
     }

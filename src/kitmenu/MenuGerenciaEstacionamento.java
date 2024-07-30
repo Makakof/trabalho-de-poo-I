@@ -3,16 +3,18 @@ package kitmenu;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import enums.OpcaoMenuGerenciaEstacionamento;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
+import excecoes.ExcecaoEstacionamento;
+import excecoes.ExcecaoMenu;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
 import modelagem.Vaga;
 import operacoes.FuncionalidadesEstacionamento;
 import operacoes.FuncionalidadesTicket;
 import operacoes.FuncionalidadesVaga;
 import tarifacao.TarifaEstacionamento;
-import tarifacao.TarifaMensalista;
+
 import java.util.List;
 
 public class MenuGerenciaEstacionamento {
@@ -40,10 +42,9 @@ public class MenuGerenciaEstacionamento {
                         TicketEstacionamento ticket = funcEstacionamento.estacionar(clientes, tarifas, vagas);
                         FuncionalidadesTicket.verificaTicket(ticket, tickets);
                     }
-                    catch (EstacionamentoException msg)
+                    catch (ExcecaoEntradaInvalida | ExcecaoEstacionamento e)
                     {
-                        System.out.println(msg);
-                        MenuGerenciaEstacionamento.gerenciarEstacionamento();
+                        interfaceUsuario.exibir(e.toString());
                     }
 
                     break;
@@ -54,7 +55,7 @@ public class MenuGerenciaEstacionamento {
                 case 3: // listar vagas
 
                     if (vagas.isEmpty()) {
-                        throw new EstacionamentoException("O estacionamento não possui vagas cadastradas");
+                        throw new ExcecaoEstacionamento("O estacionamento não possui vagas cadastradas","Menu Gerencia Estacionamento",3);
                     }
                     FuncionalidadesVaga.listarVagas(vagas);
                     break;
@@ -64,7 +65,7 @@ public class MenuGerenciaEstacionamento {
                 case 5: //voltar
                     break;
                 default:
-                    throw new EstacionamentoException("Opção inválida de menu");
+                    throw new ExcecaoMenu("Opção inválida","Menu Gerencia Estacionamento",1);
             }
         } while (opcao != OpcaoMenuGerenciaEstacionamento.SAIR.ordinal()+1);
     }

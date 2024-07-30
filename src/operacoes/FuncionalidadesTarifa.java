@@ -87,16 +87,6 @@ public class FuncionalidadesTarifa {
         return tarifa;
     }
 
-//    public void editarTarifa(){
-//
-//        String diaDaSemana = interfaceUsuario.selecionarString("Digite o dia da semana que deseja alterar: ");
-//        double primeiraHora = interfaceUsuario.selecionarDouble("Valor primeira hora: ");
-//        double horaSubsequente = interfaceUsuario.selecionarDouble("Valor hora subsequente: ");
-//
-//        diaDaSemana = StringUtil.formatarDiaDaSemana(diaDaSemana);
-//        DiaDaSemana dia = DiaDaSemana.valueOf(diaDaSemana);
-//    }
-
 
     public TarifaMensalista cadastrarTarifaMensalista () {
 
@@ -130,8 +120,8 @@ public class FuncionalidadesTarifa {
 
         String[] partes = string.split(",");
 
-        for(int i = 0; i<partes.length; i++){
-            diaDaSemana.add(DiaDaSemana.valueOf(partes[i]));
+        for (String parte : partes) {
+            diaDaSemana.add(DiaDaSemana.valueOf(parte));
         }
 
         return diaDaSemana;

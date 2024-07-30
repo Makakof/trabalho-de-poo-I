@@ -3,10 +3,11 @@ package kitmenu;
 import automovel.Cor;
 import automovel.Veiculo;
 import dados.Repositorio;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
+import excecoes.ExcecaoMenu;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
 import operacoes.FuncionalidadesVeiculos;
 import utilitarios.StringUtils;
 import java.util.List;
@@ -27,7 +28,7 @@ public class SubMenuGerenciarVeiculos
             case 1: //ver veiculos
 
                 if (veiculos.isEmpty()) {
-                    throw new EstacionamentoException("O cliente não possui veiculos cadastrados");
+                    throw new ExcecaoEntradaInvalida("O cliente não possui veiculos cadastrados","Menu Gerencia Veiculos",2);
                 }
 
                 FuncionalidadesVeiculos.mostraVeiculos(veiculos);
@@ -40,7 +41,7 @@ public class SubMenuGerenciarVeiculos
                 Veiculo veiculoExiste = funcVeiculos.consultarVeiculo(veiculos, veiculo.getPlaca());
 
                 if (veiculoExiste != null)
-                    throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
+                    throw new ExcecaoEntradaInvalida("Ja existe um veiculo cadastrado com a placa","Menu Gerencia Veiculos",2);
 
                 veiculos.add(veiculo);
                 interfaceUsuario.exibir("Veiculo cadastrado com sucesso!");
@@ -69,7 +70,7 @@ public class SubMenuGerenciarVeiculos
             case 5: //voltar
                 break;
             default:
-                throw new EstacionamentoException("Opção inválida de menu");
+                throw new ExcecaoMenu("Opção inválida","Menu Gerencia Veiculos",1);
         }
     }
 }

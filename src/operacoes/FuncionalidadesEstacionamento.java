@@ -4,13 +4,13 @@ import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import enums.VagaStatus;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
+import excecoes.ExcecaoEstacionamento;
 import ingressos.TicketEstacionamento;
 import ingressos.TicketHorista;
 import ingressos.TicketMensalista;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
-import kitmenu.MenuGerenciaEstacionamento;
 import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
 import tarifacao.TarifaHorista;
@@ -40,7 +40,7 @@ public class FuncionalidadesEstacionamento {
         cliente = consultarCliente(clientes, documento);
 
         if (cliente == null) {
-            throw new EstacionamentoException("Cliente não cadastrado");
+            throw new ExcecaoEntradaInvalida("Cliente não cadastrado","Funcionalidade Estacionamento",2);
         }
 
         placa = interfaceUsuario.selecionarString("Digite o numero da placa do veiculo: ");
@@ -48,7 +48,7 @@ public class FuncionalidadesEstacionamento {
         veiculo = consultarVeiculo(cliente.getVeiculos(), placa);
 
         if (veiculo == null) {
-            throw new EstacionamentoException("Veiculo não cadastrado");
+            throw new ExcecaoEntradaInvalida("Veiculo não cadastrado","Funcionalidade Estacionamento",2);
         }
 
         modoDeEstacionar = interfaceUsuario.selecionarString("Estacionar como HORISTA ou MENSALISTA: ");
@@ -66,15 +66,15 @@ public class FuncionalidadesEstacionamento {
         vaga = FuncionalidadesVaga.consultarVaga(vagas, numeroDaVaga);
 
         if (vaga == null) {
-            throw new EstacionamentoException("Vaga de numero: " + numeroDaVaga + " não cadastrada");
+            throw new ExcecaoEntradaInvalida("Vaga não cadastrado","Funcionalidade Estacionamento",2);
         }
 
         if (vaga.getTipoVeiculo() != veiculo.getTipoVeiculo()) {
-            throw new EstacionamentoException("O veiculo não condiz com o tipo de veiculo da vaga");
+            throw new ExcecaoEntradaInvalida("Veiculo não cadastrado","Funcionalidade Estacionamento",2);
         }
 
         if (vaga.getStatus() != VagaStatus.DISPONIVEL) {
-            throw new EstacionamentoException("Vaga OCUPADA ou INDISPONIVEL!");
+            throw new ExcecaoEstacionamento("Vaga OCUPADA ou INDISPONIVEL!","Funcionalidade Estacionamento",3);
         }
 
 
@@ -82,8 +82,8 @@ public class FuncionalidadesEstacionamento {
 
             TarifaHorista tarifa = FuncionalidadesTarifa.buscarTarifaHorista(tarifas);
 
-            if (tarifa == null){
-                throw new EstacionamentoException("Nenhuma tarifa horista encontrada!");
+            if (tarifa == null) {
+                throw new ExcecaoEstacionamento("Nenhuma tarifa mensalista encontrada!","Funcionalidade Estacionamento",3);
             }
 
             return new TicketHorista(cliente, vaga, veiculo, tarifa);
@@ -91,10 +91,8 @@ public class FuncionalidadesEstacionamento {
 
             TarifaMensalista tarifa = FuncionalidadesTarifa.buscarTarifaMensalista(tarifas);
 
-
-            if (tarifa == null){
-                throw new EstacionamentoException("Nenhuma tarifa mensalista encontrada!");
-            }
+            if (tarifa == null) {
+                throw new ExcecaoEstacionamento("Nenhuma tarifa horista encontrada!","Funcionalidade Estacionamento",3);
 
             return new TicketMensalista(cliente, vaga, veiculo, tarifa);
         }
@@ -115,7 +113,7 @@ public class FuncionalidadesEstacionamento {
             ticket = FuncionalidadesTicket.buscarTicketMensalista(tickets, placa);
 
         if (ticket == null)
-            interfaceUsuario.exibir("Ticket não cadastrado!");
+            throw new ExcecaoEstacionamento("Nenhum ticket encontrado!","Funcionalidade Estacionamento",3);
 
         else if (ticket.getTarifa() instanceof TarifaHorista) {
 

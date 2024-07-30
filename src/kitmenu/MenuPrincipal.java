@@ -2,7 +2,8 @@ package kitmenu;
 
 import dados.Repositorio;
 import enums.OpcaoMenuPrincipal;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoMenu;
 import operacoes.FuncionalidadesFaturamento;
 import dados.Arquivos;
 
@@ -40,7 +41,7 @@ public class MenuPrincipal {
 
                     break;
                 default:
-                    throw new EstacionamentoException("Opção inválida de menu");
+                    throw new ExcecaoMenu("Opção inválida de menu","Menu Principal", 1);
             }
         }while(opcao != OpcaoMenuPrincipal.SAIR.ordinal()+1);
     }

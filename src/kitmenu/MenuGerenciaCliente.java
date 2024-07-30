@@ -3,10 +3,12 @@ package kitmenu;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
 import enums.OpcaoMenuGerenciaCliente;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
+import excecoes.ExcecaoEstacionamento;
+import excecoes.ExcecaoMenu;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
 import operacoes.FuncionalidadesCliente;
 import utilitarios.StringUtils;
 
@@ -41,7 +43,7 @@ public class MenuGerenciaCliente {
                     cliente = funcCliente.consultaCliente(clientes, documento);
 
                     if (cliente == null)
-                        throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
+                        throw new ExcecaoEntradaInvalida("Nenhum cliente cadastrado com este documento:","Menu Gerencia Cliente",2);
 
                     interfaceUsuario.exibir(cliente.toString());
 
@@ -53,10 +55,10 @@ public class MenuGerenciaCliente {
                     cliente = funcCliente.consultaCliente(clientes, documento);
 
                     if(cliente == null)
-                        throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
+                        throw new ExcecaoEntradaInvalida("Nenhum cliente cadastrado com este documento","Menu Gerencia Cliente",2);
 
                     if (FuncionalidadesCliente.verificaSeOClienteTemTicket(cliente.getVeiculos(), tickets))
-                        throw new EstacionamentoException("Não é possivel excluir clientes que possuem carros estacionados");
+                        throw new ExcecaoEstacionamento("Não é possivel excluir clientes que possuem carros estacionados","Menu Gerencia Cliente",3);
 
                     clientes.remove(cliente);
 
@@ -76,7 +78,7 @@ public class MenuGerenciaCliente {
                     Cliente clienteAtual = funcCliente.consultaCliente(clientes, documento);
 
                     if (clienteAtual == null) {
-                        throw new EstacionamentoException("Nenhum cliente cadastrado com este documento: " + documento);
+                        throw new ExcecaoEntradaInvalida("Nenhum cliente cadastrado com este documento","Menu Gerencia Cliente",2);
 
                     }
 
@@ -93,7 +95,7 @@ public class MenuGerenciaCliente {
                 case 7:
                     break;
                 default:
-                    throw new EstacionamentoException("Opção inválida de menu");
+                    throw new ExcecaoMenu("Opção inválida","Menu Gerencia Cliente",1);
 
             }
         } while (opcao != OpcaoMenuGerenciaCliente.SAIR.ordinal()+1);

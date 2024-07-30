@@ -55,11 +55,24 @@ public class Arquivos {
                     e.printStackTrace();
                 }
             }
+
+            for(T array : arrays) {
+                System.out.println(array.toString());
+                mostraVeiculos(((Cliente) array).getVeiculos());
+                System.out.println("----------------");
+            }
+
         }
     }
 
-    public static <T> void escreverNoArquivo(List<T> arrays, String caminhoArquivo){
+    public static void mostraVeiculos(List<Veiculo> veiculos){
 
+        for(Veiculo veiculo : veiculos) {
+            System.out.println(veiculo.toString());
+        }
+    }
+
+    public static void escreverNoArquivo(List<Cliente> arrays, String caminhoArquivo){
         if (!verificaSeArquivoExiste(caminhoArquivo)){
             try {
                 criaArquivo(caminhoArquivo);
@@ -72,6 +85,7 @@ public class Arquivos {
 
         try{
             arquivo = new ObjectOutputStream(new FileOutputStream(caminhoArquivo));
+
 
             for (T array : arrays){
                 arquivo.writeObject(array);

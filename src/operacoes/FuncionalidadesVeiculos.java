@@ -5,10 +5,10 @@ import automovel.Modelo;
 import automovel.Veiculo;
 import dados.Repositorio;
 import enums.TipoVeiculo;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
 import utilitarios.StringUtils;
 
 import java.util.InputMismatchException;
@@ -55,7 +55,7 @@ public class FuncionalidadesVeiculos {
         Veiculo veiculo = consultarVeiculo(veiculos, placa);
 
         if (veiculo == null) {
-            throw new EstacionamentoException("A placa: " + placa + " não existe");
+            throw new ExcecaoEntradaInvalida("A placa não existe","Funcionalidade Veiculos",2);
         }
 
         if (verificaSeOVeiculoTemTicket(tickets, veiculo)){
