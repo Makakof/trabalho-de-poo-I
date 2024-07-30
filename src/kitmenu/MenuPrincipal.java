@@ -5,6 +5,7 @@ import enums.OpcaoMenuPrincipal;
 import excecoes.ExcecaoAbstrata;
 import excecoes.ExcecaoMenu;
 import operacoes.FuncionalidadesFaturamento;
+import dados.Arquivos;
 
 public class MenuPrincipal {
     public static void menuPrincial()
@@ -30,9 +31,14 @@ public class MenuPrincipal {
                     Repositorio.getInstance().getUI().exibir("Sem funcionalidades no momento");
                     break;
                 case 5:
-                    FuncionalidadesFaturamento.realizarFaturamento();
+                    FuncionalidadesFaturamento.faturamentoPorPeriodo();
                     break;
-                case 6: //voltar
+                case 6:
+                    FuncionalidadesFaturamento.faturamentoPorVeiculo();
+                    break;
+                case 7: //voltar
+                    Arquivos.salvarDadosDoSistema();
+
                     break;
                 default:
                     throw new ExcecaoMenu("Opção inválida de menu","Menu Principal", 1);

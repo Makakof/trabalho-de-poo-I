@@ -6,7 +6,8 @@ public enum OpcaoMenuPrincipal {
     OPCAO3 ("\n# 3 - Gerenciar estacionamento"),
     OPCAO4 ("\n# 4 - Cadastros gerais"),
     OPCAO5 ("\n# 5 - Consultar total faturado em um periodo"),
-    SAIR ("\n# 6 - Sair do Programa");
+    OPCAO6 ("\n# 6 - Consultar total faturado por veículo"),
+    SAIR ("\n# 7 - Sair do Programa");
 
     private String descricao;
 

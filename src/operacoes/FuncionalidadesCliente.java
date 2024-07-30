@@ -7,6 +7,8 @@ import excecoes.ExcecaoAbstrata;
 import excecoes.ExcecaoEntradaInvalida;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
+import interfaces.Terminal;
+import utilitarios.StringUtils;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class FuncionalidadesCliente {
 
         nome = interfaceUsuario.selecionarString("Digite nome do cliente: ");
         documento = interfaceUsuario.selecionarString("Digite o documento do cliente: ");
+        documento = StringUtils.formatarPadraoCapturaDeDados(documento);
         Cliente cliente = new Cliente(nome, documento);
 
         qtdCarros = interfaceUsuario.selecionarByte("O cliente possui quantos veículos: ");
@@ -68,7 +71,7 @@ public class FuncionalidadesCliente {
     public void listarCadastros(List<Cliente> clientes){
         for (Cliente pessoa : clientes) {
             interfaceUsuario.exibir(pessoa.toString());
-            pessoa.mostraVeiculos();
+            FuncionalidadesVeiculos.mostraVeiculos(pessoa.getVeiculos());
         }
     }
 

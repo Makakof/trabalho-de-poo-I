@@ -30,8 +30,8 @@ public class SubMenuGerenciarVeiculos
                 if (veiculos.isEmpty()) {
                     throw new ExcecaoEntradaInvalida("O cliente não possui veiculos cadastrados","Menu Gerencia Veiculos",2);
                 }
-                for (Veiculo veiculoAtual : veiculos)
-                    interfaceUsuario.exibir(veiculoAtual.toString());
+
+                FuncionalidadesVeiculos.mostraVeiculos(veiculos);
 
                 break;
             case 2: //adicionar veiculo
