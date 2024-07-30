@@ -3,10 +3,11 @@ package operacoes;
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;
 import dados.Repositorio;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoEntradaInvalida;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
+
 import java.util.List;
 
 public class FuncionalidadesCliente {
@@ -47,7 +48,7 @@ public class FuncionalidadesCliente {
                 Veiculo veiculoExiste = funcVeiculos.consultarVeiculo(cliente.getVeiculos(), veiculo.getPlaca());
 
                 if (veiculoExiste != null)
-                    throw new EstacionamentoException("Ja existe um veiculo cadastrado com a placa: " + veiculo.getPlaca());
+                    throw new ExcecaoEntradaInvalida("Ja existe um veiculo cadastrado com a placa","Funcionalidade Cliente",2);
 
                 cliente.addVeiculo(veiculo);
             }
@@ -76,16 +77,17 @@ public class FuncionalidadesCliente {
         FuncionalidadesCliente funcCliente = new FuncionalidadesCliente();
 
         Cliente cliente = funcCliente.consultaCliente(clientes, documento);
-        if (cliente != null) {
 
-            interfaceUsuario.exibir("Nome antigo: " + cliente.getNome());
-            String novoNome = interfaceUsuario.selecionarString("Novo nome: ");
-            cliente.setNome(novoNome);
+        if(cliente == null)
+            throw new ExcecaoEntradaInvalida("Cliente não cadastrado","Funcionalidade Cliente",2);
 
-            interfaceUsuario.exibir("Documento antigo: " + cliente.getDocumento());
-            String novoDocumento = interfaceUsuario.selecionarString("Novo documento: ");
-            cliente.setDocumento(novoDocumento);
+        interfaceUsuario.exibir("Nome antigo: " + cliente.getNome());
+        String novoNome = interfaceUsuario.selecionarString("Novo nome: ");
+        cliente.setNome(novoNome);
 
-        } else interfaceUsuario.exibir("Cliente não cadastrado");
+        interfaceUsuario.exibir("Documento antigo: " + cliente.getDocumento());
+        String novoDocumento = interfaceUsuario.selecionarString("Novo documento: ");
+        cliente.setDocumento(novoDocumento);
+
     }
 }

@@ -2,9 +2,11 @@
 import cliente.estacionabem.Cliente;
 import dados.Input;
 import dados.Repositorio;
-import excecoes.EstacionamentoException;
 
-import utilitarios.Arquivos;
+import excecoes.ExcecaoEntradaInvalida;
+import excecoes.ExcecaoEstacionamento;
+import excecoes.ExcecaoMenu;
+import dados.Arquivos;
 
 import kitmenu.MenuPrincipal;
 import operacoes.FuncionalidadeInterface;
@@ -33,8 +35,8 @@ public class Estacionamento
         {
             MenuPrincipal.menuPrincial();
         }
-        catch (EstacionamentoException msg){
-            System.out.println(msg);
+        catch (ExcecaoMenu | ExcecaoEstacionamento | ExcecaoEntradaInvalida e){
+            System.out.println(e.toString());
         }
     }
 }

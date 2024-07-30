@@ -1,4 +1,4 @@
-package utilitarios;
+package dados;
 
 import automovel.Veiculo;
 import cliente.estacionabem.Cliente;

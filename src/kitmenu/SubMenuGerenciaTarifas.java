@@ -1,9 +1,9 @@
 package kitmenu;
 
 import dados.Repositorio;
-import excecoes.EstacionamentoException;
+import excecoes.ExcecaoAbstrata;
+import excecoes.ExcecaoMenu;
 import interfaces.InterfaceUsuario;
-import interfaces.Terminal;
 import operacoes.FuncionalidadesTarifa;
 import tarifacao.TarifaEstacionamento;
 import java.util.List;
@@ -30,7 +30,7 @@ public class SubMenuGerenciaTarifas
 
                 break;
             default:
-                throw new EstacionamentoException("Opção inválida de menu");
+                throw new ExcecaoMenu("Opção inválida de menu","Menu Gerencia Tarifas",2);
         }
     }
 }

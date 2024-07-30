@@ -22,7 +22,7 @@ public class FuncionalidadesVaga {
     public void alterarDisponibilidade(Vaga vaga) {
 
         interfaceUsuario.exibir("1-DISPONIVEL 2-INDISPONIVEL");
-        int status = interfaceUsuario.selecionarInt("escolha uma opção para alterar a disponibilidade: ");
+        int status = interfaceUsuario.selecionarInt("Escolha uma opção para alterar a disponibilidade: ");
 
         if (status == 1) {
             vaga.liberar();
