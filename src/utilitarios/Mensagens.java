@@ -9,6 +9,7 @@ public class Mensagens
                         OpcaoMenuPrincipal.OPCAO3.getDescricao() +
                         OpcaoMenuPrincipal.OPCAO4.getDescricao() +
                         OpcaoMenuPrincipal.OPCAO5.getDescricao() +
+                        OpcaoMenuPrincipal.OPCAO6.getDescricao() +
                         OpcaoMenuPrincipal.SAIR.getDescricao();
 
     public static String MENU_GERENCIA_CLIENTE = OpcaoMenuGerenciaCliente.OPCAO1.getDescricao() +

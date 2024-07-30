@@ -21,6 +21,6 @@ public class DataUtils
         LocalDate inicio = dataInicio.toLocalDate();
         LocalDate fim = dataFim.toLocalDate();
 
-        return !inicio.equals(fim);
+        return inicio.equals(fim);
     }
 }

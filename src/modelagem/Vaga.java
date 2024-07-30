@@ -3,7 +3,9 @@ package modelagem;
 import enums.TipoVeiculo;
 import enums.VagaStatus;
 
-public class Vaga
+import java.io.Serializable;
+
+public class Vaga implements Serializable
 {
     private int numeroVaga;
     private String rua;

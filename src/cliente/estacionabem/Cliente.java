@@ -54,14 +54,6 @@ public class Cliente implements Serializable {
     }
 
     public String toString() {
-        return "Nome: " + nome + "\nDocumento: " + documento + "\nVeiculos: ";
+        return "Nome: " + nome + "\nDocumento: " + documento;
     }
-
-    public void mostraVeiculos(){
-
-        for(Veiculo veiculo : veiculos) {
-            interfaceUsuario.exibir(veiculo.toString());
-        }
-    }
-
 }

@@ -6,9 +6,10 @@ import modelagem.Vaga;
 import tarifacao.TarifaEstacionamento;
 import utilitarios.DataUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public abstract class TicketEstacionamento
+public abstract class TicketEstacionamento implements Serializable
 {
     private Cliente cliente;
     private Vaga vaga;

@@ -10,6 +10,8 @@ import excecoes.ExcecaoMenu;
 import ingressos.TicketEstacionamento;
 import interfaces.InterfaceUsuario;
 import operacoes.FuncionalidadesCliente;
+import utilitarios.StringUtils;
+
 import java.util.List;
 
 public class MenuGerenciaCliente {
@@ -37,6 +39,7 @@ public class MenuGerenciaCliente {
                 case 2: // mostrar informações cliente
 
                     documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja pesquisar: ");
+                    documento = StringUtils.formatarPadraoCapturaDeDados(documento);
                     cliente = funcCliente.consultaCliente(clientes, documento);
 
                     if (cliente == null)
@@ -48,6 +51,7 @@ public class MenuGerenciaCliente {
                 case 3: // excluir cliente
 
                     documento = interfaceUsuario.selecionarString("Digite o documento do cliente que deseja excluir: ");
+                    documento = StringUtils.formatarPadraoCapturaDeDados(documento);
                     cliente = funcCliente.consultaCliente(clientes, documento);
 
                     if(cliente == null)
@@ -62,6 +66,7 @@ public class MenuGerenciaCliente {
                 case 4: // editar informações cliente
 
                     documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja editar: ");
+                    documento = StringUtils.formatarPadraoCapturaDeDados(documento);
                     funcCliente.editarCliente(clientes, documento);
 
                     break;
@@ -69,6 +74,7 @@ public class MenuGerenciaCliente {
                     byte opcaoSubmenu;
 
                     documento = interfaceUsuario.selecionarString("\nDigite o documento do cliente que deseja ver os veículos: ");
+                    documento = StringUtils.formatarPadraoCapturaDeDados(documento);
                     Cliente clienteAtual = funcCliente.consultaCliente(clientes, documento);
 
                     if (clienteAtual == null) {
@@ -77,7 +83,7 @@ public class MenuGerenciaCliente {
                     }
 
                     interfaceUsuario.exibirSubMenuGerenciaVeiculos();
-                    opcaoSubmenu = interfaceUsuario.selecionarByte();
+                    opcaoSubmenu = interfaceUsuario.selecionarByte("Digite a opção desejada: ");
                     SubMenuGerenciarVeiculos.editarVeiculos(opcaoSubmenu, clienteAtual.getVeiculos(), tickets);
 
                     break;

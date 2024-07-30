@@ -1,8 +1,5 @@
 package dados;
 
-import automovel.Veiculo;
-import cliente.estacionabem.Cliente;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -76,7 +73,6 @@ public class Arquivos {
     }
 
     public static void escreverNoArquivo(List<Cliente> arrays, String caminhoArquivo){
-
         if (!verificaSeArquivoExiste(caminhoArquivo)){
             try {
                 criaArquivo(caminhoArquivo);
@@ -90,7 +86,8 @@ public class Arquivos {
         try{
             arquivo = new ObjectOutputStream(new FileOutputStream(caminhoArquivo));
 
-            for (Cliente array : arrays){
+
+            for (T array : arrays){
                 arquivo.writeObject(array);
             }
 
@@ -103,5 +100,32 @@ public class Arquivos {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void inicializarDadosDoSistema(){
+
+        Repositorio repositorio = Repositorio.getInstance();
+
+        lerDoArquivo(repositorio.getClientes(), "Dados_Clientes.dat");
+
+        lerDoArquivo(repositorio.getVagas(), "Dados_Vagas.dat");
+
+        lerDoArquivo(repositorio.getTickets(), "Dados_Tickets.dat");
+
+        lerDoArquivo(repositorio.getTarifas(), "Dados_Tarifas.dat");
+
+    }
+
+    public static void salvarDadosDoSistema (){
+
+        Repositorio repositorio = Repositorio.getInstance();
+
+        escreverNoArquivo(repositorio.getClientes(), "Dados_Clientes.dat");
+
+        escreverNoArquivo(repositorio.getVagas(), "Dados_Vagas.dat");
+
+        escreverNoArquivo(repositorio.getTickets(), "Dados_Tickets.dat");
+
+        escreverNoArquivo(repositorio.getTarifas(), "Dados_Tarifas.dat");
     }
 }
